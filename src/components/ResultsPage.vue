@@ -1,4 +1,4 @@
-<script>
+<script setup>
 function data() {
   return {
     statisztikak: [
@@ -27,14 +27,12 @@ function data() {
 </script>
 <template>
   <div>
-    <Header></Header>
     <main>
-      <section>
+  
         <div class="image-container">
           <div class="overlay"></div>
           <div class="text">Eredményeink</div>
         </div>
-      </section>
 
       <section class="p-4">
         <div class="d-flex">
@@ -104,7 +102,6 @@ function data() {
         </div>
       </section>
     </main>
-    <Footer></Footer>
   </div>
 </template>
-<style></style>
+<style scoped></style>

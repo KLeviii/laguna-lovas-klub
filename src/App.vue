@@ -1,7 +1,10 @@
 <script setup>
-import RolunkPage from "./components/RolunkPage.vue";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 </script>
 <template>
-  <RolunkPage> </RolunkPage>
+  <Header></Header>
+  <router-view />
+  <Footer></Footer>
 </template>
 <style scoped></style>

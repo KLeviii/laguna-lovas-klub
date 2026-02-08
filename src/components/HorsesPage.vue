@@ -4,7 +4,6 @@
 
 <template>
 <div>
-    <Header></Header>
     <main>
       <div class="image-container">
         <div class="overlay"></div>
@@ -50,7 +49,6 @@
         </div>
       </section>
     </main>
-    <Footer></Footer>
   </div>
 </template>
 

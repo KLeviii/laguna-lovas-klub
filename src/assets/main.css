@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
 
 body {
     font-family: "Mulish", sans-serif;
@@ -29,8 +30,11 @@ header h2 {
 }
 
 main {
-    padding-top: 100px;
     margin: auto;
+}
+
+.image-container {
+    min-height: 100vh;
 }
 
 footer img {

@@ -12,9 +12,8 @@ function data() {
 }
 </script>
 
-<template>`
+<template>
   <div>
-    <Header></Header>
     <main>
       <div class="image-container">
         <div class="overlay"></div>
@@ -36,7 +35,6 @@ function data() {
         </div>
       </section>
     </main>
-    <Footer></Footer>
   </div>
 </template>
 
