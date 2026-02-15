@@ -3,9 +3,36 @@ function data() {
   return {
     termekek: [
       {
+        id: "termek1",
         nev: "Equine America",
-        kep: "img/Equine-America2x.avif",
+        kep: "../src/assets/img/Equine-America2x.avif",
         kategoria: "Tápok",
+        desc: "Ez egy kiváló táp!",
+        price: "10000",
+      },
+      {
+        id: "termek2",
+        nev: "Equine America",
+        kep: "../src/assets/img/Equine-America2x.avif",
+        kategoria: "Tápok",
+        desc: "Ez egy kiváló táp!",
+        price: "10000",
+      },
+      {
+        id: "termek3",
+        nev: "Equine America",
+        kep: "../src/assets/img/Equine-America2x.avif",
+        kategoria: "Tápok",
+        desc: "Ez egy kiváló táp!",
+        price: "10000",
+      },
+      {
+        id: "termek4",
+        nev: "Equine America",
+        kep: "../src/assets/img/Equine-America2x.avif",
+        kategoria: "Tápok",
+        desc: "Ez egy kiváló táp!",
+        price: "10000",
       },
     ],
   };
@@ -21,15 +48,27 @@ function data() {
       </div>
       <section class="p-4">
         <h2 class="text-center pt-4 pb-4">Tápok</h2>
-        <div class="d-flex flex-wrap justify-content-center gap-4">
-          <div v-for="termek in data().termekek" :key="termek.nev" class="text-center">
-            <a href="#">
+        <div class="d-flex flex-wrap justify-content-center gap-4 products">
+
+          <div
+            v-for="termek in data().termekek"
+            :key="termek.id"
+            class="card"
+            style="width: 18rem"
+          >
+            <a href="/product">
               <img
                 :src="termek.kep"
+                class="card-img-top p-3"
                 :alt="termek.nev"
-                style="max-width: 300px"
               />
-              <h4 class="mt-3">{{ termek.nev }}</h4>
+              <div class="card-body">
+                <h5 class="card-title">{{termek.nev}}</h5>
+                <p class="card-text">
+                  {{termek.desc}}
+                </p>
+                <h4>{{termek.price}} Ft</h4>
+              </div>
             </a>
           </div>
         </div>
@@ -38,4 +77,28 @@ function data() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+a {
+  color: #19253c;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: 1px solid #19253c;
+  border-radius: 10px;
+}
+
+a img {
+  border-bottom: 1px solid #19253c;
+}
+
+a:hover {
+  scale: 1.05;
+}
+
+a:hover h5 {
+  text-decoration: underline;
+}
+
+.card {
+  border: none;
+}
+</style>
