@@ -1,31 +1,47 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
-import { useAuth } from "@/composables/useAuth";
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useAuth } from '@/composables/useAuth'
 
-const { isAuthenticated } = useAuth();
+const route = useRoute()
+const router = useRouter()
+const { isAuthenticated, signOut, loading } = useAuth()
 
-const showNavbar = ref(true);
-let lastScrollY = window.scrollY;
+const showNavbar = ref(true)
+let lastScrollY = window.scrollY
 
 const handleScroll = () => {
-  const currentScrollY = window.scrollY;
+  const currentScrollY = window.scrollY
 
   if (currentScrollY > lastScrollY && currentScrollY > 80) {
-    showNavbar.value = false;
+    showNavbar.value = false
   } else {
-    showNavbar.value = true;
+    showNavbar.value = true
   }
 
-  lastScrollY = currentScrollY;
-};
+  lastScrollY = currentScrollY
+}
+
+const handleLogout = async () => {
+  // Ellenőrizzük, hogy admin oldalon vagyunk-e
+  const isOnAdminPage = route.path.startsWith('/admin')
+  
+  await signOut()
+  
+  // Ha admin oldalon voltunk, átirányítunk a főoldalra
+  if (isOnAdminPage) {
+    router.push('/')
+  }
+  // Egyébként marad az adott publikus oldalon
+}
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
+  window.addEventListener('scroll', handleScroll)
+})
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -83,6 +99,16 @@ onUnmounted(() => {
             <i class="bi bi-shield-lock me-1"></i>
             Admin
           </router-link>
+          <!-- Kijelentkezés gomb - csak bejelentkezve látható -->
+          <button
+            v-if="isAuthenticated"
+            @click="handleLogout"
+            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4 btn-logout"
+            :disabled="loading"
+          >
+            <i class="bi bi-box-arrow-right me-1"></i>
+            {{ loading ? 'Kijelentkezés...' : 'Kijelentkezés' }}
+          </button>
         </nav>
       </div>
     </nav>
