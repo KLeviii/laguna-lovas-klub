@@ -1,4 +1,8 @@
 <script setup>
+import { useAuth } from '@/composables/useAuth'
+
+const { isAuthenticated } = useAuth()
+
 function data() {
   return {
     termekek: [
@@ -47,9 +51,21 @@ function data() {
         <div class="text">Webshop</div>
       </div>
       <section class="p-4">
-        <h2 class="text-center pt-4 pb-4">Tápok</h2>
+        <div class="d-flex justify-content-between align-items-center pt-4 pb-4">
+          <h2 class="mb-0">Tápok</h2>
+          
+          <!-- Admin gomb - csak bejelentkezve látható -->
+          <router-link
+            v-if="isAuthenticated"
+            to="/admin/products"
+            class="btn btn-primary"
+          >
+            <i class="bi bi-pencil-square me-2"></i>
+            Termékek kezelése
+          </router-link>
+        </div>
+        
         <div class="d-flex flex-wrap justify-content-center gap-4 products">
-
           <div
             v-for="termek in data().termekek"
             :key="termek.id"
@@ -63,11 +79,11 @@ function data() {
                 :alt="termek.nev"
               />
               <div class="card-body">
-                <h5 class="card-title">{{termek.nev}}</h5>
+                <h5 class="card-title">{{ termek.nev }}</h5>
                 <p class="card-text">
-                  {{termek.desc}}
+                  {{ termek.desc }}
                 </p>
-                <h4>{{termek.price}} Ft</h4>
+                <h4>{{ termek.price }} Ft</h4>
               </div>
             </a>
           </div>
@@ -100,5 +116,15 @@ a:hover h5 {
 
 .card {
   border: none;
+}
+
+.btn-primary {
+  background-color: #4da6ff;
+  border-color: #4da6ff;
+}
+
+.btn-primary:hover {
+  background-color: #3399ff;
+  border-color: #3399ff;
 }
 </style>

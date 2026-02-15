@@ -1,4 +1,8 @@
 <script setup>
+import { useAuth } from '@/composables/useAuth'
+
+const { isAuthenticated } = useAuth()
+
 function data() {
   return {
     statisztikak: [
@@ -25,14 +29,14 @@ function data() {
   };
 }
 </script>
+
 <template>
   <div>
     <main>
-  
-        <div class="image-container">
-          <div class="overlay"></div>
-          <div class="text">Eredményeink</div>
-        </div>
+      <div class="image-container">
+        <div class="overlay"></div>
+        <div class="text">Eredményeink</div>
+      </div>
 
       <section class="p-4">
         <div class="d-flex">
@@ -75,6 +79,20 @@ function data() {
       </section>
 
       <section class="p-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">Versenyeredmények</h2>
+          
+          <!-- Admin gomb - csak bejelentkezve látható -->
+          <router-link
+            v-if="isAuthenticated"
+            to="/admin/competitions"
+            class="btn btn-primary"
+          >
+            <i class="bi bi-pencil-square me-2"></i>
+            Versenyek kezelése
+          </router-link>
+        </div>
+        
         <div class="accordion" id="accordionExample">
           <div v-for="(ev, index) in data().evek" :key="ev.ev" class="accordion-item">
             <h2 class="accordion-header">
@@ -104,4 +122,15 @@ function data() {
     </main>
   </div>
 </template>
-<style scoped></style>
+
+<style scoped>
+.btn-primary {
+  background-color: #4da6ff;
+  border-color: #4da6ff;
+}
+
+.btn-primary:hover {
+  background-color: #3399ff;
+  border-color: #3399ff;
+}
+</style>

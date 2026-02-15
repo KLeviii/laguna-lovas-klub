@@ -1,28 +1,31 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from "vue";
+import { useAuth } from "@/composables/useAuth";
 
-const showNavbar = ref(true)
-let lastScrollY = window.scrollY
+const { isAuthenticated } = useAuth();
+
+const showNavbar = ref(true);
+let lastScrollY = window.scrollY;
 
 const handleScroll = () => {
-  const currentScrollY = window.scrollY
+  const currentScrollY = window.scrollY;
 
   if (currentScrollY > lastScrollY && currentScrollY > 80) {
-    showNavbar.value = false
+    showNavbar.value = false;
   } else {
-    showNavbar.value = true
+    showNavbar.value = true;
   }
 
-  lastScrollY = currentScrollY
-}
+  lastScrollY = currentScrollY;
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
+  window.addEventListener("scroll", handleScroll);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
@@ -31,7 +34,7 @@ onUnmounted(() => {
       <div class="border-bottom lh-1">
         <div class="flex-nowrap justify-content-between align-items-center">
           <div class="text-center align-items-center">
-            <h2 class="text-uppercase fw-bold py-2 ">Laguna Lovasklub</h2>
+            <h2 class="text-uppercase fw-bold py-2">Laguna Lovasklub</h2>
           </div>
         </div>
       </div>
@@ -61,6 +64,24 @@ onUnmounted(() => {
           >
             Eredményeink
           </router-link>
+
+          <router-link
+            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
+            to="/admin/login"
+          >
+            <i class="bi bi-shield-lock me-1"></i>
+            Login
+          </router-link>
+
+          <!-- Admin link - csak bejelentkezve látható -->
+          <router-link
+            v-if="isAuthenticated"
+            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
+            to="/admin"
+          >
+            <i class="bi bi-shield-lock me-1"></i>
+            Admin
+          </router-link>
         </nav>
       </div>
     </nav>
@@ -75,7 +96,9 @@ onUnmounted(() => {
   width: 100%;
   background-color: #19253c;
   color: white;
-  transition: transform 0.25s ease, opacity 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
   z-index: 1000;
 }
 
