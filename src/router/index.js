@@ -6,12 +6,14 @@ import ResultsPage from "@/components/ResultsPage.vue";
 import LoginPage from "@/components/admin/LoginPage.vue";
 import AdminDashboard from "@/components/admin/AdminDashboard.vue";
 import { useAuth } from "@/composables/useAuth";
+import RouterConf from "@/components/RouterConf.vue";
+import { ssrExportAllKey } from "vite/module-runner";
 
 const routes = [
-  { path: "/", component: RolunkPage },
-  { path: "/webshop", component: Webshop },
-  { path: "/lovaink", component: HorsesPage },
-  { path: "/eredmenyeink", component: ResultsPage },
+  { path: "/", component: RolunkPage},
+  { path: "/webshop", component: Webshop},
+  { path: "/lovaink", component: HorsesPage},
+  { path: "/eredmenyeink", component: ResultsPage},
   
   // Admin routes
   { 
@@ -53,6 +55,7 @@ const router = createRouter({
 });
 
 // Navigation Guard - védett admin oldalak
+
 router.beforeEach((to, from, next) => {
   const { isAuthenticated } = useAuth();
 
@@ -65,7 +68,6 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresGuest && isAuthenticated.value) {
     return next('/admin');
   }
-
   next();
 });
 

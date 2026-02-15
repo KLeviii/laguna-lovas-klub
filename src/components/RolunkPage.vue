@@ -177,7 +177,7 @@ function data() {
                         class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
                         to="/eredmenyeink"
                       >
-                        <img :src="verseny.kep" class="col-5" alt="" />
+                        <img :src="verseny.kep" class="col-5 " alt="" />
                         <div class="col-7">
                           <h6 class="mb-0">{{ verseny.nev }}</h6>
                           <small class="text-body-secondary">{{

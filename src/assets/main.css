@@ -1,6 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
 
+:root {
+  --bg-dark: hsl(48 70% 1%);
+  --bg: hsl(50 44% 3%);
+  --bg-light: hsl(52 24% 7%);
+  --text: hsl(52 59% 91%);
+  --text-muted: hsl(52 14% 66%);
+  --highlight: hsl(52 12% 36%);
+  --border: hsl(52 17% 25%);
+  --border-muted: hsl(52 27% 15%);
+  --primary: hsl(51 42% 57%);
+  --secondary: hsl(235 71% 79%);
+  --danger: hsl(9 26% 64%);
+  --warning: hsl(52 19% 57%);
+  --success: hsl(146 17% 59%);
+  --info: hsl(217 28% 65%);
+}
+body.light {
+  --bg-dark: hsl(52 21% 88%);
+  --bg: hsl(52 37% 93%);
+  --bg-light: hsl(52 100% 98%);
+  --text: hsl(48 96% 3%);
+  --text-muted: hsl(52 17% 25%);
+  --highlight: hsl(52 100% 97%);
+  --border: hsl(52 10% 47%);
+  --border-muted: hsl(52 12% 59%);
+  --primary: hsl(53 100% 12%);
+  --secondary: hsl(239 33% 36%);
+  --danger: hsl(9 21% 41%);
+  --warning: hsl(52 23% 34%);
+  --success: hsl(147 19% 36%);
+  --info: hsl(217 22% 41%);
+}
+
 body {
     font-family: "Mulish", sans-serif;
     font-optical-sizing: auto;
@@ -8,7 +41,10 @@ body {
     font-style: normal;
     margin: 0;
     padding: 0;
+    background-color: var(--bg-dark);
+    color: var(--text);
 }
+
 /*
 #nav {
     color: rgb(255, 255, 255);
@@ -48,7 +84,7 @@ footer a {
 }
 
 footer a:hover {
-    color: #4da6ff;
+    color: var(--primary);
 }
 
 .row {
@@ -87,6 +123,8 @@ footer a:hover {
 }
 
 li img {
+    min-width: fit-content;
+    max-width: fit-content;
     height: 140px;
 }
 
@@ -140,3 +178,5 @@ table td {
         font-size: 40px;
     }
 }
+
+

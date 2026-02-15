@@ -3,8 +3,8 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 </script>
 <template>
-  <Header></Header>
+  <Header v-show="$route.path != '/admin/login'"></Header>
   <router-view />
-  <Footer></Footer>
+  <Footer v-show="$route.path != '/admin/login'"></Footer>
 </template>
 <style scoped></style>

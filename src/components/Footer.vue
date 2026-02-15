@@ -16,7 +16,6 @@ function telLink() {
 <template>
   <footer
     class="text-center text-lg-start text-white"
-    style="background-color: #19253c"
   >
     <section class="contanier">
       <div class="pt-2 text-center text-md-start mt-4 px-5">
@@ -100,19 +99,35 @@ function telLink() {
         </div>
       </div>
     </section>
-    <div class="text-center p-3" style="background-color: #0d131e">
+    <div class="text-center p-3 copyright">
       2026 Copyright &copy; Laguna Lovasklub Kft.
     </div>
   </footer>
 </template>
 
 <style scoped>
+
+footer {
+  background-color: var(--bg);
+}
+
+.copyright {
+  background-color: var(--bg-dark)
+}
+
 a {
-  color: #ffffff;
+  color: var(--text);
   text-decoration: underline;
 }
 
 a:hover {
-  color: lightblue;
+  color: var(--highlight);
 }
+
+footer{
+  position:relative;
+  bottom: 0;
+}
+
+
 </style>

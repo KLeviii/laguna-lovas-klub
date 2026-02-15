@@ -1,70 +1,3 @@
-<template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body p-4">
-            <h2 class="card-title text-center mb-4">Admin Bejelentkezés</h2>
-            
-            <!-- Hibaüzenet -->
-            <div v-if="errorMessage" class="alert alert-danger" role="alert">
-              {{ errorMessage }}
-            </div>
-
-            <form @submit.prevent="handleLogin">
-              <!-- Email mező -->
-              <div class="mb-3">
-                <label for="email" class="form-label">Email cím</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  id="email"
-                  v-model="email"
-                  required
-                  placeholder="admin@example.com"
-                  :disabled="loading"
-                />
-              </div>
-
-              <!-- Jelszó mező -->
-              <div class="mb-3">
-                <label for="password" class="form-label">Jelszó</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  id="password"
-                  v-model="password"
-                  required
-                  minlength="6"
-                  placeholder="••••••••"
-                  :disabled="loading"
-                />
-              </div>
-
-              <!-- Bejelentkezés gomb -->
-              <button
-                type="submit"
-                class="btn btn-primary w-100"
-                :disabled="loading"
-              >
-                <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
-                {{ loading ? 'Bejelentkezés...' : 'Bejelentkezés' }}
-              </button>
-            </form>
-
-            <!-- Vissza a főoldalra link -->
-            <div class="text-center mt-3">
-              <router-link to="/" class="text-muted">
-                <i class="bi bi-arrow-left"></i> Vissza a főoldalra
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -96,6 +29,71 @@ const handleLogin = async () => {
 }
 </script>
 
+
+<template>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+          <div class="card-body p-4 card shadow mt-5 col-md-6 col-lg-4">
+            <h2 class="card-title text-center mb-4">Admin Bejelentkezés</h2>
+            
+            <!-- Hibaüzenet -->
+            <div v-if="errorMessage" class="alert alert-danger" role="alert">
+              {{ errorMessage }}
+            </div>
+
+            <form @submit.prevent="handleLogin" >
+              <!-- Email mező -->
+              <div class="mb-3">
+                <label for="email" class="form-label">Email cím</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  v-model="email"
+                  required
+                  placeholder="admin@example.com"
+                  :disabled="loading"
+                />
+              </div>
+
+              <!-- Jelszó mező -->
+              <div class="mb-3">
+                <label for="password" class="form-label">Jelszó</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  v-model="password"
+                  required
+                  minlength="6"
+                  :disabled="loading"
+                />
+              </div>
+
+              <!-- Bejelentkezés gomb -->
+              <button
+                type="submit"
+                class="btn btn-primary w-100"
+                :disabled="loading"
+              >
+                <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ loading ? 'Bejelentkezés...' : 'Bejelentkezés' }}
+              </button>
+            </form>
+
+            <!-- Vissza a főoldalra link -->
+            <div class="text-center mt-3">
+              <router-link to="/" class="text-muted">
+                <i class="bi bi-arrow-left"></i> Vissza a főoldalra
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+</template>
+
+
+
 <style scoped>
 .card {
   border: none;
@@ -120,4 +118,6 @@ const handleLogin = async () => {
   background-color: #99ccff;
   border-color: #99ccff;
 }
+
+
 </style>

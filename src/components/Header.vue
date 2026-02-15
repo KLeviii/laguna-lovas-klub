@@ -31,15 +31,15 @@ onUnmounted(() => {
 <template>
   <header id="nav" :class="['nav-bar', { hidden: !showNavbar }]">
     <nav>
-      <div class="border-bottom lh-1">
+      <div class="lh-1 heading">
         <div class="flex-nowrap justify-content-between align-items-center">
           <div class="text-center align-items-center">
             <h2 class="text-uppercase fw-bold py-2">Laguna Lovasklub</h2>
           </div>
         </div>
       </div>
-      <div class="nav-scroller px-4 border-bottom">
-        <nav class="nav nav-underline justify-content-center">
+      <div class="nav-scroller px-4">
+        <nav class="nav justify-content-center">
           <router-link
             class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
             to="/"
@@ -68,6 +68,7 @@ onUnmounted(() => {
           <router-link
             class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
             to="/admin/login"
+            v-show="!isAuthenticated"
           >
             <i class="bi bi-shield-lock me-1"></i>
             Login
@@ -89,13 +90,24 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+
+.nav-scroller {
+  border-bottom: 2px solid var(--highlight);
+}
+
+.heading {
+  border-bottom: 1px solid var(--border);
+}
+
+h2 {
+  color: var(--text);
+}
 #nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #19253c;
-  color: white;
+  background-color: var(--bg-light);
   transition:
     transform 0.25s ease,
     opacity 0.2s ease;
@@ -109,7 +121,7 @@ onUnmounted(() => {
 
 nav router-link {
   margin-right: 16px;
-  color: white;
+  color: var(--text);
   text-decoration: none;
 }
 </style>
