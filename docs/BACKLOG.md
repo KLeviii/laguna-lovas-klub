@@ -90,23 +90,32 @@
 
 ## Inkrementum 5: Webshop Termékek Megjelenítése
 - **Prioritás:** Közepes
-- **Becsült időigény:** 2 óra
+- **Becsült időigény:** 2–3 óra
 - **User Story:** Mint látogató, szeretném böngészni a termékeket, hogy lássam mit kínál a webshop.
 
 ### Feladatok:
-- [ ] `webshop.html` átalakítása - termékek API-ból
-- [ ] Kategóriák megjelenítése
-- [ ] Kategória szerinti szűrés
-- [ ] Termék kártyák (kép, név, ár, leírás)
-- [ ] "Jelenleg nem elérhető" jelzés
+- [x] `Webshop.vue` átalakítása - termékek API-ból
+- [x] Kategóriák megjelenítése
+- [x] Kategória szerinti szűrés
+- [x] Termék kártyák (kép, név, ár, leírás)
+- [x] "Jelenleg nem elérhető" jelzés
+- [x] Termék részletoldal (`/webshop/:id`) - teljes leírás megjelenítés
+- [x] Kapcsolódó termékek megjelenítése (ugyanaz a kategória)
+- [x] Router integrálás - detail view
 
 ### Elfogadási kritériumok:
-- [ ] Termékek kategóriánként rendezve jelennek meg
-- [ ] Kategória váltás működik (client-side szűrés vagy újratöltés)
-- [ ] Árak helyesen formázva (HUF)
-- [ ] Nem elérhető termékek jelölve
+- [x] Termékek kategóriánként rendezve jelennek meg
+- [x] Kategória váltás működik (client-side szűrés)
+- [x] Árak helyesen formázva (HUF)
+- [x] Nem elérhető termékek jelölve
+- [x] Responsive design (mobil/tablet/asztali)
+- [x] Betöltési spinner és hibakezelés
+- [x] Üres státusz üzenetek
+- [x] Termék részletoldal működik linkekből
+- [x] Kapcsolódó termékek lista működik
+- [x] Vissza gomb működik a részletoldalon
 
-### Státusz: Tervezett
+### Státusz: Kész ✅
 
 ---
 
@@ -116,20 +125,25 @@
 - **User Story:** Mint admin, szeretnék termékeket és kategóriákat kezelni, hogy naprakész legyen a kínálat.
 
 ### Feladatok:
-- [ ] Admin termék lista (admin/products.html)
-- [ ] Új kategória létrehozása
-- [ ] Új termék létrehozása (kategória választó, kép upload)
-- [ ] Termék szerkesztés
-- [ ] Termék törlés
-- [ ] Elérhető/nem elérhető toggle
+- [x] Admin termék lista (dupla fülös adminpanel)
+- [x] Új kategória létrehozása (CRUD)
+- [x] Új termék létrehozása (kategória választó, kép upload)
+- [x] Termék szerkesztés
+- [x] Termék "törlés" (soft delete: is_available: false)
+- [x] Kategória szerkesztés
+- [x] Kategória törlés
+- [x] Elérhető/nem elérhető toggle
 
 ### Elfogadási kritériumok:
-- [ ] Kategória CRUD működik
-- [ ] Termék CRUD működik
-- [ ] Képfeltöltés termékekhez
-- [ ] Kategória dropdown frissül új kategória után
+- [x] Kategória CRUD működik
+- [x] Termék CRUD működik
+- [x] Képfeltöltés termékekhez (Supabase Storage)
+- [x] Kategória dropdown frissül új kategória után
+- [x] Soft delete (is_available toggle) működik
+- [x] Forma validáció és hibaüzenetek
+- [x] Dupla fülös felület (Kategóriák + Termékek)
 
-### Státusz: Tervezett
+### Státusz: Kész ✅
 
 ---
 

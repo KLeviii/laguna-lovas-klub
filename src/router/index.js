@@ -1,19 +1,20 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import RolunkPage from "@/components/RolunkPage.vue";
-import Webshop from "@/components/Webshop.vue";
+import ProductListView from "@/views/ProductListView.vue";
+import ProductDetailView from "@/views/ProductDetailView.vue";
 import HorsesPage from "@/components/HorsesPage.vue";
 import HorseDetailView from "@/views/HorseDetailView.vue";
 import ResultsPage from "@/components/ResultsPage.vue";
 import LoginPage from "@/components/admin/LoginPage.vue";
 import AdminDashboard from "@/components/admin/AdminDashboard.vue";
 import AdminHorseListView from "@/views/AdminHorseListView.vue";
+import AdminProductListView from "@/views/AdminProductListView.vue";
 import { useAuth } from "@/composables/useAuth";
-import RouterConf from "@/components/RouterConf.vue";
-import { ssrExportAllKey } from "vite/module-runner";
 
 const routes = [
   { path: "/", component: RolunkPage },
-  { path: "/webshop", component: Webshop },
+  { path: "/webshop", component: ProductListView },
+  { path: "/webshop/:id", component: ProductDetailView },
   { path: "/lovaink", component: HorsesPage },
   { path: "/lovaink/:id", component: HorseDetailView },
   { path: "/eredmenyeink", component: ResultsPage },
@@ -45,10 +46,20 @@ const routes = [
     component: AdminHorseListView,
     meta: { requiresAuth: true },
   },
-  // Placeholder routes későbbi inkrementumokhoz
+  // Product management (Increment 6)
   {
     path: "/admin/products",
-    component: AdminDashboard, // TODO: Inkrementum 6-ban lecserélni
+    component: AdminProductListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/products/new",
+    component: AdminProductListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/products/:id/edit",
+    component: AdminProductListView,
     meta: { requiresAuth: true },
   },
   {
@@ -69,7 +80,6 @@ const router = createRouter({
 });
 
 // Navigation Guard - védett admin oldalak
-
 router.beforeEach((to, from, next) => {
   const { isAuthenticated, authReady } = useAuth();
 

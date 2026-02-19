@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@supabase/supabase-js": "^2.95.3",
+    "@supabase/supabase-js": "^2.97.0",
     "bootstrap": "^5.3.8",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4"

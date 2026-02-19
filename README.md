@@ -14,15 +14,23 @@ Ez a projekt a Laguna Lovasklub weboldalának Vue.js alapú single-page applicat
 - **Lovak részletei**: Egyedi oldal minden lóhoz származási adatokkal, képgalériával
 - **Lovak admin kezelése**: Teljes CRUD (Create/Read/Update/Delete) interface adminisztrátoroknak
 - **Képkezelés**: Feltöltés, törlés, átrendezés, alt szöveg szerkesztés
-- **Supabase integráció**: Adatbázis kapcsolat lovak és képek kezeléséhez
+- **Webshop terméklistázás**: Nyilvános termékkatalógus kategóriaszűréssel, ár és elérhetőség megjelenítéssel
+- **Webshop termék részletoldal**: Teljes termék leírás, kategoría, elérhetőség status, kapcsolódó termékek
+- **Webshop szűrés**: Termékek szűrése kategória alapján
+- **Webshop admin kezelés**: Teljes CRUD termékekhez és kategóriákhoz, képfeltöltés, elérhetőség kezelés
+- **Supabase integráció**: Adatbázis kapcsolat lovak, képek és termékek kezeléséhez
+- **Admin bejelentkezés**: Supabase Auth integráció, session management
 
 ## Oldalak
 
 1. **Rólunk** (`/`) - Főoldal klubinformációkkal, szolgáltatásokkal és versenyekkel
-2. **Webshop** (`/webshop`) - Termékkatalógus
-3. **Lovaink** (`/lovaink`) - Dinamikus lovak listázása szűrési lehetőséggel, részletoldalak származási adatokkal és képgalériával
-4. **Eredményeink** (`/eredmenyeink`) - Versenystatisztikák és eredmények
-5. **Admin: Lovak kezelése** (`/admin/horses`) - Adminisztrátor felület lovak kezelésére (CRUD, képfeltöltés)
+2. **Webshop** (`/webshop`) - Dinamikus termékkatalógus Supabase integrációval, kategóriaszűréssel, ár és elérhetőség megjelenítéssel
+3. **Webshop termék részletei** (`/webshop/:id`) - Teljes termék leírás, kategória, elérhetőség status, kapcsolódó termékek
+4. **Lovaink** (`/lovaink`) - Dinamikus lovak listázása szűrési lehetőséggel, részletoldalak származási adatokkal és képgalériával
+5. **Ló részletei** (`/lovaink/:id`) - Teljes ló leírás, származási fa, képgaléria
+6. **Eredményeink** (`/eredmenyeink`) - Versenystatisztikák és eredmények
+7. **Admin: Lovak kezelése** (`/admin/horses`) - Adminisztrátor felület lovak kezelésére (CRUD, képfeltöltés)
+8. **Admin: Termékek kezelése** (`/admin/products`) - Adminisztrátor felület termékek és kategóriák kezelésére (CRUD, képfeltöltés, elérhetőség toggle)
 
 ## Technológiai stack
 
