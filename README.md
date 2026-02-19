@@ -10,13 +10,19 @@ Ez a projekt a Laguna Lovasklub weboldalának Vue.js alapú single-page applicat
 - **Reaktív adatkezelés**: Vue 3 Composition API
 - **Bootstrap 5 integráció**: Modern, reszponzív design
 - **Bootstrap Icons**: Gazdag ikonkészlet
+- **Lovak megjelenítése**: Dinamikus, adatbázisból betöltött lovak listázása szűrési lehetőséggel
+- **Lovak részletei**: Egyedi oldal minden lóhoz származási adatokkal, képgalériával
+- **Lovak admin kezelése**: Teljes CRUD (Create/Read/Update/Delete) interface adminisztrátoroknak
+- **Képkezelés**: Feltöltés, törlés, átrendezés, alt szöveg szerkesztés
+- **Supabase integráció**: Adatbázis kapcsolat lovak és képek kezeléséhez
 
 ## Oldalak
 
 1. **Rólunk** (`/`) - Főoldal klubinformációkkal, szolgáltatásokkal és versenyekkel
 2. **Webshop** (`/webshop`) - Termékkatalógus
-3. **Lovaink** (`/lovaink`) - Tenyésztési leszármazási fa
+3. **Lovaink** (`/lovaink`) - Dinamikus lovak listázása szűrési lehetőséggel, részletoldalak származási adatokkal és képgalériával
 4. **Eredményeink** (`/eredmenyeink`) - Versenystatisztikák és eredmények
+5. **Admin: Lovak kezelése** (`/admin/horses`) - Adminisztrátor felület lovak kezelésére (CRUD, képfeltöltés)
 
 ## Technológiai stack
 
@@ -66,34 +72,71 @@ projekt/
 ## Komponensek
 
 ### HeaderComponent
+
 - Reszponzív navigációs menü
 - Vue Router linkek aktív állapot jelzéssel
 
 ### FooterComponent
+
 - Klub információk
 - Partnerek listája
 - Közösségi média linkek
 - Elérhetőségi adatok
 
 ### Oldalkomponensek
+
 - **RolunkPage**: Főoldal komponens szolgáltatásokkal és versenyekkel
 - **WebshopPage**: Termékek megjelenítése
-- **LovainkPage**: Tenyésztési leszármazási fa
+- **HorsesPage**: Dinamikus lovak listázása és szűrése (Increment 3)
+- **HorseDetailView**: Egyedi ló részletei, képgaléria és származási adatok (Increment 3)
 - **EredmenyeinkPage**: Versenyeredmények és statisztikák
+
+### Ló-kezelő komponensek (Increment 3)
+
+- **HorseCard**: Reszponzív lókártya komponens
+- **HorseFilter**: Szűrési gombsor (Összes / Eladó / Nem eladó)
+- **HorseGallery**: Képgaléria navigációval
+
+### Admin komponensek (Increment 4)
+
+- **AdminHorseList**: Lovak táblázata szerkesztés/törlés gombokkal
+- **HorseForm**: Ló létrehozása/szerkesztése formmal (écsalád, nem, év, eladásra kínálva)
+- **HorseImageUpload**: Többképes feltöltés komponens
+- **HorseImageGallery**: Képek megjelenítése, törlése, átrendezése, alt szöveg szerkesztésével
+- **AdminHorseListView**: Fő admin oldal konténer (lista/létrehozás/szerkesztés nézetek)
 
 ## Vue.js specifikus funkciók
 
 ### Routing
+
 ```javascript
 const routes = [
-  { path: '/', component: RolunkPage },
-  { path: '/webshop', component: WebshopPage },
-  { path: '/lovaink', component: LovainkPage },
-  { path: '/eredmenyeink', component: EredmenyeinkPage }
+  { path: "/", component: RolunkPage },
+  { path: "/webshop", component: WebshopPage },
+  { path: "/lovaink", component: HorsesPage },
+  { path: "/lovaink/:id", component: HorseDetailView },
+  { path: "/eredmenyeink", component: EredmenyeinkPage },
+  { path: "/admin/login", component: LoginPage },
+  { path: "/admin", component: AdminDashboard },
+  { path: "/admin/horses", component: AdminHorseListView },
+  { path: "/admin/horses/new", component: AdminHorseListView },
+  { path: "/admin/horses/:id/edit", component: AdminHorseListView },
 ];
 ```
 
+### Composables (Increment 3 & 4)
+
+- **useHorses()**: Lovak adatainak kezelése, szűrése és betöltése (Increment 3)
+- **useAuth()**: Bejelentkezési állapot és autentikáció (Increment 2)
+- **useHorseForm()**: Ló formadatok, validáció és submit (Increment 4)
+
+### Services (Increment 3 & 4)
+
+- **horseService.js**: Supabase-ből lovak adatainak lekérése, CRUD műveletek (Increment 3 & 4)
+- **horseImageService.js**: Képek feltöltése, törlése, átrendezése, alt szöveg kezelése (Increment 4)
+
 ### Reaktív adatok
+
 ```javascript
 data() {
   return {
@@ -105,6 +148,7 @@ data() {
 ```
 
 ### Template szintaxis
+
 - `v-for`: Listák iterálása
 - `v-bind` / `:`: Attribútum binding
 - `router-link`: Navigációs linkek
@@ -113,6 +157,7 @@ data() {
 ## Fejlesztési lehetőségek
 
 ### További funkciók
+
 - [ ] Axios/Fetch API integrálás backend-hez
 - [ ] Vuex/Pinia state management
 - [ ] Formulár validáció
@@ -120,8 +165,23 @@ data() {
 - [ ] Lazy loading képekhez
 - [ ] Progressive Web App (PWA) funkciók
 
+### Dokumentáció
+
+#### Inkrementumok
+
+- [Increment 2 - Autentikáció](docs/increment_2/README_INCREMENT_2.md)
+- [Increment 3 - Lovak Megjelenítése](docs/increment_3/README_INCREMENT_3.md)
+- [Increment 4 - Lovak Admin Kezelése](docs/increment_4/README_INCREMENT_4.md)
+
+#### Implementációs útmutatók
+
+- [Increment 4 Spec](docs/increment_4/SPEC_INCREMENT_4.md)
+- [Increment 4 Implementation Guide](docs/increment_4/IMPLEMENTATION_GUIDE.md)
+
 ### Build eszközök
+
 A projekt jelenleg CDN-ről tölt be mindent. Éles környezethez ajánlott:
+
 - Vite vagy Vue CLI használata
 - npm/yarn package management
 - Single File Components (.vue fájlok)

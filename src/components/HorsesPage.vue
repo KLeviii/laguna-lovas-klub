@@ -1,7 +1,24 @@
 <script setup>
-import { useAuth } from '@/composables/useAuth'
+import { onMounted } from "vue";
+import { useAuth } from "@/composables/useAuth";
+import { useHorses } from "@/composables/useHorses.js";
+import HorseCard from "./horses/HorseCard.vue";
+import HorseFilter from "./horses/HorseFilter.vue";
 
-const { isAuthenticated } = useAuth()
+const { isAuthenticated } = useAuth();
+const {
+  horses,
+  loading,
+  error,
+  filterStatus,
+  isEmpty,
+  loadHorses,
+  setFilterStatus,
+} = useHorses();
+
+onMounted(() => {
+  loadHorses();
+});
 </script>
 
 <template>
@@ -13,8 +30,8 @@ const { isAuthenticated } = useAuth()
       </div>
       <section class="p-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="mb-0">Tenyésztési leszármazási fa</h2>
-          
+          <h2 class="mb-0">Lovaink</h2>
+
           <!-- Admin gomb - csak bejelentkezve látható -->
           <router-link
             v-if="isAuthenticated"
@@ -25,42 +42,46 @@ const { isAuthenticated } = useAuth()
             Lovak kezelése
           </router-link>
         </div>
-        
-        <div class="table-responsive">
-          <table>
-            <tbody>
-              <tr>
-                <td rowspan="4"><i class="bi bi-gender-male"></i> Név</td>
-                <td rowspan="2"><i class="bi bi-gender-male"></i> Név</td>
-                <td><i class="bi bi-gender-male"></i> Név</td>
-              </tr>
-              <tr>
-                <td><i class="bi bi-gender-female"></i> Név</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><i class="bi bi-gender-female"></i> Név</td>
-                <td><i class="bi bi-gender-male"></i> Név</td>
-              </tr>
-              <tr>
-                <td><i class="bi bi-gender-female"></i> Név</td>
-              </tr>
-              <tr>
-                <td rowspan="4"><i class="bi bi-gender-female"></i> Név</td>
-                <td rowspan="2"><i class="bi bi-gender-male"></i> Név</td>
-                <td><i class="bi bi-gender-male"></i> Név</td>
-              </tr>
-              <tr>
-                <td><i class="bi bi-gender-female"></i> Név</td>
-              </tr>
-              <tr>
-                <td rowspan="2"><i class="bi bi-gender-female"></i> Név</td>
-                <td><i class="bi bi-gender-male"></i> Név</td>
-              </tr>
-              <tr>
-                <td><i class="bi bi-gender-female"></i> Név</td>
-              </tr>
-            </tbody>
-          </table>
+
+        <!-- Filter -->
+        <HorseFilter
+          :model-value="filterStatus"
+          @update:model-value="setFilterStatus"
+        />
+
+        <!-- Loading -->
+        <div v-if="loading" class="d-flex justify-content-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Betöltés...</span>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div v-else-if="error" class="alert alert-danger">
+          <strong>Hiba:</strong> {{ error }}
+          <button
+            class="btn btn-sm btn-outline-danger mt-2"
+            @click="loadHorses"
+          >
+            Újrapróbálkozás
+          </button>
+        </div>
+
+        <!-- Empty State -->
+        <div v-else-if="isEmpty" class="alert alert-info text-center py-5">
+          <h4>Nincs ló az adatbázisban</h4>
+          <p class="text-muted">Hamarosan lesz!</p>
+        </div>
+
+        <!-- Horse Grid -->
+        <div v-else class="row g-4">
+          <div
+            v-for="horse in horses"
+            :key="horse.id"
+            class="col-12 col-md-6 col-lg-4"
+          >
+            <HorseCard :horse="horse" />
+          </div>
         </div>
       </section>
     </main>

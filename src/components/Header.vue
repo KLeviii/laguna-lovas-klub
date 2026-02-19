@@ -1,47 +1,54 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useAuth } from "@/composables/useAuth";
 
-const route = useRoute()
-const router = useRouter()
-const { isAuthenticated, signOut, loading } = useAuth()
+const route = useRoute();
+const router = useRouter();
+const { isAuthenticated, signOut, loading } = useAuth();
 
-const showNavbar = ref(true)
-let lastScrollY = window.scrollY
+const showNavbar = ref(true);
+let lastScrollY = window.scrollY;
 
 const handleScroll = () => {
-  const currentScrollY = window.scrollY
+  const currentScrollY = window.scrollY;
 
   if (currentScrollY > lastScrollY && currentScrollY > 80) {
-    showNavbar.value = false
+    showNavbar.value = false;
   } else {
-    showNavbar.value = true
+    showNavbar.value = true;
   }
 
-  lastScrollY = currentScrollY
-}
+  lastScrollY = currentScrollY;
+};
 
+function handlenavOnMouseMove(mousePosY) {
+  const currentScrollY = window.scrollY;
+  if (currentScrollY > 80 && mousePosY < document.querySelector("#nav").offsetHeight) {
+    showNavbar.value = true;
+  }
+  if (currentScrollY > 80 && mousePosY > document.querySelector("#nav").offsetHeight) {
+    showNavbar.value = false;
+  }
+}
 const handleLogout = async () => {
-  // Ellenőrizzük, hogy admin oldalon vagyunk-e
-  const isOnAdminPage = route.path.startsWith('/admin')
-  
-  await signOut()
-  
-  // Ha admin oldalon voltunk, átirányítunk a főoldalra
+  const isOnAdminPage = route.path.startsWith("/admin");
+  await signOut();
   if (isOnAdminPage) {
-    router.push('/')
+    router.push("/");
   }
-  // Egyébként marad az adott publikus oldalon
-}
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-})
+  window.addEventListener("scroll", handleScroll);
+});
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+  window.removeEventListener("scroll", handleScroll);
+});
+document.addEventListener("mousemove", function (event) {
+  handlenavOnMouseMove(event.clientY);
+});
 </script>
 
 <template>
@@ -107,7 +114,7 @@ onUnmounted(() => {
             :disabled="loading"
           >
             <i class="bi bi-box-arrow-right me-1"></i>
-            {{ loading ? 'Kijelentkezés...' : 'Kijelentkezés' }}
+            {{ loading ? "Kijelentkezés..." : "Kijelentkezés" }}
           </button>
         </nav>
       </div>
@@ -116,7 +123,6 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-
 .nav-scroller {
   border-bottom: 2px solid var(--highlight);
 }

@@ -49,7 +49,7 @@
 - **User Story:** Mint látogató, szeretném látni a lovasklub lovait, hogy megismerjem őket.
 
 ### Feladatok:
-- [ ] `lovaink.html` átalakítása - lovak listázása API-ból
+- [ ] `HorsesPage` átalakítása - lovak listázása API-ból
 - [ ] Származási fa (pedigree table) megjelenítés
 - [ ] Eladó lovak szűrése
 - [ ] Képek carousel vagy galéria
