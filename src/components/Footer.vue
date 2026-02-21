@@ -14,11 +14,9 @@ function telLink() {
 </script>
 
 <template>
-  <footer
-    class="text-center text-lg-start text-white"
-  >
+  <footer class="text-center text-lg-start">
     <section class="contanier">
-      <div class="pt-2 text-center text-md-start mt-4 px-5">
+      <div class="pt-2 text-center text-md-start px-5">
         <div class="row mt-3">
           <div
             class="d-flex align-items-center justify-content-center m-3 mx-auto"
@@ -30,7 +28,7 @@ function telLink() {
             <h6 class="text-uppercase fw-bold">Laguna lovasklub</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
-              style="width: 60px; background-color: #4da6ff; height: 2px"
+              style="width: 60px; background-color: var(--primary); height: 2px"
             />
             <p>
               A Laguna Lovasklub Héregen a minőségi lótartás, a szakmai fejlődés
@@ -41,32 +39,54 @@ function telLink() {
             <h6 class="text-uppercase fw-bold">Partnereink</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
-              style="width: 60px; background-color: #4da6ff; height: 2px"
+              style="width: 60px; background-color: var(--primary); height: 2px"
             />
-            <p><a href="https://www.hofmagtherapy.com/" target="_blank">Hofmag</a></p>
-            <p><a href="https://www.facebook.com/p/Equi-Terra-61553204902114/" target="_blank">Equiterra</a></p>
-            <p><a href="https://bemergroup.com/hu_HU/kezdolap" target="_blank">Bemer</a></p>
-            <p><a href="https://www.st-hippolyt.de/" target="_blank">St. Hippolyt</a></p>
-            <p><a href="https://www.equine-america.com/?gad_campaignid=20548104383" target="_blank">Equine America</a></p>
+            <p>
+              <a href="https://www.hofmagtherapy.com/" target="_blank"
+                >Hofmag</a
+              >
+            </p>
+            <p>
+              <a
+                href="https://www.facebook.com/p/Equi-Terra-61553204902114/"
+                target="_blank"
+                >Equiterra</a
+              >
+            </p>
+            <p>
+              <a href="https://bemergroup.com/hu_HU/kezdolap" target="_blank"
+                >Bemer</a
+              >
+            </p>
+            <p>
+              <a href="https://www.st-hippolyt.de/" target="_blank"
+                >St. Hippolyt</a
+              >
+            </p>
+            <p>
+              <a
+                href="https://www.equine-america.com/?gad_campaignid=20548104383"
+                target="_blank"
+                >Equine America</a
+              >
+            </p>
           </div>
           <div class="col-md-3 col-lg-2 col-xl-2 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Közösségi Média</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
-              style="width: 60px; background-color: #4da6ff; height: 2px"
+              style="width: 60px; background-color: var(--primary); height: 2px"
             />
             <div class="d-flex">
               <a
                 href="https://www.facebook.com/lagunalovasklubkft?locale=hu_HU"
                 target="_blank"
-                class="text-white"
               >
                 <h4><i class="bi bi-facebook m-2"></i></h4>
               </a>
               <a
                 href="https://www.instagram.com/laguna_lovasklub_kft/"
                 target="_blank"
-                class="text-white"
               >
                 <h4><i class="bi bi-instagram m-2"></i></h4>
               </a>
@@ -76,17 +96,13 @@ function telLink() {
             <h6 class="text-uppercase fw-bold">Elérhetőségeink</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
-              style="width: 60px; background-color: #4da6ff; height: 2px"
+              style="width: 60px; background-color: var(--primary); height: 2px"
             />
             <p>
-              <a :href="mailto">
-                lagunalovasklub@gmail.com
-              </a>
+              <a :href="mailto"> lagunalovasklub@gmail.com </a>
             </p>
             <p>
-              <a :href="telLink"
-                >+36 20 981 3383</a
-              >
+              <a :href="telLink">+36 20 981 3383</a>
             </p>
             <p>
               <a
@@ -106,28 +122,35 @@ function telLink() {
 </template>
 
 <style scoped>
-
 footer {
   background-color: var(--bg);
+  color: var(--text);
+}
+
+footer p,
+footer h6 {
+  color: var(--text);
+}
+
+footer div p {
+  color: var(--text);
 }
 
 .copyright {
-  background-color: var(--bg-dark)
+  background-color: var(--bg-dark);
 }
 
 a {
-  color: var(--text);
+  color: var(--text-muted);
   text-decoration: underline;
 }
 
 a:hover {
-  color: var(--highlight);
+  color: var(--text);
 }
 
-footer{
-  position:relative;
+footer {
+  position: relative;
   bottom: 0;
 }
-
-
 </style>

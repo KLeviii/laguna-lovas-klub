@@ -130,18 +130,6 @@ async function confirmDelete(horseId, horseName) {
 }
 
 .table-hover tbody tr:hover {
-  background-color: #f5f5f5;
-}
-
-.btn-outline-primary:hover {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-.btn-outline-danger:hover {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: var(--bg-light);
 }
 </style>

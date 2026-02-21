@@ -20,7 +20,10 @@
               <p class="card-text text-muted">
                 Lovak hozzáadása, szerkesztése és törlése
               </p>
-              <router-link to="/admin/horses" class="btn btn-primary btn-sm mt-2">
+              <router-link
+                to="/admin/horses"
+                class="btn btn-primary btn-sm mt-2"
+              >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
               </router-link>
@@ -37,7 +40,10 @@
               <p class="card-text text-muted">
                 Webshop termékek és kategóriák kezelése
               </p>
-              <router-link to="/admin/products" class="btn btn-primary btn-sm mt-2">
+              <router-link
+                to="/admin/products"
+                class="btn btn-primary btn-sm mt-2"
+              >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
               </router-link>
@@ -54,7 +60,10 @@
               <p class="card-text text-muted">
                 Versenyek és eredmények rögzítése
               </p>
-              <router-link to="/admin/competitions" class="btn btn-primary btn-sm mt-2">
+              <router-link
+                to="/admin/competitions"
+                class="btn btn-primary btn-sm mt-2"
+              >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
               </router-link>
@@ -71,7 +80,10 @@
               <p class="card-text text-muted">
                 Beérkezett kapcsolatfelvételi űrlapok
               </p>
-              <router-link to="/admin/messages" class="btn btn-primary btn-sm mt-2">
+              <router-link
+                to="/admin/messages"
+                class="btn btn-primary btn-sm mt-2"
+              >
                 <i class="bi bi-eye me-1"></i>
                 Megtekintés
               </router-link>
@@ -94,15 +106,24 @@
                   <i class="bi bi-house me-1"></i>
                   Főoldal
                 </router-link>
-                <router-link to="/lovaink" class="btn btn-outline-secondary btn-sm">
+                <router-link
+                  to="/lovaink"
+                  class="btn btn-outline-secondary btn-sm"
+                >
                   <i class="bi bi-eye me-1"></i>
                   Lovaink oldal megtekintése
                 </router-link>
-                <router-link to="/webshop" class="btn btn-outline-secondary btn-sm">
+                <router-link
+                  to="/webshop"
+                  class="btn btn-outline-secondary btn-sm"
+                >
                   <i class="bi bi-eye me-1"></i>
                   Webshop megtekintése
                 </router-link>
-                <router-link to="/eredmenyeink" class="btn btn-outline-secondary btn-sm">
+                <router-link
+                  to="/eredmenyeink"
+                  class="btn btn-outline-secondary btn-sm"
+                >
                   <i class="bi bi-eye me-1"></i>
                   Eredmények megtekintése
                 </router-link>
@@ -116,12 +137,14 @@
 </template>
 
 <script setup>
-import AdminLayout from './AdminLayout.vue'
+import AdminLayout from "./AdminLayout.vue";
 </script>
 
 <style scoped>
 .admin-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   border: none;
 }
 
@@ -135,13 +158,19 @@ import AdminLayout from './AdminLayout.vue'
   opacity: 0.8;
 }
 
-.btn-primary {
-  background-color: #4da6ff;
-  border-color: #4da6ff;
+h1 {
+  color: var(--text);
 }
 
-.btn-primary:hover {
-  background-color: #3399ff;
-  border-color: #3399ff;
+p {
+  color: var(--text);
+}
+
+p.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.card-text {
+  color: var(--text-muted);
 }
 </style>

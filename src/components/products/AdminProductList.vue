@@ -69,7 +69,7 @@
                   product.is_available ? 'badge bg-success' : 'badge bg-danger'
                 "
               >
-                {{ product.is_available ? 'Igen' : 'Nem' }}
+                {{ product.is_available ? "Igen" : "Nem" }}
               </span>
             </td>
             <td>
@@ -96,44 +96,49 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
-import { onMounted } from 'vue'
-import { useProducts } from '../../composables/useProducts.js'
+import { useRouter } from "vue-router";
+import { onMounted } from "vue";
+import { useProducts } from "../../composables/useProducts.js";
 
-const router = useRouter()
-const { products, loading, error, isEmpty, deleteProduct, loadProducts } = useProducts()
+const router = useRouter();
+const { products, loading, error, isEmpty, deleteProduct, loadProducts } =
+  useProducts();
 
 onMounted(() => {
-  loadProducts()
-})
+  loadProducts();
+});
 
 function formatPrice(price) {
-  return new Intl.NumberFormat('hu-HU', {
-    style: 'currency',
-    currency: 'HUF',
+  return new Intl.NumberFormat("hu-HU", {
+    style: "currency",
+    currency: "HUF",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(price)
+  }).format(price);
 }
 
 function goToCreate() {
-  router.push('/admin/products/new')
+  router.push("/admin/products/new");
 }
 
 function goToEdit(productId) {
-  router.push(`/admin/products/${productId}/edit`)
+  router.push(`/admin/products/${productId}/edit`);
 }
 
 async function confirmDelete(productId, productName) {
-  if (!confirm(`Biztosan szeretnéd törölni a(z) "${productName}" terméket? Ez a művelet nem visszavonható.`)) {
-    return
+  if (
+    !confirm(
+      `Biztosan szeretnéd törölni a(z) "${productName}" terméket? Ez a művelet nem visszavonható.`,
+    )
+  ) {
+    return;
   }
 
-  const success = await deleteProduct(productId)
+  const success = await deleteProduct(productId);
   if (success) {
-    alert(`"${productName}" sikeresen törölve.`)
+    alert(`"${productName}" sikeresen törölve.`);
   } else {
-    alert(`Hiba a törlés során. Próbáld meg később!`)
+    alert(`Hiba a törlés során. Próbáld meg később!`);
   }
 }
 </script>
@@ -144,18 +149,6 @@ async function confirmDelete(productId, productName) {
 }
 
 .table-hover tbody tr:hover {
-  background-color: #f5f5f5;
-}
-
-.btn-outline-primary:hover {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
-
-.btn-outline-danger:hover {
-  color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
+  background-color: var(--bg-light);
 }
 </style>

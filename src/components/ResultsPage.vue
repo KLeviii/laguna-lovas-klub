@@ -1,7 +1,7 @@
 <script setup>
-import { useAuth } from '@/composables/useAuth'
+import { useAuth } from "@/composables/useAuth";
 
-const { isAuthenticated } = useAuth()
+const { isAuthenticated } = useAuth();
 
 function data() {
   return {
@@ -41,7 +41,11 @@ function data() {
       <section class="p-4">
         <div class="d-flex">
           <div class="row w-100">
-            <div v-for="stat in data().statisztikak" :key="stat.leiras" class="col-4">
+            <div
+              v-for="stat in data().statisztikak"
+              :key="stat.leiras"
+              class="col-4"
+            >
               <div class="card">
                 <div class="d-flex justify-content-center">
                   <svg
@@ -81,7 +85,7 @@ function data() {
       <section class="p-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0">Versenyeredmények</h2>
-          
+
           <!-- Admin gomb - csak bejelentkezve látható -->
           <router-link
             v-if="isAuthenticated"
@@ -92,9 +96,13 @@ function data() {
             Versenyek kezelése
           </router-link>
         </div>
-        
+
         <div class="accordion" id="accordionExample">
-          <div v-for="(ev, index) in data().evek" :key="ev.ev" class="accordion-item">
+          <div
+            v-for="(ev, index) in data().evek"
+            :key="ev.ev"
+            class="accordion-item"
+          >
             <h2 class="accordion-header">
               <button
                 class="accordion-button collapsed"
@@ -123,14 +131,4 @@ function data() {
   </div>
 </template>
 
-<style scoped>
-.btn-primary {
-  background-color: #4da6ff;
-  border-color: #4da6ff;
-}
-
-.btn-primary:hover {
-  background-color: #3399ff;
-  border-color: #3399ff;
-}
-</style>
+<style scoped></style>

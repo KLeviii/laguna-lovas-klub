@@ -53,7 +53,7 @@ const handleLogout = async () => {
 <style scoped>
 .admin-layout {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--bg-dark);
 }
 
 .navbar {
@@ -62,7 +62,7 @@ const handleLogout = async () => {
 
 .admin-content {
   padding: 2rem;
-  margin-top: 20px;
+  margin-top: 70px;
 }
 
 .btn-outline-light:hover {

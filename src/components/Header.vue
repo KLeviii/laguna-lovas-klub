@@ -2,10 +2,12 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
+import { useTheme } from "@/composables/useTheme";
 
 const route = useRoute();
 const router = useRouter();
 const { isAuthenticated, signOut, loading } = useAuth();
+const { isDarkMode, toggleTheme } = useTheme();
 
 const showNavbar = ref(true);
 let lastScrollY = window.scrollY;
@@ -24,10 +26,16 @@ const handleScroll = () => {
 
 function handlenavOnMouseMove(mousePosY) {
   const currentScrollY = window.scrollY;
-  if (currentScrollY > 80 && mousePosY < document.querySelector("#nav").offsetHeight) {
+  if (
+    currentScrollY > 80 &&
+    mousePosY < document.querySelector("#nav").offsetHeight
+  ) {
     showNavbar.value = true;
   }
-  if (currentScrollY > 80 && mousePosY > document.querySelector("#nav").offsetHeight) {
+  if (
+    currentScrollY > 80 &&
+    mousePosY > document.querySelector("#nav").offsetHeight
+  ) {
     showNavbar.value = false;
   }
 }
@@ -63,6 +71,13 @@ document.addEventListener("mousemove", function (event) {
       </div>
       <div class="nav-scroller px-4">
         <nav class="nav justify-content-center">
+          <button
+            @click="toggleTheme"
+            class="nav-item text-uppercase fw-bold nav-link px-4 btn-theme-toggle"
+            :title="isDarkMode ? 'Világos téma' : 'Sötét téma'"
+          >
+            <i :class="['bi', isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill']"></i>
+          </button>
           <router-link
             class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
             to="/"
@@ -153,7 +168,40 @@ h2 {
 
 nav router-link {
   margin-right: 16px;
-  color: var(--text);
+  color: var(--text) !important;
   text-decoration: none;
+  display: inline-block;
+}
+
+/* Header linkek stílusa */
+.nav-link {
+  color: var(--text) !important;
+}
+
+.nav-link:hover {
+  color: var(--primary) !important;
+}
+
+.btn-theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem !important;
+  color: var(--text) !important;
+  fill: var(--text) !important;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.btn-theme-toggle:hover {
+  color: var(--primary) !important;
+}
+
+.btn-theme-toggle i {
+  transition: transform 0.3s ease;
+}
+
+.btn-theme-toggle:hover i {
+  transform: rotate(20deg);
 }
 </style>

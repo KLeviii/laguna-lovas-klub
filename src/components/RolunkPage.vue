@@ -145,7 +145,10 @@ function data() {
                             <p class="card-text mb-auto pt-3">
                               {{ lo.leiras }}
                             </p>
-                            <router-link to="/lovaink" class="text-end mt-3 know-more">
+                            <router-link
+                              to="/lovaink"
+                              class="text-end mt-3 know-more"
+                            >
                               Tudj meg többet
                             </router-link>
                           </div>
@@ -177,7 +180,7 @@ function data() {
                         class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
                         to="/eredmenyeink"
                       >
-                        <img :src="verseny.kep" class="col-5 " alt="" />
+                        <img :src="verseny.kep" class="col-5" alt="" />
                         <div class="col-7">
                           <h6 class="mb-0">{{ verseny.nev }}</h6>
                           <small class="text-body-secondary">{{
@@ -199,6 +202,6 @@ function data() {
 
 <style scoped>
 .know-more {
-  color: #19253c;
+  color: var(--text);
 }
 </style>

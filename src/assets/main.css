@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
 
 :root {
@@ -35,15 +35,352 @@ body.light {
 }
 
 body {
-    font-family: "Mulish", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 600;
-    font-style: normal;
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg-dark);
-    color: var(--text);
+  font-family: "Mulish", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  color: var(--text);
 }
+
+/* =================================================================
+   BOOTSTRAP COMPONENT OVERRIDES – Custom Design System Integration
+   ================================================================= */
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+  color: var(--bg-dark);
+}
+.btn-primary:disabled {
+  background-color: var(--text-muted);
+  border-color: var(--text-muted);
+  color: var(--bg);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--text);
+}
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+  color: var(--text);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--bg-dark);
+}
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.btn-success {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--bg-dark);
+}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.btn-warning {
+  background-color: var(--warning);
+  border-color: var(--warning);
+  color: var(--bg-dark);
+}
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.btn-info {
+  background-color: var(--info);
+  border-color: var(--info);
+  color: var(--text);
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Form Controls */
+.form-control,
+.form-select,
+.form-textarea {
+  background-color: var(--bg-light);
+  color: var(--text);
+  border-color: var(--border);
+}
+.form-control:focus,
+.form-select:focus,
+.form-textarea:focus {
+  background-color: var(--bg-light);
+  color: var(--text);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+}
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+.form-control:disabled {
+  background-color: var(--border-muted);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* Form Check (Checkbox, Radio) */
+.form-check-input {
+  background-color: var(--bg-light);
+  border-color: var(--border);
+}
+.form-check-input:checked {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.form-check-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+}
+
+/* Cards */
+.card {
+  background-color: var(--bg-light);
+  border-color: var(--border);
+  color: var(--text);
+}
+.card-header {
+  background-color: var(--highlight);
+  border-color: var(--border);
+  color: var(--text);
+}
+.card-footer {
+  background-color: var(--highlight);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+/* Alerts */
+.alert-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+.alert-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--text);
+}
+.alert-danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--bg-dark);
+}
+.alert-warning {
+  background-color: var(--warning);
+  border-color: var(--warning);
+  color: var(--bg-dark);
+}
+.alert-success {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--bg-dark);
+}
+.alert-info {
+  background-color: var(--info);
+  border-color: var(--info);
+  color: var(--text);
+}
+
+/* Tables */
+.table {
+  color: var(--text);
+  border-color: var(--border);
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--bg-light);
+}
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: var(--bg);
+}
+.table > thead > tr {
+  background-color: var(--highlight);
+  border-color: var(--border);
+}
+.table > thead > tr > th {
+  border-color: var(--border);
+  color: var(--text);
+}
+.table > tbody > tr > td {
+  border-color: var(--border);
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  background-color: var(--bg-light);
+  border-color: var(--border);
+}
+.dropdown-item {
+  color: var(--text);
+}
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item.active {
+  background-color: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Navbar/Headers */
+.navbar {
+  background-color: var(--bg);
+  border-color: var(--border);
+}
+.navbar-brand {
+  color: var(--primary);
+}
+
+/* Link Colors - Dynamic theme support */
+.link-light {
+  color: var(--text) !important;
+}
+.link-light:hover {
+  color: var(--primary) !important;
+}
+.link-dark {
+  color: var(--text) !important;
+}
+.link-dark:hover {
+  color: var(--primary) !important;
+}
+
+/* Text colors */
+.text-white,
+.text-light {
+  color: var(--text) !important;
+}
+.text-dark {
+  color: var(--text) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Ensure text-muted is always readable */
+p.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Background utilities */
+.bg-light {
+  background-color: var(--bg-light) !important;
+  color: var(--text);
+}
+.bg-dark {
+  background-color: var(--bg-dark) !important;
+  color: var(--text);
+}
+.bg-white {
+  background-color: var(--bg-light) !important;
+  color: var(--text);
+}
+
+/* Spinners */
+.spinner-border {
+  border-color: var(--highlight);
+  border-right-color: var(--primary);
+}
+
+/* Pagination */
+.pagination .page-link {
+  background-color: var(--bg-light);
+  border-color: var(--border);
+  color: var(--text);
+}
+.pagination .page-link:hover {
+  background-color: var(--highlight);
+  border-color: var(--border);
+  color: var(--text);
+}
+.pagination .page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--bg-dark);
+}
+
+/* Badges */
+.badge {
+  background-color: var(--primary);
+  color: var(--bg-dark);
+}
+.badge.bg-secondary {
+  background-color: var(--secondary) !important;
+  color: var(--text);
+}
+.badge.bg-danger {
+  background-color: var(--danger) !important;
+  color: var(--bg-dark);
+}
+.badge.bg-warning {
+  background-color: var(--warning) !important;
+  color: var(--bg-dark);
+}
+.badge.bg-success {
+  background-color: var(--success) !important;
+  color: var(--bg-dark);
+}
+.badge.bg-info {
+  background-color: var(--info) !important;
+  color: var(--text);
+}
+
+/* =================================================================
+   END BOOTSTRAP OVERRIDES
+   ================================================================= */
+
+/* Project-Specific Styles */
 
 /*
 #nav {
@@ -58,125 +395,123 @@ body {
 }
 */
 header h2 {
-    margin: 10px;
+  margin: 10px;
 }
 
 .nav-scroller {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 main {
-    margin: auto;
+  margin: auto;
 }
 
 .image-container {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 footer img {
-    border-radius: 50%;
-    height: 150px;
+  border-radius: 50%;
+  height: 150px;
 }
 
 footer a {
-    color: #ffffff;
-    text-decoration: none;
+  color: var(--primary);
+  text-decoration: none;
 }
 
 footer a:hover {
-    color: var(--primary);
+  color: var(--text);
+  text-decoration: underline;
 }
 
 .row {
-    width: 100%;
+  width: 100%;
 }
 
 .image-container {
-    position: relative;
-    height: 650px;
-    background-image: url("img/cordocan.jpg");
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    overflow: hidden;
+  position: relative;
+  height: 650px;
+  background-image: url("img/cordocan.jpg");
+  background-size: cover;
+  background-position: top;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text);
+  font-weight: bold;
+  text-align: center;
+  overflow: hidden;
 }
 
 .image-container .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1;
 }
 
 .image-container .text {
-    position: relative;
-    z-index: 2;
-    font-size: 60px;
+  position: relative;
+  z-index: 2;
+  font-size: 60px;
+  color: #ffffff !important;
 }
 
 li img {
-    min-width: fit-content;
-    max-width: fit-content;
-    height: 140px;
+  min-width: fit-content;
+  max-width: fit-content;
+  height: 140px;
 }
 
 .d-lg-block img {
-    width: 100%;
+  width: 100%;
 }
 
 .cards {
-    width: 48%;
-    margin: 0px auto 0px auto;
+  width: 48%;
+  margin: 0px auto 0px auto;
 }
 
 .card {
-    padding: 10px 0px 10px 0px;
-    border-radius: 10px;
-    background-color: #19253c;
-    width: 80%;
-    color: #fff;
-    margin: 0px auto 0px auto;
+  padding: 10px 0px 10px 0px;
+  border-radius: 10px;
+  width: 80%;
+  margin: 0px auto 0px auto;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 table td {
-    padding: 10px;
-    border-bottom: 0.5px solid #DEE2E6;
-    text-align: center;
+  padding: 10px;
+  border-bottom: 0.5px solid var(--border);
+  text-align: center;
 }
 
 .carousel-inner {
-    height: 100%;
+  height: 100%;
 }
 
 .carousel-inner img {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .router-link-active {
-    color: #4da6ff !important;
+  color: var(--primary) !important;
 }
 
 @media (max-width: 768px) {
-    .cards {
-        width: 100%;
-    }
-    
-    .image-container .text {
-        font-size: 40px;
-    }
+  .cards {
+    width: 100%;
+  }
+
+  .image-container .text {
+    font-size: 40px;
+  }
 }
-
-

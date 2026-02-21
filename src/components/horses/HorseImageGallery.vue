@@ -195,9 +195,9 @@ async function updateAltText(imageId, newAltText) {
 <style scoped>
 .horse-image-gallery {
   padding: 1rem;
-  background-color: #f8f9fa;
+  background-color: var(--bg-light);
   border-radius: 0.375rem;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--border);
 }
 
 .card {

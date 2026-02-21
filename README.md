@@ -10,6 +10,7 @@ Ez a projekt a Laguna Lovasklub weboldalának Vue.js alapú single-page applicat
 - **Reaktív adatkezelés**: Vue 3 Composition API
 - **Bootstrap 5 integráció**: Modern, reszponzív design
 - **Bootstrap Icons**: Gazdag ikonkészlet
+- **Sötét/Világos téma**: Beépített témavéltás localStorage-be mentéssel
 - **Lovak megjelenítése**: Dinamikus, adatbázisból betöltött lovak listázása szűrési lehetőséggel
 - **Lovak részletei**: Egyedi oldal minden lóhoz származási adatokkal, képgalériával
 - **Lovak admin kezelése**: Teljes CRUD (Create/Read/Update/Delete) interface adminisztrátoroknak

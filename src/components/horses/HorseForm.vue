@@ -271,18 +271,18 @@ function onImageDelete(imageId) {
 
 .form-control,
 .form-select {
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--border);
   border-radius: 0.375rem;
 }
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
 }
 
 .invalid-feedback {
-  color: #dc3545;
+  color: var(--danger);
   font-size: 0.875rem;
   margin-top: 0.25rem;
 }
@@ -305,7 +305,7 @@ textarea.form-control {
 }
 
 .border-top {
-  border-top: 1px solid #dee2e6 !important;
+  border-top: 1px solid var(--border) !important;
 }
 
 .pt-5 {

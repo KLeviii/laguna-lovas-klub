@@ -88,14 +88,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-.btn-primary {
-  background-color: #4da6ff;
-  border-color: #4da6ff;
-}
-
-.btn-primary:hover {
-  background-color: #3399ff;
-  border-color: #3399ff;
-}
-</style>
+<style scoped></style>
