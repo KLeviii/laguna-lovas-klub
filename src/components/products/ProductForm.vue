@@ -1,6 +1,14 @@
+<style scoped>
+     h5{
+      color: var(--bg-dark) !important;
+    }
+    .light h5{
+      color: var(--highlight) !important;
+    }
+</style>
 <template>
-  <div class="card mt-4">
-    <div class="card-header bg-primary text-white">
+  <div class="card m-5 pt-0 "> 
+    <div class="card-header bg-primary text-center">
       <h5 class="mb-0">
         {{ editingProductId ? 'Termék szerkesztése' : 'Új termék' }}
       </h5>

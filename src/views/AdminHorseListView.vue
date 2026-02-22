@@ -74,14 +74,14 @@ function setView(view) {
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
 }
 
 .nav-link {
   border: none;
   border-bottom: 3px solid transparent;
-  color: #495057;
+  color: var(--text-muted);
   font-weight: 500;
   padding: 0.75rem 1.5rem;
   cursor: pointer;
@@ -89,13 +89,13 @@ function setView(view) {
 }
 
 .nav-link:hover {
-  color: #0d6efd;
-  border-color: #0d6efd;
+  color: var(--primary);
+  border-color: var(--primary);
 }
 
 .nav-link.active {
-  color: #0d6efd;
-  border-color: #0d6efd;
+  color: var(--primary);
+  border-color: var(--primary);
   background-color: transparent;
 }
 

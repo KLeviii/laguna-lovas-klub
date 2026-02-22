@@ -11,8 +11,12 @@ onMounted(() => {
 });
 </script>
 <template>
-  <Header v-show="$route.path != '/admin/login'"></Header>
-  <router-view />
-  <Footer v-show="$route.path != '/admin/login'"></Footer>
+  <div class="site-wrapper">
+    <Header v-show="$route.path != '/admin/login'"></Header>
+    <div class="site-content">
+      <router-view />
+    </div>
+    <Footer v-show="$route.path != '/admin/login'"></Footer>
+  </div>
 </template>
 <style scoped></style>

@@ -182,6 +182,11 @@ nav router-link {
   color: var(--primary) !important;
 }
 
+.nav-link.router-link-active,
+.nav-link.router-link-exact-active {
+  color: var(--primary) !important;
+}
+
 .btn-theme-toggle {
   background: none;
   border: none;

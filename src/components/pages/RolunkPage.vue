@@ -160,33 +160,29 @@ const eladoLovak = [
             </div>
 
             <div class="col-4">
-              <div style="top: 2rem">
-                <div class="py-4 mb-3 bg-body-tertiary rounded">
-                  <h4 class="fst-italic">Versenyeink</h4>
-                  <p class="mb-0">
+              <div class="verseny-sidebar">
+                <div class="verseny-intro mb-4 p-3 rounded">
+                  <h4 class="fst-italic mb-2">Versenyeink</h4>
+                  <p class="mb-0 text-muted">
                     Klubunk aktívan részt vesz különböző nemzeti és nemzetközi
                     díjugratóversenyeken. Nézd meg legújabb eredményeinket!
                   </p>
                 </div>
-                <div>
-                  <h4 class="fst-italic">Legutóbbi Versenyeink</h4>
-                  <ul class="list-unstyled">
-                    <li v-for="verseny in versenyek" :key="verseny.nev">
-                      <router-link
-                        class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                        to="/eredmenyeink"
-                      >
-                        <img :src="verseny.kep" class="col-5" alt="" />
-                        <div class="col-7">
-                          <h6 class="mb-0">{{ verseny.nev }}</h6>
-                          <small class="text-body-secondary">{{
-                            verseny.datum
-                          }}</small>
-                        </div>
-                      </router-link>
-                    </li>
-                  </ul>
-                </div>
+                <h5 class="fst-italic mb-3">Legutóbbi Versenyeink</h5>
+                <ul class="list-unstyled mb-0">
+                  <li v-for="verseny in versenyek" :key="verseny.nev">
+                    <router-link
+                      class="verseny-link d-flex flex-row gap-3 align-items-center py-3 text-decoration-none border-bottom"
+                      to="/eredmenyeink"
+                    >
+                      <img :src="verseny.kep" class="verseny-img rounded" alt="" />
+                      <div>
+                        <h6 class="mb-1">{{ verseny.nev }}</h6>
+                        <small class="text-muted">{{ verseny.datum }}</small>
+                      </div>
+                    </router-link>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -199,5 +195,27 @@ const eladoLovak = [
 <style scoped>
 .know-more {
   color: var(--text);
+}
+
+.verseny-intro {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.verseny-link {
+  color: var(--text);
+  border-color: var(--border) !important;
+}
+
+.verseny-link:hover {
+  color: var(--primary);
+}
+
+.verseny-img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 </style>
