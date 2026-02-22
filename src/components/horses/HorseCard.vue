@@ -10,10 +10,21 @@ defineProps({
 <template>
   <div class="card h-100">
     <div
+      v-if="horse.main_img_url"
+      class="card-img-top"
+      style="height: 250px; object-fit: cover; overflow: hidden"
+    >
+      <img
+        :src="horse.main_img_url"
+        :alt="horse.name"
+        style="width: 100%; height: 100%; object-fit: cover"
+      />
+    </div>
+    <div
+      v-else
       class="card-img-top bg-light d-flex align-items-center justify-content-center"
       style="height: 250px"
     >
-      <!-- TODO: Replace with actual image when available -->
       <span class="text-muted">Nincs kép</span>
     </div>
 

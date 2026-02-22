@@ -1,21 +1,25 @@
 <style scoped>
-     h5{
-      color: var(--bg-dark) !important;
-    }
-    .light h5{
-      color: var(--highlight) !important;
-    }
+h5 {
+  color: var(--bg-dark) !important;
+}
+.light h5 {
+  color: var(--highlight) !important;
+}
 </style>
 <template>
-  <div class="card m-5 pt-0 "> 
+  <div class="card m-5 pt-0">
     <div class="card-header bg-primary text-center">
       <h5 class="mb-0">
-        {{ editingProductId ? 'Termék szerkesztése' : 'Új termék' }}
+        {{ editingProductId ? "Termék szerkesztése" : "Új termék" }}
       </h5>
     </div>
     <div class="card-body">
       <!-- Error Alert -->
-      <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <div
+        v-if="error"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+      >
         {{ error }}
         <button
           type="button"
@@ -30,14 +34,12 @@
         <!-- Kategória -->
         <div class="mb-3">
           <label for="productCategory" class="form-label">Kategória *</label>
-            <select
+          <select
             id="productCategory"
             v-model="selectedCategoryId"
             class="form-select me-3"
             required
-            
           >
-
             <option :value="null">Válassz kategóriát...</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
@@ -120,7 +122,9 @@
 
           <!-- File input -->
           <div class="mb-2">
-            <label for="productImageFile" class="form-label">Képfájl kiválasztása</label>
+            <label for="productImageFile" class="form-label"
+              >Képfájl kiválasztása</label
+            >
             <input
               id="productImageFile"
               type="file"
@@ -148,8 +152,13 @@
             class="btn btn-success"
             :disabled="loading || uploadingImage"
           >
-            <span v-if="loading || uploadingImage" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            {{ editingProductId ? 'Mentés' : 'Hozzáadás' }}
+            <span
+              v-if="loading || uploadingImage"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ editingProductId ? "Mentés" : "Hozzáadás" }}
           </button>
           <button
             type="button"
@@ -166,10 +175,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useProductForm } from '@/composables/useProductForm.js'
-import { fetchProductCategories } from '@/services/productService.js'
-import Header from '../Header.vue'
+import { ref, onMounted } from "vue";
+import { useProductForm } from "@/composables/useProductForm.js";
+import { fetchProductCategories } from "@/services/productService.js";
+import Header from "../Header.vue";
 
 const {
   productName,
@@ -188,44 +197,43 @@ const {
   loadProductForEdit,
   saveProduct,
   handleImageSelect,
-} = useProductForm()
+} = useProductForm();
 
-const categories = ref([])
-const emit = defineEmits(['saved', 'cancel'])
+const categories = ref([]);
+const emit = defineEmits(["saved", "cancel"]);
 
 // Load categories on mount
 onMounted(async () => {
   try {
-    categories.value = await fetchProductCategories()
+    categories.value = await fetchProductCategories();
   } catch (err) {
-    console.error('Error loading categories:', err)
+    console.error("Error loading categories:", err);
   }
-})
+});
 
 const handleImageChange = (event) => {
-  const file = event.target.files?.[0]
+  const file = event.target.files?.[0];
   if (file) {
-    handleImageSelect(file)
+    handleImageSelect(file);
   }
-}
+};
 function newCategoryModal() {
   // Emit event to parent to open category modal
-  
 }
 const handleSubmit = async () => {
-  const success = await saveProduct()
+  const success = await saveProduct();
   if (success) {
-    emit('saved')
+    emit("saved");
   }
-}
+};
 
 const handleCancel = () => {
-  clearProductForm()
-  emit('cancel')
-}
+  clearProductForm();
+  emit("cancel");
+};
 
 // Expose for parent component
 defineExpose({
   loadProductForEdit,
-})
+});
 </script>

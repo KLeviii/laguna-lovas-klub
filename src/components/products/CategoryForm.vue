@@ -1,13 +1,26 @@
+<style scoped>
+h5 {
+  color: var(--bg-dark) !important;
+}
+.light h5 {
+  color: var(--highlight) !important;
+}
+</style>
+
 <template>
-  <div class="card mt-4">
+  <div class="card pt-0" :style="{ marginTop: marginTop }">
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">
-        {{ editingCategoryId ? 'Kategória szerkesztése' : 'Új kategória' }}
+        {{ editingCategoryId ? "Kategória szerkesztése" : "Új kategória" }}
       </h5>
     </div>
     <div class="card-body">
       <!-- Error Alert -->
-      <div v-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <div
+        v-if="error"
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+      >
         {{ error }}
         <button
           type="button"
@@ -34,7 +47,9 @@
 
         <!-- Slug -->
         <div class="mb-3">
-          <label for="categorySlug" class="form-label">Slug (URL-barát) *</label>
+          <label for="categorySlug" class="form-label"
+            >Slug (URL-barát) *</label
+          >
           <input
             id="categorySlug"
             v-model="categorySlug"
@@ -60,7 +75,9 @@
 
         <!-- Display Order -->
         <div class="mb-3">
-          <label for="categoryDisplayOrder" class="form-label">Megjelenítési sorrend</label>
+          <label for="categoryDisplayOrder" class="form-label"
+            >Megjelenítési sorrend</label
+          >
           <input
             id="categoryDisplayOrder"
             v-model.number="categoryDisplayOrder"
@@ -74,13 +91,14 @@
 
         <!-- Action Buttons -->
         <div class="d-flex gap-2">
-          <button
-            type="submit"
-            class="btn btn-success"
-            :disabled="loading"
-          >
-            <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            {{ editingCategoryId ? 'Mentés' : 'Hozzáadás' }}
+          <button type="submit" class="btn btn-success" :disabled="loading">
+            <span
+              v-if="loading"
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ editingCategoryId ? "Mentés" : "Hozzáadás" }}
           </button>
           <button
             type="button"
@@ -97,8 +115,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useProductForm } from '@/composables/useProductForm.js'
+import { computed, ref, onMounted } from "vue";
+import { useProductForm } from "@/composables/useProductForm.js";
 
 const {
   categoryName,
@@ -111,27 +129,34 @@ const {
   clearCategoryForm,
   loadCategoryForEdit,
   saveCategory,
-} = useProductForm()
+} = useProductForm();
 
-const emit = defineEmits(['saved'])
+const marginTop = ref("80px");
+
+onMounted(() => {
+  const header = document.querySelector("header");
+  if (header) {
+    const height = header.offsetHeight;
+    marginTop.value = height + 30 + "px";
+  }
+});
+
+const emit = defineEmits(["saved"]);
 
 const handleSubmit = async () => {
-  const success = await saveCategory()
+  const success = await saveCategory();
   if (success) {
-    emit('saved')
+    emit("saved");
   }
-}
+};
 
 const handleCancel = () => {
-  clearCategoryForm()
-  emit('cancel')
-}
+  clearCategoryForm();
+  emit("cancel");
+};
 
 // Expose for parent component
 defineExpose({
   loadCategoryForEdit,
-})
-
-document.querySelector(".card").style.marginTop = `40px`;
-
+});
 </script>

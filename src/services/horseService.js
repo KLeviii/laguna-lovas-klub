@@ -8,7 +8,7 @@ import { supabase } from "./supabase";
 export async function fetchAllHorses(filters = {}) {
   let query = supabase
     .from("horses")
-    .select("id, name, gender, birth_date, is_for_sale");
+    .select("id, name, gender, birth_date, is_for_sale, main_img_url");
 
   if (filters.available_only) {
     query = query.eq("is_for_sale", true);
@@ -39,6 +39,7 @@ export async function fetchHorseById(id) {
       gender,
       birth_date,
       is_for_sale,
+      main_img_url,
       description,
       sire:horses!sire_id(id, name),
       dam:horses!dam_id(id, name),
@@ -69,7 +70,7 @@ export async function createHorse(horseData) {
   const { data, error } = await supabase
     .from("horses")
     .insert([cleanData])
-    .select("id, name, gender, birth_date, is_for_sale, description")
+    .select("id, name, gender, birth_date, is_for_sale, main_img_url, description")
     .single();
 
   if (error) {

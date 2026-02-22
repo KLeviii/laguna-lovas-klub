@@ -177,6 +177,7 @@ export function useHorseForm() {
         name: name.value?.trim() || "",
         gender: gender.value || "",
         is_for_sale: Boolean(is_for_sale.value),
+        main_img_url: main_image_url.value || null,
         description: description.value?.trim() || "",
       };
 
