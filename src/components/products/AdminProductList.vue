@@ -3,11 +3,12 @@
     <!-- Header with New button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Termékek kezelése</h2>
-      <button class="btn btn-primary" @click="goToCreate">
-        <i class="bi bi-plus-circle"></i> Új termék hozzáadása
-      </button>
-      
-      
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" @click="goToCreate">
+          <i class="bi bi-plus-circle"></i> Új termék hozzáadása
+        </button>
+        
+      </div>
     </div>
 
     <!-- Loading spinner -->
@@ -114,6 +115,7 @@ onMounted(() => {
 function goToCreate() {
   router.push("/admin/products/new");
 }
+
 function goToEdit(productId) {
   router.push(`/admin/products/${productId}/edit`);
 }

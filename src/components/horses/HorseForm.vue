@@ -1,3 +1,12 @@
+<style scoped>
+h5 {
+  color: var(--bg-dark) !important;
+}
+.light h5 {
+  color: var(--highlight) !important;
+}
+</style>
+
 <template>
   <div class="card m-5 pt-0">
     <!-- Card header -->

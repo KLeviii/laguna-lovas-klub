@@ -35,7 +35,7 @@ export async function fetchHorseById(id) {
     .select(
       `id, name, gender, birth_date, is_for_sale, main_img_url, description,
        sire_id, dam_id,
-       images:horse_images(id, image_url, alt_text, display_order)`,
+       images:horse_images(id, image_url, display_order)`,
     )
     .eq("id", id)
     .single();
@@ -181,7 +181,7 @@ export async function fetchHorseForEdit(id) {
       description,
       sire_id,
       dam_id,
-      horse_images(id, image_url, alt_text, display_order)
+      horse_images(id, image_url, display_order)
     `
     )
     .eq("id", id)

@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { useProducts } from '@/composables/useProducts'
 import ProductCard from '@/components/webshop/ProductCard.vue'
 import ProductFilter from '@/components/webshop/ProductFilter.vue'
 
+const router = useRouter()
 const { isAuthenticated } = useAuth()
 const {
   products,
@@ -23,6 +25,11 @@ onMounted(() => {
   loadProducts({ available_only: true })
   loadCategories()
 })
+
+function goToCategories() {
+  router.push("/admin/products/categories");
+}
+
 </script>
 
 <template>
@@ -37,7 +44,9 @@ onMounted(() => {
           <h2 class="mb-0">Termékeink</h2>
 
           <!-- Admin button - only visible when logged in -->
-          <router-link
+          
+          <div class="d-flex">
+            <router-link
             v-if="isAuthenticated"
             to="/admin/products"
             class="btn btn-primary"
@@ -45,6 +54,10 @@ onMounted(() => {
             <i class="bi bi-pencil-square me-2"></i>
             Termékek kezelése
           </router-link>
+            <button v-if="isAuthenticated" class="btn btn-outline-primary ms-2" @click="goToCategories">
+            <i class="bi bi-tags"></i> Kategóriák kezelése
+          </button>
+          </div>
         </div>
 
         <!-- Filter -->

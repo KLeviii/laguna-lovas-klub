@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 import { useHorses } from "@/composables/useHorses.js";
 import HorseGallery from "@/components/horses/HorseGallery.vue";
 
@@ -8,12 +8,12 @@ const route = useRoute();
 const router = useRouter();
 const { selectedHorse, relatedHorses, loading, error, loadHorseById } = useHorses();
 
-onMounted(() => {
-  loadHorseById(route.params.id);
-});
+onMounted(() => loadHorseById(route.params.id));
+
+watch(() => route.params.id, (id) => { if (id) loadHorseById(id) });
 
 function goBack() {
-  router.back();
+  router.push("/lovaink");
 }
 </script>
 
@@ -88,15 +88,9 @@ function goBack() {
             <div v-if="selectedHorse.sire || selectedHorse.dam" class="mb-4">
               <h4>Származása</h4>
               <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <th>Szerep</th>
-                    <th>Név</th>
-                  </tr>
-                </thead>
                 <tbody>
                   <tr v-if="selectedHorse.sire">
-                    <td><strong>Apa (Sire)</strong></td>
+                    <td><strong>Fedeztetőmén</strong></td>
                     <td>
                       <router-link :to="`/lovaink/${selectedHorse.sire.id}`">
                         {{ selectedHorse.sire.name }}
@@ -104,7 +98,7 @@ function goBack() {
                     </td>
                   </tr>
                   <tr v-if="selectedHorse.dam">
-                    <td><strong>Anya (Dam)</strong></td>
+                    <td><strong>Anyakanca</strong></td>
                     <td>
                       <router-link :to="`/lovaink/${selectedHorse.dam.id}`">
                         {{ selectedHorse.dam.name }}
