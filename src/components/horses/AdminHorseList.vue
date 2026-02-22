@@ -31,6 +31,7 @@
         <thead class="table-light">
           <tr>
             <th>ID</th>
+            <th>Kép</th>
             <th>Név</th>
             <th>Nem</th>
             <th>Születési év</th>
@@ -42,6 +43,15 @@
           <tr v-for="horse in horses" :key="horse.id">
             <td class="fw-monospace text-muted" style="font-size: 0.9rem">
               {{ horse.id.substring(0, 8) }}
+            </td>
+            <td>
+              <img
+                v-if="horse.main_img_url"
+                :src="horse.main_img_url"
+                :alt="horse.name"
+                style="max-width: 50px; max-height: 50px; object-fit: cover"
+              />
+              <span v-else class="text-muted">—</span>
             </td>
             <td class="fw-bold">{{ horse.name }}</td>
             <td>
@@ -56,16 +66,12 @@
               </span>
               <span v-else class="badge bg-secondary">Ismeretlen</span>
             </td>
-            <td>{{ horse.birth_year || "—" }}</td>
+            <td>{{ horse.birth_date || "—" }}</td>
             <td>
               <span
-                :class="
-                  horse.is_available_for_sale
-                    ? 'badge bg-success'
-                    : 'badge bg-danger'
-                "
+                :class="horse.is_for_sale ? 'badge bg-success' : 'badge bg-danger'"
               >
-                {{ horse.is_available_for_sale ? "Igen" : "Nem" }}
+                {{ horse.is_for_sale ? "Igen" : "Nem" }}
               </span>
             </td>
             <td>

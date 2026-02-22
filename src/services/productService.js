@@ -22,7 +22,7 @@ export async function fetchAllProducts(filters = {}) {
     `)
 
   if (filters.available_only) {
-    query = query.eq('is_available', true)
+    query = query.neq('is_available', false)
   }
 
   const { data, error } = await query.order('name', { ascending: true })
@@ -100,7 +100,7 @@ export async function fetchRelatedProducts(categoryId, excludeProductId = null, 
       is_available
     `)
     .eq('category_id', categoryId)
-    .eq('is_available', true)
+    .neq('is_available', false)
     .limit(limit)
 
   if (excludeProductId) {

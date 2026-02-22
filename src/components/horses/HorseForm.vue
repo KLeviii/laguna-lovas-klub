@@ -1,8 +1,11 @@
 <template>
-  <div class="horse-form">
-    <!-- Form header -->
-    <h3 class="mb-4">{{ formTitle }}</h3>
+  <div class="card m-5 pt-0">
+    <!-- Card header -->
+    <div class="card-header bg-primary text-center">
+      <h5 class="mb-0 text-white">{{ formTitle }}</h5>
+    </div>
 
+    <div class="card-body">
     <!-- Error message -->
     <div v-if="formErrors.general" class="alert alert-danger" role="alert">
       {{ formErrors.general }}
@@ -199,6 +202,7 @@
         <HorseImageGallery :images="images" @delete-image="onImageDelete" />
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -258,12 +262,6 @@ function onImageDelete(imageId) {
 </script>
 
 <style scoped>
-.horse-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
 .form-label {
   font-weight: 500;
   margin-bottom: 0.5rem;

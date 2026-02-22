@@ -9,7 +9,7 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Ló részletoldal képgalériával és származási adatokkal
 - Webshop termékkatalógus kategóriaszűréssel
 - Termék részletoldal kapcsolódó termékekkel
-- Admin felület lovak és termékek CRUD kezeléséhez (képfeltöltéssel)
+- Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület)
 - Supabase Auth alapú adminisztrátori bejelentkezés
 - Sötét / világos téma localStorage-sel
 
@@ -26,7 +26,8 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 | `/admin/login` | Adminisztrátori bejelentkezés |
 | `/admin` | Admin dashboard |
 | `/admin/horses` | Lovak kezelése (CRUD, képfeltöltés) |
-| `/admin/products` | Termékek és kategóriák kezelése (CRUD, képfeltöltés) |
+| `/admin/products` | Termékek kezelése (CRUD, képfeltöltés) |
+| `/admin/products/categories` | Kategóriák kezelése (CRUD) |
 
 ## Stack
 

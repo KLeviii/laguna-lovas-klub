@@ -2,12 +2,14 @@ import { ref, computed } from "vue";
 import {
   fetchAllHorses,
   fetchHorseById,
+  fetchRelatedHorses,
   deleteHorse as deleteHorseService,
 } from "../services/horseService.js";
 
 export function useHorses() {
   const horses = ref([]);
   const selectedHorse = ref(null);
+  const relatedHorses = ref([]);
   const loading = ref(false);
   const error = ref(null);
   const filterStatus = ref("all"); // 'all', 'available', 'unavailable'
@@ -49,9 +51,13 @@ export function useHorses() {
 
     try {
       selectedHorse.value = await fetchHorseById(id);
+      if (selectedHorse.value?.gender) {
+        relatedHorses.value = await fetchRelatedHorses(selectedHorse.value.gender, id)
+      }
     } catch (err) {
       error.value = err.message;
       selectedHorse.value = null;
+      relatedHorses.value = [];
     } finally {
       loading.value = false;
     }
@@ -98,6 +104,7 @@ export function useHorses() {
   return {
     horses: filteredHorses,
     selectedHorse,
+    relatedHorses,
     loading,
     error,
     filterStatus,

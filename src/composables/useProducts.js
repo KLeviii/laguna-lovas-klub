@@ -19,14 +19,12 @@ export function useProducts() {
   /**
    * Load all products from database
    */
-  async function loadProducts() {
+  async function loadProducts({ available_only = false } = {}) {
     loading.value = true
     error.value = null
 
     try {
-      const filters = {
-        available_only: false, // Show all products (admin can see)
-      }
+      const filters = { available_only }
       products.value = await fetchAllProducts(filters)
     } catch (err) {
       error.value = err.message

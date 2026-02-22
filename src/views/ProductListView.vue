@@ -20,7 +20,7 @@ const {
 } = useProducts()
 
 onMounted(() => {
-  loadProducts()
+  loadProducts({ available_only: true })
   loadCategories()
 })
 </script>
@@ -93,15 +93,3 @@ onMounted(() => {
     </main>
   </div>
 </template>
-
-<style scoped>
-.btn-primary {
-  background-color: #4da6ff;
-  border-color: #4da6ff;
-}
-
-.btn-primary:hover {
-  background-color: #3399ff;
-  border-color: #3399ff;
-}
-</style>

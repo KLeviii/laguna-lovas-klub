@@ -109,6 +109,11 @@ const goBack = () => {
           </div>
         </div>
 
+        <!-- Not Found -->
+        <div v-else class="alert alert-warning">
+          <strong>Termék nem található.</strong>
+        </div>
+
         <!-- Related Products -->
         <div v-if="selectedProduct && relatedProducts.length > 0" class="mt-5 pt-5 border-top">
           <h3 class="mb-4">
@@ -168,11 +173,6 @@ const goBack = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- Not Found -->
-        <div v-else class="alert alert-warning">
-          <strong>Termék nem található.</strong>
         </div>
       </section>
     </main>

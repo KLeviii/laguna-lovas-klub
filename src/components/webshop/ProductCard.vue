@@ -9,7 +9,7 @@ defineProps({
       return (
         value.id &&
         value.name &&
-        typeof value.price === 'number' &&
+        typeof value.price_huf === 'number' &&
         typeof value.is_available === 'boolean'
       )
     }

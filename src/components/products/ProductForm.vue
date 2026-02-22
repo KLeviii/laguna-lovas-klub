@@ -176,9 +176,11 @@ h5 {
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import { useProductForm } from "@/composables/useProductForm.js";
-import { fetchProductCategories } from "@/services/productService.js";
-import Header from "../Header.vue";
+import { fetchProductCategories, fetchProductById } from "@/services/productService.js";
+
+const route = useRoute();
 
 const {
   productName,
@@ -202,12 +204,26 @@ const {
 const categories = ref([]);
 const emit = defineEmits(["saved", "cancel"]);
 
-// Load categories on mount
+// Load categories on mount + load product if editing
 onMounted(async () => {
   try {
     categories.value = await fetchProductCategories();
   } catch (err) {
     console.error("Error loading categories:", err);
+  }
+
+  // If route has an id param, load the product for editing
+  const productId = route.params?.id;
+  if (productId) {
+    try {
+      const product = await fetchProductById(productId);
+      if (product) {
+        loadProductForEdit(product);
+      }
+    } catch (err) {
+      error.value = "Nem sikerült betölteni a terméket";
+      console.error("Error loading product for edit:", err);
+    }
   }
 });
 
@@ -217,9 +233,7 @@ const handleImageChange = (event) => {
     handleImageSelect(file);
   }
 };
-function newCategoryModal() {
-  // Emit event to parent to open category modal
-}
+
 const handleSubmit = async () => {
   const success = await saveProduct();
   if (success) {

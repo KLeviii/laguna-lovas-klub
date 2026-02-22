@@ -1,52 +1,91 @@
 <template>
   <div class="admin-layout">
-    <!-- Navigation tabs/breadcrumb -->
+    <!-- Navigation tabs -->
     <nav class="mb-4">
       <div class="nav nav-tabs" role="tablist">
         <button
           type="button"
           class="nav-link"
           :class="{ active: currentView === 'list' }"
-          @click="setView('list')"
+          @click="navigateTo('list')"
         >
           <i class="bi bi-list-ul"></i> Termékek listája
         </button>
         <button
           type="button"
           class="nav-link"
-          :class="{ active: currentView === 'create' }"
-          @click="setView('create')"
+          :class="{ active: currentView === 'create' || currentView === 'edit' }"
+          @click="navigateTo('create')"
         >
           <i class="bi bi-plus-circle"></i> Új termék
+        </button>
+        <button
+          type="button"
+          class="nav-link"
+          :class="{ active: currentView === 'categories' }"
+          @click="navigateTo('categories')"
+        >
+          <i class="bi bi-tags"></i> Kategóriák
+        </button>
+        <button
+          type="button"
+          class="nav-link"
+          :class="{ active: currentView === 'create-category' || currentView === 'edit-category' }"
+          @click="navigateTo('create-category')"
+        >
+          <i class="bi bi-plus-circle"></i> Új kategória
         </button>
       </div>
     </nav>
 
-    <!-- List view -->
+    <!-- Product List -->
     <div v-if="currentView === 'list'">
       <AdminProductList />
     </div>
 
-    <!-- Create view -->
+    <!-- Create Product -->
     <div v-if="currentView === 'create'">
-      <ProductForm />
+      <ProductForm @saved="onProductSaved" @cancel="onProductCancel" />
     </div>
 
-    <!-- Edit view -->
-    <div v-if="currentView === 'edit'" >
-      <ProductForm />
+    <!-- Edit Product -->
+    <div v-if="currentView === 'edit'">
+      <ProductForm @saved="onProductSaved" @cancel="onProductCancel" />
+    </div>
+
+    <!-- Category List -->
+    <div v-if="currentView === 'categories'">
+      <AdminCategoryList
+        ref="categoryListRef"
+        @edit-category="onEditCategory"
+        @create-category="navigateTo('create-category')"
+      />
+    </div>
+
+    <!-- Create/Edit Category -->
+    <div v-if="currentView === 'create-category' || currentView === 'edit-category'">
+      <CategoryForm
+        ref="categoryFormRef"
+        @saved="onCategorySaved"
+        @cancel="onCategoryCancel"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, watch, nextTick } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import AdminProductList from '@/components/products/AdminProductList.vue'
 import ProductForm from '@/components/products/ProductForm.vue'
+import AdminCategoryList from '@/components/products/AdminCategoryList.vue'
+import CategoryForm from '@/components/products/CategoryForm.vue'
 
 const route = useRoute()
+const router = useRouter()
 const currentView = ref('list')
+const categoryFormRef = ref(null)
+const categoryListRef = ref(null)
 
 // Watch route changes to determine which view to show
 watch(
@@ -56,6 +95,10 @@ watch(
       currentView.value = 'list'
     } else if (newPath === '/admin/products/new') {
       currentView.value = 'create'
+    } else if (newPath === '/admin/products/categories') {
+      currentView.value = 'categories'
+    } else if (newPath === '/admin/products/new-category') {
+      currentView.value = 'create-category'
     } else if (newPath.match(/^\/admin\/products\/[^/]+\/edit$/)) {
       currentView.value = 'edit'
     }
@@ -63,8 +106,40 @@ watch(
   { immediate: true }
 )
 
-function setView(view) {
-  currentView.value = view
+function navigateTo(view) {
+  const routeMap = {
+    'list': '/admin/products',
+    'create': '/admin/products/new',
+    'categories': '/admin/products/categories',
+    'create-category': '/admin/products/new-category',
+  }
+  if (routeMap[view]) {
+    router.push(routeMap[view])
+  }
+}
+
+function onProductSaved() {
+  router.push('/admin/products')
+}
+
+function onProductCancel() {
+  router.push('/admin/products')
+}
+
+async function onCategorySaved() {
+  router.push('/admin/products/categories')
+  await nextTick()
+  categoryListRef.value?.loadCategories()
+}
+
+function onCategoryCancel() {
+  router.push('/admin/products/categories')
+}
+
+async function onEditCategory(category) {
+  currentView.value = 'edit-category'
+  await nextTick()
+  categoryFormRef.value?.loadCategoryForEdit(category)
 }
 </script>
 

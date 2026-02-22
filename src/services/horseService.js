@@ -33,18 +33,9 @@ export async function fetchHorseById(id) {
   const { data, error } = await supabase
     .from("horses")
     .select(
-      `
-      id,
-      name,
-      gender,
-      birth_date,
-      is_for_sale,
-      main_img_url,
-      description,
-      sire:horses!sire_id(id, name),
-      dam:horses!dam_id(id, name),
-      images:horse_images(id, image_url, alt_text, display_order)
-    `,
+      `id, name, gender, birth_date, is_for_sale, main_img_url, description,
+       sire_id, dam_id,
+       images:horse_images(id, image_url, alt_text, display_order)`,
     )
     .eq("id", id)
     .single();
@@ -54,7 +45,13 @@ export async function fetchHorseById(id) {
     throw new Error(`Failed to fetch horse with ID ${id}`);
   }
 
-  return data;
+  // Fetch sire/dam names separately to avoid self-join issues
+  const [sire, dam] = await Promise.all([
+    data.sire_id ? supabase.from("horses").select("id, name").eq("id", data.sire_id).single().then(r => r.data) : null,
+    data.dam_id  ? supabase.from("horses").select("id, name").eq("id", data.dam_id).single().then(r => r.data)  : null,
+  ]);
+
+  return { ...data, sire, dam };
 }
 
 /**
@@ -127,6 +124,29 @@ export async function deleteHorse(id) {
     .eq("id", id);
 
   if (deleteError) throw deleteError;
+}
+
+/**
+ * Fetch horses of the same gender (for related horses section)
+ * @param {string} gender - gender to match ('mén' or 'kanca')
+ * @param {string} excludeId - horse ID to exclude (current horse)
+ * @param {number} limit - max results
+ * @returns {Promise<Array>}
+ */
+export async function fetchRelatedHorses(gender, excludeId, limit = 4) {
+  const { data, error } = await supabase
+    .from('horses')
+    .select('id, name, gender, birth_date, main_img_url')
+    .eq('gender', gender)
+    .neq('id', excludeId)
+    .limit(limit)
+
+  if (error) {
+    console.error('Error fetching related horses:', error)
+    throw new Error('Failed to fetch related horses')
+  }
+
+  return data || []
 }
 
 /**

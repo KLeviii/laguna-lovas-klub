@@ -8,7 +8,7 @@ h5 {
 </style>
 
 <template>
-  <div class="card pt-0" :style="{ marginTop: marginTop }">
+  <div class="card m-5 pt-0">
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">
         {{ editingCategoryId ? "Kategória szerkesztése" : "Új kategória" }}
@@ -115,7 +115,6 @@ h5 {
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from "vue";
 import { useProductForm } from "@/composables/useProductForm.js";
 
 const {
@@ -131,17 +130,7 @@ const {
   saveCategory,
 } = useProductForm();
 
-const marginTop = ref("80px");
-
-onMounted(() => {
-  const header = document.querySelector("header");
-  if (header) {
-    const height = header.offsetHeight;
-    marginTop.value = height + 30 + "px";
-  }
-});
-
-const emit = defineEmits(["saved"]);
+const emit = defineEmits(["saved", "cancel"]);
 
 const handleSubmit = async () => {
   const success = await saveCategory();
