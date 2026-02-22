@@ -1,10 +1,11 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import RolunkPage from "@/components/RolunkPage.vue";
+import { watch } from "vue";
+import RolunkPage from "@/components/pages/RolunkPage.vue";
 import ProductListView from "@/views/ProductListView.vue";
 import ProductDetailView from "@/views/ProductDetailView.vue";
-import HorsesPage from "@/components/HorsesPage.vue";
+import HorsesPage from "@/components/pages/HorsesPage.vue";
 import HorseDetailView from "@/views/HorseDetailView.vue";
-import ResultsPage from "@/components/ResultsPage.vue";
+import ResultsPage from "@/components/pages/ResultsPage.vue";
 import LoginPage from "@/components/admin/LoginPage.vue";
 import AdminDashboard from "@/components/admin/AdminDashboard.vue";
 import AdminHorseListView from "@/views/AdminHorseListView.vue";
@@ -83,25 +84,28 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const { isAuthenticated, authReady } = useAuth();
 
-  // Wait for auth initialization
+  function evaluate() {
+    if (to.meta.requiresAuth && !isAuthenticated.value) {
+      return next("/admin/login");
+    }
+    if (to.meta.requiresGuest && isAuthenticated.value) {
+      return next("/admin");
+    }
+    next();
+  }
+
   if (!authReady.value) {
-    // Auth not initialized yet - wait a bit and retry
-    setTimeout(() => {
-      next(to.path);
-    }, 100);
+    // Auth not yet initialized – wait for it reactively
+    const stop = watch(authReady, (ready) => {
+      if (ready) {
+        stop();
+        evaluate();
+      }
+    });
     return;
   }
 
-  // Védett admin oldal - átirányítás login-ra ha nincs bejelentkezve
-  if (to.meta.requiresAuth && !isAuthenticated.value) {
-    return next("/admin/login");
-  }
-
-  // Login oldal - átirányítás dashboardra ha már be van jelentkezve
-  if (to.meta.requiresGuest && isAuthenticated.value) {
-    return next("/admin");
-  }
-  next();
+  evaluate();
 });
 
 export default router;

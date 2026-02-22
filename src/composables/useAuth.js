@@ -1,5 +1,5 @@
 import { ref, computed } from "vue";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/services/supabase";
 
 // Globális állapot - reactive
 const user = ref(null);

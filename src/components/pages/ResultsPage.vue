@@ -3,31 +3,28 @@ import { useAuth } from "@/composables/useAuth";
 
 const { isAuthenticated } = useAuth();
 
-function data() {
-  return {
-    statisztikak: [
-      { szam: 10, ikon: "bi-person-fill", leiras: "Aktív versenyző" },
-      { szam: 10, ikon: "bi-trophy-fill", leiras: "Bajnoki cím" },
-      { szam: 50, ikon: "bi-award-fill", leiras: "Elért helyezés" },
-    ],
-    evek: [
-      {
-        ev: "2025",
-        tartalom: "A 2025-ös év eredményei hamarosan elérhetők lesznek.",
-      },
-      {
-        ev: "2024",
-        tartalom:
-          "A 2024-es évben számos kiváló helyezést értünk el nemzeti versenyeken.",
-      },
-      {
-        ev: "2023",
-        tartalom:
-          "A 2023-as év kiemelkedő versenyeredményeket hozott klubunk számára.",
-      },
-    ],
-  };
-}
+const statisztikak = [
+  { szam: 10, ikon: "bi-person-fill", leiras: "Aktív versenyző" },
+  { szam: 10, ikon: "bi-trophy-fill", leiras: "Bajnoki cím" },
+  { szam: 50, ikon: "bi-award-fill", leiras: "Elért helyezés" },
+]
+
+const evek = [
+  {
+    ev: "2025",
+    tartalom: "A 2025-ös év eredményei hamarosan elérhetők lesznek.",
+  },
+  {
+    ev: "2024",
+    tartalom:
+      "A 2024-es évben számos kiváló helyezést értünk el nemzeti versenyeken.",
+  },
+  {
+    ev: "2023",
+    tartalom:
+      "A 2023-as év kiemelkedő versenyeredményeket hozott klubunk számára.",
+  },
+]
 </script>
 
 <template>
@@ -42,7 +39,7 @@ function data() {
         <div class="d-flex">
           <div class="row w-100">
             <div
-              v-for="stat in data().statisztikak"
+              v-for="stat in statisztikak"
               :key="stat.leiras"
               class="col-4"
             >
@@ -99,7 +96,7 @@ function data() {
 
         <div class="accordion" id="accordionExample">
           <div
-            v-for="(ev, index) in data().evek"
+            v-for="(ev, index) in evek"
             :key="ev.ev"
             class="accordion-item"
           >

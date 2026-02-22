@@ -1,5 +1,5 @@
 import { ref, computed } from "vue";
-import { supabase } from "../lib/supabase.js";
+import { supabase } from "@/services/supabase";
 import {
   createHorse,
   updateHorse,

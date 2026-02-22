@@ -2,8 +2,8 @@
 import { onMounted } from "vue";
 import { useAuth } from "@/composables/useAuth";
 import { useHorses } from "@/composables/useHorses.js";
-import HorseCard from "./horses/HorseCard.vue";
-import HorseFilter from "./horses/HorseFilter.vue";
+import HorseCard from "@/components/horses/HorseCard.vue";
+import HorseFilter from "@/components/horses/HorseFilter.vue";
 
 const { isAuthenticated } = useAuth();
 const {

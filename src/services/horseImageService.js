@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase.js";
+import { supabase } from "./supabase";
 
 /**
  * Upload a single image to Supabase Storage

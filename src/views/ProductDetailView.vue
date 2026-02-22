@@ -2,6 +2,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import { useProducts } from '@/composables/useProducts.js'
+import { formatPrice } from '@/utils/formatting'
 
 const route = useRoute()
 const router = useRouter()
@@ -13,15 +14,6 @@ onMounted(() => {
 
 const goBack = () => {
   router.back()
-}
-
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('hu-HU', {
-    style: 'currency',
-    currency: 'HUF',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price)
 }
 </script>
 

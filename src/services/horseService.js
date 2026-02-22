@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase.js";
+import { supabase } from "./supabase";
 
 /**
  * Fetch all horses with optional filters

@@ -99,6 +99,7 @@
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { useProducts } from "../../composables/useProducts.js";
+import { formatPrice } from "@/utils/formatting";
 
 const router = useRouter();
 const { products, loading, error, isEmpty, deleteProduct, loadProducts } =
@@ -107,15 +108,6 @@ const { products, loading, error, isEmpty, deleteProduct, loadProducts } =
 onMounted(() => {
   loadProducts();
 });
-
-function formatPrice(price) {
-  return new Intl.NumberFormat("hu-HU", {
-    style: "currency",
-    currency: "HUF",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
-}
 
 function goToCreate() {
   router.push("/admin/products/new");

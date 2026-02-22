@@ -1,71 +1,67 @@
 <script setup>
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-function data() {
-  return {
-    versenyek: [
-      {
-        kep: "../src/assets/img/kaposvar.jpg",
-        nev: "Kaposvár-Fedeles Nemzeti + felkészítő",
-        datum: "2025, November 7-9.",
-      },
-      {
-        kep: "../src/assets/img/kecskemet.jpg",
-        nev: "Nemzeti + felkészítő Pataki Ménes fedeles",
-        datum: "2025, Október 24-26.",
-      },
-      {
-        kep: "../src/assets/img/megyei.jpg",
-        nev: "Nemzeti + Fejér és Veszprém vármegyei döntő",
-        datum: "2025, Augusztus 15-17.",
-      },
-      {
-        kep: "../src/assets/img/kecskemett.jpg",
-        nev: "Nemzeti + Felkészítő verseny PATAKI MÉNES",
-        datum: "2025, Július 22-24.",
-      },
-      {
-        kep: "../src/assets/img/babolna.jpg",
-        nev: "Hétköznapi Nemzeti Díjugrató Verseny Bábolna",
-        datum: "January 13, 2024",
-      },
-    ],
-    szolgaltatasok: [
-      {
-        cim: "Lovak belovaglása és versenyeztetése",
-        leiras:
-          "Tapasztalt szakembereink professzionális belovaglást és versenyeztetést biztosítanak minden ló számára.",
-      },
-      {
-        cim: "Bértartás",
-        leiras:
-          "Modern istállóinkban kiváló körülmények között tarthatja lovát, teljes ellátással és szakszerű gondozással.",
-      },
-      {
-        cim: "Lovasok edzése és versenyeztetése",
-        leiras:
-          "Képzett edzőink segítségével fejlesztheted lovaglástudásod és részt vehetsz versenyeken.",
-      },
-      {
-        cim: "Hofmag terápia",
-        leiras:
-          "Korszerű mágnesterápiás kezelések állnak rendelkezésre lovak regenerációjára és egészségmegőrzésére.",
-      },
-    ],
-    eladoLovak: [
-      {
-        nev: "Vagány",
-        leiras: "Tehetséges díjugró, kiváló versenyeredményekkel.",
-        kep: "img/vagany.jpg",
-      },
-      {
-        nev: "Cooper",
-        leiras: "Megbízható, gyakorlott versenyló.",
-        kep: "img/cooper.jpg",
-      },
-    ],
-  };
-}
+const versenyek = [
+  {
+    kep: "../src/assets/img/kaposvar.jpg",
+    nev: "Kaposvár-Fedeles Nemzeti + felkészítő",
+    datum: "2025, November 7-9.",
+  },
+  {
+    kep: "../src/assets/img/kecskemet.jpg",
+    nev: "Nemzeti + felkészítő Pataki Ménes fedeles",
+    datum: "2025, Október 24-26.",
+  },
+  {
+    kep: "../src/assets/img/megyei.jpg",
+    nev: "Nemzeti + Fejér és Veszprém vármegyei döntő",
+    datum: "2025, Augusztus 15-17.",
+  },
+  {
+    kep: "../src/assets/img/kecskemett.jpg",
+    nev: "Nemzeti + Felkészítő verseny PATAKI MÉNES",
+    datum: "2025, Július 22-24.",
+  },
+  {
+    kep: "../src/assets/img/babolna.jpg",
+    nev: "Hétköznapi Nemzeti Díjugrató Verseny Bábolna",
+    datum: "January 13, 2024",
+  },
+]
+
+const szolgaltatasok = [
+  {
+    cim: "Lovak belovaglása és versenyeztetése",
+    leiras:
+      "Tapasztalt szakembereink professzionális belovaglást és versenyeztetést biztosítanak minden ló számára.",
+  },
+  {
+    cim: "Bértartás",
+    leiras:
+      "Modern istállóinkban kiváló körülmények között tarthatja lovát, teljes ellátással és szakszerű gondozással.",
+  },
+  {
+    cim: "Lovasok edzése és versenyeztetése",
+    leiras:
+      "Képzett edzőink segítségével fejlesztheted lovaglástudásod és részt vehetsz versenyeken.",
+  },
+  {
+    cim: "Hofmag terápia",
+    leiras:
+      "Korszerű mágnesterápiás kezelések állnak rendelkezésre lovak regenerációjára és egészségmegőrzésére.",
+  },
+]
+
+const eladoLovak = [
+  {
+    nev: "Vagány",
+    leiras: "Tehetséges díjugró, kiváló versenyeredményekkel.",
+    kep: "img/vagany.jpg",
+  },
+  {
+    nev: "Cooper",
+    leiras: "Megbízható, gyakorlott versenyló.",
+    kep: "img/cooper.jpg",
+  },
+]
 </script>
 
 <template>
@@ -114,7 +110,7 @@ function data() {
                 <div class="contanier">
                   <div class="row">
                     <div
-                      v-for="(szolg, index) in data().szolgaltatasok"
+                      v-for="(szolg, index) in szolgaltatasok"
                       :key="index"
                       class="cards col-6 border rounded overflow-hidden flex-md-row p-3 shadow-sm position-relative mb-3"
                     >
@@ -131,7 +127,7 @@ function data() {
                   <div class="contanier">
                     <div class="row">
                       <div
-                        v-for="lo in data().eladoLovak"
+                        v-for="lo in eladoLovak"
                         :key="lo.nev"
                         class="col-6"
                       >
@@ -175,7 +171,7 @@ function data() {
                 <div>
                   <h4 class="fst-italic">Legutóbbi Versenyeink</h4>
                   <ul class="list-unstyled">
-                    <li v-for="verseny in data().versenyek" :key="verseny.nev">
+                    <li v-for="verseny in versenyek" :key="verseny.nev">
                       <router-link
                         class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
                         to="/eredmenyeink"

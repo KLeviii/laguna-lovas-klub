@@ -1,4 +1,6 @@
 <script setup>
+import { formatPrice } from '@/utils/formatting'
+
 defineProps({
   product: {
     type: Object,
@@ -13,16 +15,6 @@ defineProps({
     }
   }
 })
-
-// Format price in HUF using Hungarian locale
-const formatPrice = (price) => {
-  return new Intl.NumberFormat('hu-HU', {
-    style: 'currency',
-    currency: 'HUF',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(price)
-}
 
 // Handle image load error
 const onImageError = (event) => {

@@ -55,7 +55,7 @@ function goBack() {
 
             <div class="mb-3">
               <strong>Nem:</strong>
-              {{ selectedHorse.gender === "F" ? "Kanca (♀)" : "Hérosz (♂)" }}
+              {{ selectedHorse.gender === "female" ? "Kanca (♀)" : "Mén (♂)" }}
             </div>
 
             <div class="mb-3">
