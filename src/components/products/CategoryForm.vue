@@ -11,7 +11,7 @@ h5 {
   <div class="card m-5 pt-0">
     <div class="card-header bg-primary text-white">
       <h5 class="mb-0">
-        {{ editingCategoryId ? "Kategória szerkesztése" : "Új kategória" }}
+        {{ editingCategoryId ? "Kategória szerkesztése" : "Új kategória felvétele" }}
       </h5>
     </div>
     <div class="card-body">

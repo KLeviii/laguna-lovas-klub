@@ -181,6 +181,7 @@ export async function fetchHorseForEdit(id) {
       description,
       sire_id,
       dam_id,
+      main_img_url,
       horse_images(id, image_url, display_order)
     `
     )

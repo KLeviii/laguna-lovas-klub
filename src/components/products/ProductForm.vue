@@ -10,7 +10,7 @@ h5 {
   <div class="card m-5 pt-0">
     <div class="card-header bg-primary text-center">
       <h5 class="mb-0">
-        {{ editingProductId ? "Termék szerkesztése" : "Új termék" }}
+        {{ editingProductId ? "Termék szerkesztése" : "Új termék felvétele" }}
       </h5>
     </div>
     <div class="card-body">

@@ -251,8 +251,9 @@ const {
 onMounted(async () => {
   await loadParentOptions();
 
-  if (isEditing.value) {
-    const horseId = route.params.id;
+  // Load horse data if we have an ID in the route (editing mode)
+  const horseId = route.params.id;
+  if (horseId) {
     await loadHorse(horseId);
   }
 });

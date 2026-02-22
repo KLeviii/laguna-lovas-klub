@@ -142,6 +142,7 @@ export function useHorseForm() {
       dam_id.value = horse.dam_id;
       is_for_sale.value = horse.is_for_sale;
       description.value = horse.description || "";
+      main_image_url.value = horse.main_img_url || null;
       images.value = horse.horse_images || [];
       editingHorseId.value = id;
       errors.value = {};
@@ -217,7 +218,7 @@ export function useHorseForm() {
 
   const isEditing = computed(() => !!editingHorseId.value);
   const formTitle = computed(() =>
-    isEditing.value ? `Ló szerkesztése: ${name.value}` : "Új ló",
+    isEditing.value ? `Ló szerkesztése: ${name.value}` : "Új egyed felvétele",
   );
 
   return {
