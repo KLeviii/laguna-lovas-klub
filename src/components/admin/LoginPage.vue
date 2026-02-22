@@ -50,7 +50,6 @@ const handleLogin = async () => {
               id="email"
               v-model="email"
               required
-              placeholder="admin@example.com"
               :disabled="loading"
             />
           </div>
@@ -117,7 +116,7 @@ const handleLogin = async () => {
 }
 
 .card-title {
-  color: #2f4f4f;
+  color: var(--text);
   font-weight: 600;
 }
 </style>

@@ -2,6 +2,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { onMounted, watch } from "vue";
 import { useHorses } from "@/composables/useHorses.js";
+import { formatDate } from "@/utils/formatting.js";
 import HorseGallery from "@/components/horses/HorseGallery.vue";
 
 const route = useRoute();
@@ -59,7 +60,7 @@ function goBack() {
                 {{ selectedHorse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }}
               </span>
               <span v-if="selectedHorse.birth_date" class="text-muted">
-                {{ selectedHorse.birth_date }}
+                {{ formatDate(selectedHorse.birth_date) }}
               </span>
             </div>
 
@@ -156,7 +157,7 @@ function goBack() {
                   <h5 class="card-title flex-grow-1">{{ horse.name }}</h5>
                   <p class="text-muted small mb-3">
                     {{ horse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }}
-                    <span v-if="horse.birth_date"> • {{ horse.birth_date }}</span>
+                    <span v-if="horse.birth_date"> • {{ formatDate(horse.birth_date) }}</span>
                   </p>
                   <router-link
                     :to="`/lovaink/${horse.id}`"
@@ -196,6 +197,7 @@ function goBack() {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  object-fit: contain;
 }
 
 .image-container .text {

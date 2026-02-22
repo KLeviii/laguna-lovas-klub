@@ -77,7 +77,7 @@ h5 {
         <select id="sireId" v-model="sire_id" class="form-select" :disabled="isEditing">
           <option :value="null">-- Nincs megadva --</option>
           <option
-            v-for="horse in parentOptions"
+            v-for="horse in sireOptions"
             :key="horse.id"
             :value="horse.id"
           >
@@ -98,7 +98,7 @@ h5 {
         <select id="damId" v-model="dam_id" class="form-select" :disabled="isEditing">
           <option :value="null">-- Nincs megadva --</option>
           <option
-            v-for="horse in parentOptions"
+            v-for="horse in damOptions"
             :key="horse.id"
             :value="horse.id"
           >
@@ -234,6 +234,8 @@ const {
   formErrors,
   formSubmitting,
   parentOptions,
+  sireOptions,
+  damOptions,
   editingHorseId,
   loadHorse,
   loadParentOptions,

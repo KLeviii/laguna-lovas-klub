@@ -187,8 +187,7 @@ export function useHorseForm() {
         };
 
         if (birth_date.value) {
-          const year = parseInt(birth_date.value);
-          horseData.birth_date = `${year}-01-01`;
+          horseData.birth_date = birth_date.value; // Already in YYYY-MM-DD format from input type="date"
         }
 
         await updateHorse(editingHorseId.value, horseData);
@@ -232,6 +231,12 @@ export function useHorseForm() {
   const formTitle = computed(() =>
     isEditing.value ? `Ló szerkesztése: ${name.value}` : "Új egyed felvétele",
   );
+  const sireOptions = computed(() =>
+    parentOptions.value.filter(h => h.gender === 'male')
+  );
+  const damOptions = computed(() =>
+    parentOptions.value.filter(h => h.gender === 'female')
+  );
 
   return {
     // State (aliased for component compatibility)
@@ -239,6 +244,8 @@ export function useHorseForm() {
     formSubmitting: submitting,
     loading,
     parentOptions,
+    sireOptions,
+    damOptions,
     editingHorseId,
     images,
     imageUploading,

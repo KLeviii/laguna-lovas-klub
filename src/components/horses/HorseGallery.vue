@@ -36,14 +36,13 @@ function prevImage() {
       v-if="images.length > 0"
       class="carousel-main bg-light d-flex align-items-center justify-content-center mb-3"
     >
-      <div v-if="currentImage" style="max-width: 100%; max-height: 400px">
-        <img
-          :src="currentImage.image_url"
-          :alt="currentImage.alt_text || 'Horse image'"
-          class="img-fluid"
-          style="object-fit: cover"
-        />
-      </div>
+      <img
+        v-if="currentImage"
+        :src="currentImage.image_url"
+        :alt="currentImage.alt_text || 'Horse image'"
+        class="img-fluid w-100 h-100"
+        style="object-fit: cover"
+      />
     </div>
 
     <!-- Navigation -->
@@ -61,14 +60,20 @@ function prevImage() {
     </div>
 
     <!-- Fallback -->
-    <div v-else class="alert alert-info">Nincs elérhető kép.</div>
+    <div v-else-if="images.length === 0" class="alert alert-info">Nincs elérhető kép.</div>
   </div>
 </template>
 
 <style scoped>
 .carousel-main {
-  min-height: 400px;
+  width: 100%;
+  height: 400px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.carousel-main img {
+  display: block;
 }
 </style>

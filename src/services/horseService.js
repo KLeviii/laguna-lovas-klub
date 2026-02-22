@@ -51,7 +51,18 @@ export async function fetchHorseById(id) {
     data.dam_id  ? supabase.from("horses").select("id, name").eq("id", data.dam_id).single().then(r => r.data)  : null,
   ]);
 
-  return { ...data, sire, dam };
+  // If no images in horse_images table but has main_img_url, include it as first image
+  const images = data.images && data.images.length > 0 ? data.images : [];
+  if (images.length === 0 && data.main_img_url) {
+    images.push({
+      id: 'main',
+      image_url: data.main_img_url,
+      display_order: 0,
+      alt_text: data.name,
+    });
+  }
+
+  return { ...data, images, sire, dam };
 }
 
 /**

@@ -1,4 +1,6 @@
 <script setup>
+import { formatDate } from "@/utils/formatting.js";
+
 defineProps({
   horse: {
     type: Object,
@@ -34,7 +36,7 @@ const onImageError = (event) => {
         <h6 class="card-title text-truncate mb-2">{{ horse.name }}</h6>
         <p class="card-text text-muted small flex-grow-1">
           {{ horse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }} •
-          {{ horse.birth_date || '—' }}
+          {{ formatDate(horse.birth_date) }}
         </p>
       </div>
 

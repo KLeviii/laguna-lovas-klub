@@ -143,6 +143,10 @@ async function confirmDelete(productId, productName) {
   padding: 1rem;
 }
 
+thead th {
+  background-color: var(--bg-light) !important;
+}
+
 .table-hover tbody tr:hover {
   background-color: var(--bg-light);
 }

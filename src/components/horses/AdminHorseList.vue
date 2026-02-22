@@ -34,7 +34,7 @@
             <th>Kép</th>
             <th>Név</th>
             <th>Nem</th>
-            <th>Születési év</th>
+            <th>Születési dátum</th>
             <th>Eladásra kínálva</th>
             <th>Műveletek</th>
           </tr>
@@ -66,7 +66,7 @@
               </span>
               <span v-else class="badge bg-secondary">Ismeretlen</span>
             </td>
-            <td>{{ horse.birth_date || "—" }}</td>
+            <td>{{ formatDate(horse.birth_date) }}</td>
             <td>
               <span
                 :class="horse.is_for_sale ? 'badge bg-success' : 'badge bg-danger'"
@@ -101,6 +101,7 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useHorses } from "../../composables/useHorses.js";
+import { formatDate } from "@/utils/formatting.js";
 
 const router = useRouter();
 const { horses, loading, error, isEmpty, loadHorses, deleteHorse } = useHorses();
@@ -140,6 +141,10 @@ async function confirmDelete(horseId, horseName) {
 <style scoped>
 .admin-horse-list {
   padding: 1rem;
+}
+
+thead th {
+  background-color: var(--bg-light) !important;
 }
 
 .table-hover tbody tr:hover {
