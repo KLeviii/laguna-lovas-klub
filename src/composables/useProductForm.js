@@ -228,9 +228,9 @@ export function useProductForm() {
       return
     }
 
-    // Validate file size (5MB max)
-    if (file.size > 5 * 1024 * 1024) {
-      error.value = 'A fájl ne legyen nagyobb 5MB-nál'
+    // Validate file size (50MB max)
+    if (file.size > 50 * 1024 * 1024) {
+      error.value = 'A fájl ne legyen nagyobb 50MB-nál'
       return
     }
 

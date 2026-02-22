@@ -100,7 +100,6 @@ export async function fetchRelatedProducts(categoryId, excludeProductId = null, 
       is_available
     `)
     .eq('category_id', categoryId)
-    .neq('is_available', false)
     .limit(limit)
 
   if (excludeProductId) {
@@ -237,7 +236,15 @@ export async function uploadProductImage(file) {
     throw new Error('No file provided')
   }
 
-  const fileName = `${Date.now()}_${file.name}`
+  // Validate file size (50MB max)
+  const maxSize = 50 * 1024 * 1024 // 50MB
+  if (file.size > maxSize) {
+    throw new Error('File too large (max 50MB)')
+  }
+
+  // Generate filename with safe characters only
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg"
+  const fileName = `${Date.now()}.${ext}`
   const { data, error: uploadError } = await supabase.storage
     .from('product-images')
     .upload(fileName, file, {

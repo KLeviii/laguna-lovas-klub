@@ -222,6 +222,14 @@ const goBack = () => {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
 }
 
+.product-card:has(.badge.bg-secondary) {
+  opacity: 0.75;
+}
+
+.product-card:has(.badge.bg-secondary):hover {
+  transform: none;
+}
+
 .product-card-image {
   width: 100%;
   height: 200px;

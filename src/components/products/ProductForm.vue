@@ -132,7 +132,7 @@ h5 {
               accept="image/*"
               @change="handleImageChange"
             />
-            <small class="text-muted">Max. 5MB, JPG/PNG/WebP</small>
+            <small class="text-muted">Max. 50MB, JPG/PNG/WebP</small>
           </div>
 
           <!-- Upload progress -->

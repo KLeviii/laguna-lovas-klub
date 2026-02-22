@@ -80,6 +80,14 @@ const onImageError = (event) => {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
 }
 
+.product-card:has(.badge.bg-secondary) {
+  opacity: 0.75;
+}
+
+.product-card:has(.badge.bg-secondary):hover {
+  transform: none;
+}
+
 .badges-sm {
   font-size: 0.75rem;
   padding: 0.35rem 0.65rem;

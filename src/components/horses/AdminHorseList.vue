@@ -98,11 +98,17 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useHorses } from "../../composables/useHorses.js";
 
 const router = useRouter();
-const { horses, loading, error, isEmpty, deleteHorse } = useHorses();
+const { horses, loading, error, isEmpty, loadHorses, deleteHorse } = useHorses();
+
+// Load all horses (without filters) when component mounts
+onMounted(() => {
+  loadHorses(false); // false = show all horses, not just available ones
+});
 
 function goToCreate() {
   router.push("/admin/horses/new");

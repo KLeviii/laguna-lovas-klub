@@ -22,7 +22,8 @@ const {
 } = useProducts()
 
 onMounted(() => {
-  loadProducts({ available_only: true })
+  // Admins see all products, guests see only available products
+  loadProducts({ available_only: !isAuthenticated.value })
   loadCategories()
 })
 

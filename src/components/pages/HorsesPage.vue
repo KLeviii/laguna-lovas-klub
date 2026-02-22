@@ -17,7 +17,8 @@ const {
 } = useHorses();
 
 onMounted(() => {
-  loadHorses();
+  // Admins see all horses, guests see only available horses
+  loadHorses(!isAuthenticated.value);
 });
 </script>
 

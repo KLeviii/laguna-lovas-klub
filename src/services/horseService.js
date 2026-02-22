@@ -136,7 +136,7 @@ export async function deleteHorse(id) {
 export async function fetchRelatedHorses(gender, excludeId, limit = 4) {
   const { data, error } = await supabase
     .from('horses')
-    .select('id, name, gender, birth_date, main_img_url')
+    .select('id, name, gender, birth_date, is_for_sale, main_img_url')
     .eq('gender', gender)
     .neq('id', excludeId)
     .limit(limit)

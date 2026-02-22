@@ -12,7 +12,7 @@
         :disabled="uploading"
       />
       <small class="text-muted d-block mt-1">
-        Támogatott: JPG, PNG, WebP (max. 5MB/kép)
+        Támogatott: JPG, PNG, WebP (max. 50MB/kép)
       </small>
     </div>
 

@@ -17,13 +17,14 @@ export function useHorses() {
   /**
    * Load all horses from database
    */
-  async function loadHorses() {
+  async function loadHorses(initialFilter = null) {
     loading.value = true;
     error.value = null;
 
     try {
+      // If initialFilter is provided (for guests showing only available), use it
       const filters = {
-        available_only: filterStatus.value === "available",
+        available_only: initialFilter !== null ? initialFilter : filterStatus.value === "available",
       };
       horses.value = await fetchAllHorses(filters);
     } catch (err) {
@@ -70,10 +71,10 @@ export function useHorses() {
   const filteredHorses = computed(() => {
     if (filterStatus.value === "all") return horses.value;
     if (filterStatus.value === "available") {
-      return horses.value.filter((h) => h.is_available_for_sale);
+      return horses.value.filter((h) => h.is_for_sale);
     }
     if (filterStatus.value === "unavailable") {
-      return horses.value.filter((h) => !h.is_available_for_sale);
+      return horses.value.filter((h) => !h.is_for_sale);
     }
     return horses.value;
   });

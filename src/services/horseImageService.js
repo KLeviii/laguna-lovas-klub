@@ -9,9 +9,9 @@ import { supabase } from "./supabase";
  */
 export async function uploadImage(horseId, file, displayOrder = 0) {
   // Validate file
-  const maxSize = 5 * 1024 * 1024; // 5MB
+  const maxSize = 50 * 1024 * 1024; // 50MB
   if (file.size > maxSize) {
-    throw new Error("File too large (max 5MB)");
+    throw new Error("File too large (max 50MB)");
   }
 
   const validTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -19,10 +19,11 @@ export async function uploadImage(horseId, file, displayOrder = 0) {
     throw new Error("Invalid file type. Use JPG, PNG, or WebP");
   }
 
-  // Generate filename
+  // Generate filename with safe characters only
   const timestamp = Date.now();
-  const ext = file.name.split(".").pop();
-  const filename = `${timestamp}-${file.name}`;
+  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+  // Use only timestamp + extension to avoid special character issues
+  const filename = `${timestamp}.${ext}`;
   const filePath = `${horseId}/${filename}`;
 
   try {

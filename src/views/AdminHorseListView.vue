@@ -40,13 +40,21 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useHorses } from "@/composables/useHorses.js";
 import AdminHorseList from "@/components/horses/AdminHorseList.vue";
 import HorseForm from "@/components/horses/HorseForm.vue";
 
 const route = useRoute();
 const currentView = ref("list");
+const { loadHorses } = useHorses();
+
+// Load all horses when admin page mounts
+onMounted(async () => {
+  // Load all horses (no filter) for admin view
+  await loadHorses(false);
+});
 
 // Watch route changes to determine which view to show
 watch(
