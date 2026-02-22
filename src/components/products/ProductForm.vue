@@ -30,12 +30,14 @@
         <!-- Kategória -->
         <div class="mb-3">
           <label for="productCategory" class="form-label">Kategória *</label>
-          <select
+            <select
             id="productCategory"
             v-model="selectedCategoryId"
-            class="form-select"
+            class="form-select me-3"
             required
+            
           >
+
             <option :value="null">Válassz kategóriát...</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">
               {{ cat.name }}
@@ -167,6 +169,7 @@
 import { ref, onMounted } from 'vue'
 import { useProductForm } from '@/composables/useProductForm.js'
 import { fetchProductCategories } from '@/services/productService.js'
+import Header from '../Header.vue'
 
 const {
   productName,
@@ -205,7 +208,10 @@ const handleImageChange = (event) => {
     handleImageSelect(file)
   }
 }
-
+function newCategoryModal() {
+  // Emit event to parent to open category modal
+  
+}
 const handleSubmit = async () => {
   const success = await saveProduct()
   if (success) {

@@ -131,4 +131,7 @@ const handleCancel = () => {
 defineExpose({
   loadCategoryForEdit,
 })
+
+document.querySelector(".card").style.marginTop = `40px`;
+
 </script>

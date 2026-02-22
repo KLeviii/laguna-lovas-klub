@@ -12,6 +12,8 @@ import AdminHorseListView from "@/views/AdminHorseListView.vue";
 import AdminProductListView from "@/views/AdminProductListView.vue";
 import { useAuth } from "@/composables/useAuth";
 
+import CategoryForm from "@/components/products/CategoryForm.vue";
+
 const routes = [
   { path: "/", component: RolunkPage },
   { path: "/webshop", component: ProductListView },
@@ -56,6 +58,11 @@ const routes = [
   {
     path: "/admin/products/new",
     component: AdminProductListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/products/new-category",
+    component: CategoryForm,
     meta: { requiresAuth: true },
   },
   {

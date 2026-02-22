@@ -3,9 +3,16 @@
     <!-- Header with New button -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2>Termékek kezelése</h2>
-      <button class="btn btn-primary" @click="goToCreate">
+      <div> 
+        <button class="btn btn-primary me-2" @click="goToCreate">
         <i class="bi bi-plus-circle"></i> Új termék hozzáadása
       </button>
+      <button class="btn btn-primary" @click="goToCreateCategory">
+        <i class="bi bi-plus-circle"></i> Új Kategória hozzáadása
+      </button>
+    </div>
+      
+      
     </div>
 
     <!-- Loading spinner -->
@@ -112,7 +119,9 @@ onMounted(() => {
 function goToCreate() {
   router.push("/admin/products/new");
 }
-
+function goToCreateCategory() {
+  router.push("/admin/products/new-category");
+}
 function goToEdit(productId) {
   router.push(`/admin/products/${productId}/edit`);
 }
