@@ -32,7 +32,7 @@
     <div v-if="!loading && !isEmpty" class="table-responsive">
       <table class="table table-hover">
         <thead class="table-light">
-          <tr>
+          <tr class="text-center">
             <th>ID</th>
             <th>Kép</th>
             <th>Név</th>

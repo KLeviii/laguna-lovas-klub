@@ -11,7 +11,8 @@ export function useHorseForm() {
   // Form fields
   const name = ref("");
   const gender = ref("");
-  const birth_date = ref(new Date().getFullYear());
+  // Initialize with today's date in YYYY-MM-DD format
+  const birth_date = ref(new Date().toISOString().split('T')[0]);
   const sire_id = ref(null);
   const dam_id = ref(null);
   const is_for_sale = ref(false);
@@ -43,7 +44,7 @@ export function useHorseForm() {
     }
 
     if (birth_date.value) {
-      const year = parseInt(birth_date.value);
+      const year = parseInt(birth_date.value.substring(0, 4));
       const currentYear = new Date().getFullYear();
       if (year > currentYear) {
         newErrors.birth_date = "Születési év nem lehet a jövőben";
@@ -53,7 +54,8 @@ export function useHorseForm() {
       }
     }
 
-    if (sire_id.value && dam_id.value && sire_id.value === dam_id.value) {
+    // Only validate parent references if not editing (parent refs are disabled during edit)
+    if (!editingHorseId.value && sire_id.value && dam_id.value && sire_id.value === dam_id.value) {
       newErrors.sire_id = "Apa és anya nem lehet ugyanaz a ló";
     }
 
@@ -115,7 +117,7 @@ export function useHorseForm() {
   function resetForm() {
     name.value = "";
     gender.value = "";
-    birth_date.value = new Date().getFullYear();
+    birth_date.value = new Date().toISOString().split('T')[0]; // Reset to today's date in YYYY-MM-DD format
     sire_id.value = null;
     dam_id.value = null;
     is_for_sale.value = false;
@@ -173,35 +175,45 @@ export function useHorseForm() {
     submitting.value = true;
 
     try {
-      // Build minimal required data
-      const horseData = {
-        name: name.value?.trim() || "",
-        gender: gender.value || "",
-        is_for_sale: Boolean(is_for_sale.value),
-        main_img_url: main_image_url.value || null,
-        description: description.value?.trim() || "",
-      };
-
-      // Add optional fields only if they have values
-      if (birth_date.value) {
-        const year = parseInt(birth_date.value);
-        horseData.birth_date = `${year}-01-01`;
-      }
-
-      // Note: main_image_url is stored in Storage, not in DB horses table
-      // We'll handle image storage separately after horse creation
-
-      if (sire_id.value) {
-        horseData.sire_id = sire_id.value;
-      }
-
-      if (dam_id.value) {
-        horseData.dam_id = dam_id.value;
-      }
-
+      // Build data for creation vs update
       if (editingHorseId.value) {
+        // For editing: only update allowed fields, NOT parent references
+        const horseData = {
+          name: name.value?.trim() || "",
+          gender: gender.value || "",
+          is_for_sale: Boolean(is_for_sale.value),
+          main_img_url: main_image_url.value || null,
+          description: description.value?.trim() || "",
+        };
+
+        if (birth_date.value) {
+          const year = parseInt(birth_date.value);
+          horseData.birth_date = `${year}-01-01`;
+        }
+
         await updateHorse(editingHorseId.value, horseData);
       } else {
+        // For creation: include parent references
+        const horseData = {
+          name: name.value?.trim() || "",
+          gender: gender.value || "",
+          is_for_sale: Boolean(is_for_sale.value),
+          main_img_url: main_image_url.value || null,
+          description: description.value?.trim() || "",
+        };
+
+        if (birth_date.value) {
+          horseData.birth_date = birth_date.value; // Already in YYYY-MM-DD format from input type="date"
+        }
+
+        if (sire_id.value) {
+          horseData.sire_id = sire_id.value;
+        }
+
+        if (dam_id.value) {
+          horseData.dam_id = dam_id.value;
+        }
+
         await createHorse(horseData);
       }
 

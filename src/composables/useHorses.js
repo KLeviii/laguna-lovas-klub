@@ -95,7 +95,12 @@ export function useHorses() {
       await loadHorses();
       return true;
     } catch (err) {
-      error.value = err.message;
+      // Check if it's a foreign key constraint error
+      if (err.message && err.message.includes("foreign key constraint")) {
+        error.value = "Nem lehet törölni ezt a lovat, mert más lovak szülőjeként van beállítva. Először módosítsd azokat a lovakat.";
+      } else {
+        error.value = err.message || "Hiba a törlés során";
+      }
       return false;
     } finally {
       loading.value = false;

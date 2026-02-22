@@ -29,7 +29,7 @@
     <div v-if="!loading && categories.length > 0" class="table-responsive">
       <table class="table table-hover">
         <thead class="table-light">
-          <tr>
+          <tr class="text-center">
             <th>Név</th>
             <th>Slug</th>
             <th>Leírás</th>

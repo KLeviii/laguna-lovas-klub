@@ -21,7 +21,7 @@ h5 {
     </div>
 
     <!-- Form fields -->
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="handleFormSubmit">
       <!-- Name -->
       <div class="mb-3">
         <label for="name" class="form-label">Név *</label>
@@ -58,14 +58,13 @@ h5 {
 
       <!-- Birth date -->
       <div class="mb-3">
-        <label for="birthDate" class="form-label">Születési év</label>
+        <label for="birthDate" class="form-label">Születési dátum</label>
         <input
           id="birthDate"
-          v-model.number="birth_date"
-          type="number"
+          v-model="birth_date"
+          type="date"
           class="form-control"
           :class="{ 'is-invalid': formErrors.birth_date }"
-          placeholder="pl. 2015"
         />
         <div v-if="formErrors.birth_date" class="invalid-feedback d-block">
           {{ formErrors.birth_date }}
@@ -75,7 +74,7 @@ h5 {
       <!-- Sire (father) -->
       <div class="mb-3">
         <label for="sireId" class="form-label">Apa</label>
-        <select id="sireId" v-model="sire_id" class="form-select">
+        <select id="sireId" v-model="sire_id" class="form-select" :disabled="isEditing">
           <option :value="null">-- Nincs megadva --</option>
           <option
             v-for="horse in parentOptions"
@@ -85,6 +84,9 @@ h5 {
             {{ horse.name }} (♂)
           </option>
         </select>
+        <small v-if="isEditing" class="text-muted d-block mt-1">
+          A szülő információk nem módosíthatóak szerkesztéskor.
+        </small>
         <div v-if="formErrors.sire_id" class="invalid-feedback d-block">
           {{ formErrors.sire_id }}
         </div>
@@ -93,7 +95,7 @@ h5 {
       <!-- Dam (mother) -->
       <div class="mb-3">
         <label for="damId" class="form-label">Anya</label>
-        <select id="damId" v-model="dam_id" class="form-select">
+        <select id="damId" v-model="dam_id" class="form-select" :disabled="isEditing">
           <option :value="null">-- Nincs megadva --</option>
           <option
             v-for="horse in parentOptions"
@@ -103,6 +105,9 @@ h5 {
             {{ horse.name }} (♀)
           </option>
         </select>
+        <small v-if="isEditing" class="text-muted d-block mt-1">
+          A szülő információk nem módosíthatóak szerkesztéskor.
+        </small>
         <div v-if="formErrors.dam_id" class="invalid-feedback d-block">
           {{ formErrors.dam_id }}
         </div>
@@ -199,18 +204,6 @@ h5 {
         </button>
       </div>
     </form>
-
-    <!-- Image upload and gallery (only for edit mode) -->
-    <div v-if="isEditing" class="mt-5 pt-5 border-top">
-      <HorseImageUpload
-        :horse-id="editingHorseId"
-        @upload-success="onImageUploadSuccess"
-      />
-
-      <div class="mt-4">
-        <HorseImageGallery :images="images" @delete-image="onImageDelete" />
-      </div>
-    </div>
     </div>
   </div>
 </template>
@@ -257,6 +250,14 @@ onMounted(async () => {
     await loadHorse(horseId);
   }
 });
+
+async function handleFormSubmit() {
+  const success = await submitForm();
+  if (success) {
+    // Navigate back to admin horses list on successful submission
+    router.push("/admin/horses");
+  }
+}
 
 async function onImageUploadSuccess() {
   // Refresh horse data to show newly uploaded images

@@ -29,7 +29,7 @@
     <div v-if="!loading && !isEmpty" class="table-responsive">
       <table class="table table-hover">
         <thead class="table-light">
-          <tr>
+          <tr class="text-center">
             <th>ID</th>
             <th>Kép</th>
             <th>Név</th>
@@ -130,8 +130,9 @@ async function confirmDelete(horseId, horseName) {
   const success = await deleteHorse(horseId);
   if (success) {
     alert(`"${horseName}" sikeresen törölve.`);
+    error.value = null; // Clear error after successful delete reload
   } else {
-    alert(`Hiba a törlés során. Próbáld meg később!`);
+    alert(error.value || "Hiba a törlés során. Próbáld meg később!");
   }
 }
 </script>
