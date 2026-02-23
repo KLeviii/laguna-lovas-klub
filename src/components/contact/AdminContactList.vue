@@ -52,7 +52,9 @@ onMounted(() => {
       <i class="bi bi-info-circle me-2"></i>Nincsenek beérkezett üzenetek.
     </div>
 
-    <div v-else class="table-responsive">
+    <div v-else>
+      <!-- Table: hidden on mobile, visible md+ -->
+      <div class="table-responsive d-none d-md-block">
       <table class="table table-hover align-middle">
         <thead>
           <tr class="text-center">
@@ -106,6 +108,7 @@ onMounted(() => {
           </tr>
         </tbody>
       </table>
+      </div>
 
       <!-- Message detail: expandable rows -->
       <div class="accordion mt-3" id="messageAccordion">
@@ -159,3 +162,25 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 767.98px) {
+  .accordion-button {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .accordion-button small {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-top: 0.25rem;
+  }
+
+  .accordion-body {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}
+</style>

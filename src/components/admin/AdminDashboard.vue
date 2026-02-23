@@ -1,18 +1,24 @@
 <template>
   <AdminLayout>
     <div class="container">
-      <h1 class="mb-4">
-        <i class="bi bi-speedometer2 me-2"></i>
-        Admin Dashboard
-      </h1>
-      <p class="text-muted mb-5">
+      <div class="admin-header">
+        <h1 class="mb-0">
+          <i class="bi bi-speedometer2 me-2"></i>
+          Admin Dashboard
+        </h1>
+        <span class="admin-user-badge">
+          <i class="bi bi-person-circle me-1"></i>
+          {{ user?.email }}
+        </span>
+      </div>
+      <p class="text-muted mb-4 mb-md-5">
         Üdvözlünk az admin felületen! Válaszd ki a kezelni kívánt területet.
       </p>
 
       <!-- Admin funkciók kártyák -->
-      <div class="row g-4">
+      <div class="row g-3 g-md-4">
         <!-- Lovak kezelése -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
             <div class="card-body text-center">
               <i class="bi bi-heart-fill admin-icon text-danger"></i>
@@ -32,7 +38,7 @@
         </div>
 
         <!-- Termékek kezelése -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
             <div class="card-body text-center">
               <i class="bi bi-shop admin-icon text-success"></i>
@@ -52,7 +58,7 @@
         </div>
 
         <!-- Versenyek kezelése -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
             <div class="card-body text-center">
               <i class="bi bi-trophy-fill admin-icon text-warning"></i>
@@ -72,7 +78,7 @@
         </div>
 
         <!-- Kapcsolatfelvételi üzenetek -->
-        <div class="col-md-6 col-lg-3">
+        <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
             <div class="card-body text-center">
               <i class="bi bi-envelope-fill admin-icon text-primary"></i>
@@ -138,6 +144,9 @@
 
 <script setup>
 import AdminLayout from "./AdminLayout.vue";
+import { useAuth } from "@/composables/useAuth";
+
+const { user } = useAuth();
 </script>
 
 <style scoped>
@@ -172,5 +181,56 @@ p.text-muted {
 
 .card-text {
   color: var(--text-muted);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.admin-user-badge {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .admin-user-badge {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-icon {
+    font-size: 2rem;
+  }
+
+  .admin-card .card-body {
+    padding: 0.75rem;
+  }
+
+  .admin-card .card-title {
+    font-size: 0.95rem;
+  }
+
+  .admin-card .card-text {
+    font-size: 0.75rem;
+    display: none;
+  }
 }
 </style>

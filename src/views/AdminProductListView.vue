@@ -177,4 +177,22 @@ async function onEditCategory(category) {
 i {
   margin-right: 0.5rem;
 }
+
+@media (max-width: 576px) {
+  .admin-layout {
+    padding: 1rem 0.5rem;
+  }
+
+  .nav-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
 </style>

@@ -1,14 +1,11 @@
 <template>
   <div class="admin-product-list">
     <!-- Header with New button -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Termékek kezelése</h2>
-      <div class="d-flex gap-2">
-        <button class="btn btn-primary" @click="goToCreate">
-          <i class="bi bi-plus-circle"></i> Új termék hozzáadása
-        </button>
-        
-      </div>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+      <h2 class="mb-0">Termékek kezelése</h2>
+      <button class="btn btn-primary btn-sm" @click="goToCreate">
+        <i class="bi bi-plus-circle me-1"></i>Új termék
+      </button>
     </div>
 
     <!-- Loading spinner -->
@@ -33,21 +30,21 @@
       <table class="table table-hover">
         <thead class="table-light">
           <tr class="text-center">
-            <th>ID</th>
-            <th>Kép</th>
+            <th class="d-none d-md-table-cell">ID</th>
+            <th class="d-none d-sm-table-cell">Kép</th>
             <th>Név</th>
-            <th>Kategória</th>
-            <th>Ár (HUF)</th>
-            <th>Elérhető</th>
+            <th class="d-none d-md-table-cell">Kategória</th>
+            <th>Ár</th>
+            <th class="d-none d-lg-table-cell">Elérhető</th>
             <th>Műveletek</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="product in products" :key="product.id">
-            <td class="fw-monospace text-muted" style="font-size: 0.9rem">
+            <td class="fw-monospace text-muted d-none d-md-table-cell" style="font-size: 0.9rem">
               {{ product.id.substring(0, 8) }}
             </td>
-            <td>
+            <td class="d-none d-sm-table-cell">
               <img
                 v-if="product.image_url"
                 :src="product.image_url"
@@ -57,7 +54,7 @@
               <span v-else class="text-muted">—</span>
             </td>
             <td class="fw-bold">{{ product.name }}</td>
-            <td>
+            <td class="d-none d-md-table-cell">
               <span v-if="product.category" class="badge bg-info">
                 {{ product.category.name }}
               </span>
@@ -66,7 +63,7 @@
             <td class="fw-bold text-success">
               {{ formatPrice(product.price_huf) }}
             </td>
-            <td>
+            <td class="d-none d-lg-table-cell">
               <span
                 :class="
                   product.is_available ? 'badge bg-success' : 'badge bg-danger'
@@ -76,20 +73,24 @@
               </span>
             </td>
             <td>
-              <button
-                class="btn btn-sm btn-outline-primary me-2"
-                @click="goToEdit(product.id)"
-                title="Szerkesztés"
-              >
-                <i class="bi bi-pencil"></i> Szerkesztés
-              </button>
-              <button
-                class="btn btn-sm btn-outline-danger"
-                @click="confirmDelete(product.id, product.name)"
-                title="Törlés"
-              >
-                <i class="bi bi-trash"></i> Törlés
-              </button>
+              <div class="btn-group btn-group-sm">
+                <button
+                  class="btn btn-outline-primary"
+                  @click="goToEdit(product.id)"
+                  title="Szerkesztés"
+                >
+                  <i class="bi bi-pencil"></i>
+                  <span class="d-none d-lg-inline ms-1">Szerkesztés</span>
+                </button>
+                <button
+                  class="btn btn-outline-danger"
+                  @click="confirmDelete(product.id, product.name)"
+                  title="Törlés"
+                >
+                  <i class="bi bi-trash"></i>
+                  <span class="d-none d-lg-inline ms-1">Törlés</span>
+                </button>
+              </div>
             </td>
           </tr>
         </tbody>

@@ -1,26 +1,5 @@
 <template>
-  <div class="admin-layout">
-    <!-- Navigation tabs/breadcrumb -->
-    <nav class="mb-4">
-      <div class="nav nav-tabs" role="tablist">
-        <button
-          type="button"
-          class="nav-link"
-          :class="{ active: currentView === 'list' }"
-          @click="setView('list')"
-        >
-          <i class="bi bi-list-ul"></i> Lovak listája
-        </button>
-        <button
-          type="button"
-          class="nav-link"
-          :class="{ active: currentView === 'create' }"
-          @click="setView('create')"
-        >
-          <i class="bi bi-plus-circle"></i> Új ló
-        </button>
-      </div>
-    </nav>
+  <div class="admin-layout mt-5">
 
     <!-- List view -->
     <div v-if="currentView === 'list'">
@@ -109,5 +88,16 @@ function setView(view) {
 
 i {
   margin-right: 0.5rem;
+}
+
+@media (max-width: 576px) {
+  .admin-layout {
+    padding: 1rem 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
 }
 </style>

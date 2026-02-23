@@ -79,7 +79,7 @@ const currentYear = new Date().getFullYear();
               class="mb-4 mt-0 d-inline-block mx-auto"
               style="width: 60px; background-color: var(--primary); height: 2px"
             />
-            <div class="d-flex">
+            <div class="d-flex isnstagramAndFacebook">
               <a
                 href="https://www.facebook.com/lagunalovasklubkft?locale=hu_HU"
                 target="_blank"
@@ -154,5 +154,13 @@ a:hover {
 footer {
   position: relative;
   bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .isnstagramAndFacebook {
+    text-align: center;
+    justify-content: center;
+  }
+  
 }
 </style>
