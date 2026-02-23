@@ -92,7 +92,41 @@
 | is_read | BOOLEAN | ✅ | Olvasva (default: false) |
 | created_at | TIMESTAMP | ✅ | Auto |
 
-## 8. Admin Felhasználók
+## 8. Rendelések (`orders`)
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| id | UUID | ✅ | Primary key |
+| customer_name | TEXT | ✅ | Vevő neve |
+| customer_email | TEXT | ✅ | Vevő e-mail |
+| customer_phone | TEXT | ❌ | Vevő telefonszáma |
+| shipping_name | TEXT | ✅ | Szállítási teljes név |
+| shipping_zip | TEXT | ✅ | Irányítószám |
+| shipping_city | TEXT | ✅ | Város |
+| shipping_address | TEXT | ✅ | Utca, házszám |
+| shipping_country | TEXT | ✅ | Ország (default: 'Magyarország') |
+| notes | TEXT | ❌ | Megjegyzés a rendeléshez |
+| status | TEXT | ✅ | 'pending' / 'confirmed' / 'shipped' / 'delivered' / 'cancelled' (default: 'pending') |
+| total_amount_huf | INTEGER | ✅ | Végösszeg (HUF) |
+| is_read | BOOLEAN | ✅ | Admin olvasta-e (default: false) |
+| created_at | TIMESTAMP | ✅ | Auto |
+| updated_at | TIMESTAMP | ✅ | Auto |
+
+## 9. Rendelés Tételek (`order_items`)
+
+| Mező | Típus | Kötelező | Leírás |
+|------|-------|----------|--------|
+| id | UUID | ✅ | Primary key |
+| order_id | UUID | ✅ | Foreign key -> orders.id (CASCADE DELETE) |
+| product_id | UUID | ❌ | Foreign key -> products.id (SET NULL on delete) |
+| product_name | TEXT | ✅ | Termék neve a rendelés pillanatában (snapshot) |
+| unit_price_huf | INTEGER | ✅ | Egységár a rendelés pillanatában (snapshot) |
+| quantity | INTEGER | ✅ | Mennyiség |
+| created_at | TIMESTAMP | ✅ | Auto |
+
+> **Megjegyzés:** `product_name` és `unit_price_huf` snapshot értékek – ha a terméket később módosítják vagy törlik, a rendelés adatai megmaradnak.
+
+## 10. Admin Felhasználók
 
 **Supabase Auth táblát használjuk**, saját user tábla nem szükséges.
 
@@ -116,7 +150,19 @@ products.category_id -> product_categories.id (N:1)
 
 competition_results.competition_id -> competitions.id (N:1)
 competition_results.horse_id -> horses.id (N:1)
+
+orders.id <- order_items.order_id (1:N, CASCADE DELETE)
+order_items.product_id -> products.id (N:1, SET NULL on delete)
 ```
+
+## Supabase RLS Policy-k (Rendelések)
+
+| Tábla | Művelet | Jogosultság |
+|-------|---------|-------------|
+| `orders` | INSERT | Publikus (anonim is rendelhet) |
+| `orders` | SELECT / UPDATE / DELETE | Csak hitelesített admin |
+| `order_items` | INSERT | Publikus (order_id-vel együtt) |
+| `order_items` | SELECT / UPDATE / DELETE | Csak hitelesített admin |
 
 ## Storage Buckets
 

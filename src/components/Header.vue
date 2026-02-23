@@ -69,7 +69,7 @@ document.addEventListener("mousemove", function (event) {
   <header id="nav" :class="['nav-bar', { hidden: !showNavbar }]">
     <nav>
       <div class="lh-1 heading d-flex justify-content-between align-items-center px-3">
-        <h2 class="text-uppercase fw-bold py-2 mb-0">Laguna Lovasklub</h2>
+        <h2 class="text-uppercase fw-bold mb-0" style="padding: 0.4rem 0 0.5rem;">Laguna Lovasklub</h2>
         <button
           class="btn-hamburger d-lg-none"
           @click="toggleMenu"

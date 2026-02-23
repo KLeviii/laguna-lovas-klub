@@ -20,7 +20,7 @@
         <!-- Lovak kezelése -->
         <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
-            <div class="card-body text-center">
+            <div class="card-body text-center d-flex flex-column align-items-center">
               <i class="bi bi-heart-fill admin-icon text-danger"></i>
               <h5 class="card-title mt-3">Lovak</h5>
               <p class="card-text text-muted">
@@ -28,7 +28,7 @@
               </p>
               <router-link
                 to="/admin/horses"
-                class="btn btn-primary btn-sm mt-2"
+                class="btn btn-primary btn-sm mt-auto"
               >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
@@ -40,7 +40,7 @@
         <!-- Termékek kezelése -->
         <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
-            <div class="card-body text-center">
+            <div class="card-body text-center d-flex flex-column align-items-center">
               <i class="bi bi-shop admin-icon text-success"></i>
               <h5 class="card-title mt-3">Termékek</h5>
               <p class="card-text text-muted">
@@ -48,7 +48,7 @@
               </p>
               <router-link
                 to="/admin/products"
-                class="btn btn-primary btn-sm mt-2"
+                class="btn btn-primary btn-sm mt-auto"
               >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
@@ -60,7 +60,7 @@
         <!-- Versenyek kezelése -->
         <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
-            <div class="card-body text-center">
+            <div class="card-body text-center d-flex flex-column align-items-center">
               <i class="bi bi-trophy-fill admin-icon text-warning"></i>
               <h5 class="card-title mt-3">Versenyek</h5>
               <p class="card-text text-muted">
@@ -68,7 +68,7 @@
               </p>
               <router-link
                 to="/admin/competitions"
-                class="btn btn-primary btn-sm mt-2"
+                class="btn btn-primary btn-sm mt-auto"
               >
                 <i class="bi bi-pencil-square me-1"></i>
                 Kezelés
@@ -80,7 +80,7 @@
         <!-- Kapcsolatfelvételi üzenetek -->
         <div class="col-12 col-lg-3 ">
           <div class="card admin-card h-100 shadow-sm">
-            <div class="card-body text-center">
+            <div class="card-body text-center d-flex flex-column align-items-center">
               <i class="bi bi-envelope-fill admin-icon text-primary"></i>
               <h5 class="card-title mt-3">Üzenetek</h5>
               <p class="card-text text-muted">
@@ -88,7 +88,7 @@
               </p>
               <router-link
                 to="/admin/messages"
-                class="btn btn-primary btn-sm mt-2"
+                class="btn btn-primary btn-sm mt-auto"
               >
                 <i class="bi bi-eye me-1"></i>
                 Megtekintés
