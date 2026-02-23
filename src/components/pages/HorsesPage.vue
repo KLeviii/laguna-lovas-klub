@@ -29,7 +29,7 @@ onMounted(() => {
         <div class="overlay"></div>
         <div class="text">Lovaink</div>
       </div>
-      <section class="p-5">
+      <section class="p-3 p-md-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0">Lovaink</h2>
 

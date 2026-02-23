@@ -1,0 +1,155 @@
+Date : 2026-02-23 15:05:27
+Directory : d:\WEBProgramozás\laguna-lovas-klub
+Total : 96 files,  16875 codes, 599 comments, 2854 blanks, all 20328 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| Markdown           |         27 |      6,502 |         43 |      1,906 |      8,451 |
+| vue                |         39 |      4,550 |        175 |        545 |      5,270 |
+| JSON               |          3 |      3,233 |          0 |          3 |      3,236 |
+| JavaScript         |         20 |      1,839 |        342 |        315 |      2,496 |
+| PostCSS            |          2 |        727 |         39 |         82 |        848 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| JSON with Comments |          1 |          8 |          0 |          1 |          9 |
+| XML                |          3 |          3 |          0 |          1 |          4 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                     | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                        |         96 |     16,875 |        599 |      2,854 |     20,328 |
+| . (Files)                                                                                |          6 |      3,328 |          1 |         25 |      3,354 |
+| .claude                                                                                  |          2 |        123 |          0 |         49 |        172 |
+| docs                                                                                     |         26 |      6,321 |         43 |      1,840 |      8,204 |
+| docs (Files)                                                                             |          9 |      1,103 |          0 |        351 |      1,454 |
+| docs\increment_2                                                                         |          5 |        790 |          1 |        241 |      1,032 |
+| docs\increment_3                                                                         |          3 |      1,160 |         18 |        368 |      1,546 |
+| docs\increment_4                                                                         |          3 |      1,663 |         11 |        427 |      2,101 |
+| docs\increment_5                                                                         |          6 |      1,605 |         13 |        453 |      2,071 |
+| src                                                                                      |         62 |      7,103 |        555 |        940 |      8,598 |
+| src (Files)                                                                              |          2 |         33 |          2 |          9 |         44 |
+| src\assets                                                                               |          4 |        729 |         39 |         83 |        851 |
+| src\assets (Files)                                                                       |          3 |        728 |         39 |         83 |        850 |
+| src\assets\img                                                                           |          1 |          1 |          0 |          0 |          1 |
+| src\components                                                                           |         30 |      3,683 |        122 |        418 |      4,223 |
+| src\components (Files)                                                                   |          2 |        395 |          0 |         45 |        440 |
+| src\components\admin                                                                     |          3 |        313 |         15 |         42 |        370 |
+| src\components\competitions                                                              |          2 |        515 |         19 |         46 |        580 |
+| src\components\contact                                                                   |          2 |        248 |          1 |         21 |        270 |
+| src\components\horses                                                                    |          7 |        889 |         35 |        129 |      1,053 |
+| src\components\icons                                                                     |          5 |         46 |          1 |          5 |         52 |
+| src\components\pages                                                                     |          3 |        544 |         17 |         44 |        605 |
+| src\components\products                                                                  |          4 |        591 |         29 |         66 |        686 |
+| src\components\webshop                                                                   |          2 |        142 |          5 |         20 |        167 |
+| src\composables                                                                          |         10 |      1,052 |        130 |        158 |      1,340 |
+| src\router                                                                               |          1 |        122 |          5 |          9 |        136 |
+| src\services                                                                             |          6 |        601 |        199 |        134 |        934 |
+| src\utils                                                                                |          1 |         36 |          5 |          5 |         46 |
+| src\views                                                                                |          8 |        847 |         53 |        124 |      1,024 |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                 | language           | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\WEBProgramozás\laguna-lovas-klub\.claude\CLAUDE.md                                    | Markdown           |        116 |          0 |         48 |        164 |
+| d:\WEBProgramozás\laguna-lovas-klub\.claude\settings.local.json                          | JSON               |          7 |          0 |          1 |          8 |
+| d:\WEBProgramozás\laguna-lovas-klub\README.md                                            | Markdown           |         66 |          0 |         18 |         84 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\API_ENDPOINTS.md                                | Markdown           |        163 |          0 |         62 |        225 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\BACKLOG.md                                      | Markdown           |        210 |          0 |         58 |        268 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\DATABASE_SCHEMA.md                              | Markdown           |        101 |          0 |         25 |        126 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\NEXT_STEPS.md                                   | Markdown           |         48 |          0 |         15 |         63 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\PROGRESS.md                                     | Markdown           |        231 |          0 |         45 |        276 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\PROJECT_VISION.md                               | Markdown           |         37 |          0 |         14 |         51 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\TESTING_INCREMENT_5.md                          | Markdown           |        232 |          0 |        113 |        345 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\THEME.md                                        | Markdown           |         80 |          0 |         19 |         99 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\database_schema.svg                             | XML                |          1 |          0 |          0 |          1 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_2\DOCS_INCREMENT_2.md                 | Markdown           |        240 |          0 |         66 |        306 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_2\IMPLEMENTATION_GUIDE.md             | Markdown           |        148 |          0 |         44 |        192 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_2\LOGOUT_SUPPLEMENT.md                | Markdown           |        137 |          1 |         43 |        181 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_2\README_INCREMENT_2.md               | Markdown           |         61 |          0 |         27 |         88 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_2\SPEC_INCREMENT_2.md                 | Markdown           |        204 |          0 |         61 |        265 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_3\IMPLEMENTATION_GUIDE.md             | Markdown           |        637 |         18 |        154 |        809 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_3\README_INCREMENT_3.md               | Markdown           |        136 |          0 |         67 |        203 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_3\SPEC_INCREMENT_3.md                 | Markdown           |        387 |          0 |        147 |        534 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_4\IMPLEMENTATION_GUIDE.md             | Markdown           |      1,026 |         11 |        187 |      1,224 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_4\README_INCREMENT_4.md               | Markdown           |        181 |          0 |         77 |        258 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_4\SPEC_INCREMENT_4.md                 | Markdown           |        456 |          0 |        163 |        619 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\COMPLETION_REPORT.md                | Markdown           |        195 |          0 |         63 |        258 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\DOCS_INCREMENT_5.md                 | Markdown           |        191 |          0 |         69 |        260 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\IMPLEMENTATION_GUIDE.md             | Markdown           |        431 |         13 |        105 |        549 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\README_INCREMENT_5.md               | Markdown           |        137 |          0 |         52 |        189 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\RESTRUCTURING_SUMMARY.md            | Markdown           |        169 |          0 |         48 |        217 |
+| d:\WEBProgramozás\laguna-lovas-klub\docs\increment_5\SPEC_INCREMENT_5.md                 | Markdown           |        482 |          0 |        116 |        598 |
+| d:\WEBProgramozás\laguna-lovas-klub\index.html                                           | HTML               |         13 |          0 |          1 |         14 |
+| d:\WEBProgramozás\laguna-lovas-klub\jsconfig.json                                        | JSON with Comments |          8 |          0 |          1 |          9 |
+| d:\WEBProgramozás\laguna-lovas-klub\package-lock.json                                    | JSON               |      3,199 |          0 |          1 |      3,200 |
+| d:\WEBProgramozás\laguna-lovas-klub\package.json                                         | JSON               |         27 |          0 |          1 |         28 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\App.vue                                          | vue                |         20 |          0 |          3 |         23 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\assets\base.css                                  | PostCSS            |         71 |          2 |         14 |         87 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\assets\img\letöltés.svg                          | XML                |          1 |          0 |          0 |          1 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\assets\logo.svg                                  | XML                |          1 |          0 |          1 |          2 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\assets\main.css                                  | PostCSS            |        656 |         37 |         68 |        761 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\Footer.vue                            | vue                |        149 |          0 |         10 |        159 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\Header.vue                            | vue                |        246 |          0 |         35 |        281 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\admin\AdminDashboard.vue              | vue                |        157 |          6 |         14 |        177 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\admin\AdminLayout.vue                 | vue                |         55 |          4 |         11 |         70 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\admin\LoginPage.vue                   | vue                |        101 |          5 |         17 |        123 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\competitions\AdminCompetitionList.vue | vue                |        129 |          5 |         15 |        149 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\competitions\CompetitionForm.vue      | vue                |        386 |         14 |         31 |        431 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\contact\AdminContactList.vue          | vue                |        151 |          1 |         10 |        162 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\contact\ContactForm.vue               | vue                |         97 |          0 |         11 |        108 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\AdminHorseList.vue             | vue                |        134 |          5 |         15 |        154 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseCard.vue                  | vue                |         70 |          3 |         11 |         84 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseFilter.vue                | vue                |         33 |          0 |          5 |         38 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseForm.vue                  | vue                |        286 |         13 |         31 |        330 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseGallery.vue               | vue                |         65 |          3 |         12 |         80 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseImageGallery.vue          | vue                |        191 |          9 |         36 |        236 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\horses\HorseImageUpload.vue           | vue                |        110 |          2 |         19 |        131 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\icons\IconCommunity.vue               | vue                |          7 |          0 |          1 |          8 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\icons\IconDocumentation.vue           | vue                |          7 |          0 |          1 |          8 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\icons\IconEcosystem.vue               | vue                |          7 |          0 |          1 |          8 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\icons\IconSupport.vue                 | vue                |          7 |          0 |          1 |          8 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\icons\IconTooling.vue                 | vue                |         18 |          1 |          1 |         20 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\pages\HorsesPage.vue                  | vue                |         76 |          6 |         11 |         93 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\pages\ResultsPage.vue                 | vue                |        241 |         11 |         15 |        267 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\pages\RolunkPage.vue                  | vue                |        227 |          0 |         18 |        245 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\products\AdminCategoryList.vue        | vue                |        105 |          5 |         16 |        126 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\products\AdminProductList.vue         | vue                |        133 |          5 |         16 |        154 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\products\CategoryForm.vue             | vue                |        132 |          7 |         13 |        152 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\products\ProductForm.vue              | vue                |        221 |         12 |         21 |        254 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\webshop\ProductCard.vue               | vue                |         88 |          3 |         13 |        104 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\components\webshop\ProductFilter.vue             | vue                |         54 |          2 |          7 |         63 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useAuth.js                           | JavaScript         |         75 |         12 |         11 |         98 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useCompetitionForm.js                | JavaScript         |        151 |          6 |         24 |        181 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useCompetitions.js                   | JavaScript         |         62 |          0 |          7 |         69 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useContactForm.js                    | JavaScript         |         61 |          0 |          8 |         69 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useContacts.js                       | JavaScript         |         54 |          0 |          8 |         62 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useHorseForm.js                      | JavaScript         |        207 |         33 |         33 |        273 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useHorses.js                         | JavaScript         |         92 |         21 |         11 |        124 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useProductForm.js                    | JavaScript         |        217 |         28 |         35 |        280 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useProducts.js                       | JavaScript         |        100 |         25 |         14 |        139 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\composables\useTheme.js                          | JavaScript         |         33 |          5 |          7 |         45 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\main.js                                          | JavaScript         |         13 |          2 |          6 |         21 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\router\index.js                                  | JavaScript         |        122 |          5 |          9 |        136 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\competitionService.js                   | JavaScript         |        155 |         47 |         29 |        231 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\contactService.js                       | JavaScript         |         49 |          2 |         12 |         63 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\horseImageService.js                    | JavaScript         |         82 |         35 |         20 |        137 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\horseService.js                         | JavaScript         |        142 |         53 |         31 |        226 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\productService.js                       | JavaScript         |        166 |         62 |         38 |        266 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\services\supabase.js                             | JavaScript         |          7 |          0 |          4 |         11 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\utils\formatting.js                              | JavaScript         |         36 |          5 |          5 |         46 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\AdminCompetitionListView.vue               | vue                |        100 |          4 |         16 |        120 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\AdminContactListView.vue                   | vue                |         11 |          0 |          2 |         13 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\AdminHorseListView.vue                     | vue                |         95 |          4 |         15 |        114 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\AdminProductListView.vue                   | vue                |        154 |          6 |         21 |        181 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\ContactView.vue                            | vue                |         22 |          0 |          3 |         25 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\HorseDetailView.vue                        | vue                |        183 |         15 |         24 |        222 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\ProductDetailView.vue                      | vue                |        192 |         18 |         30 |        240 |
+| d:\WEBProgramozás\laguna-lovas-klub\src\views\ProductListView.vue                        | vue                |         90 |          6 |         13 |        109 |
+| d:\WEBProgramozás\laguna-lovas-klub\vite.config.js                                       | JavaScript         |         15 |          1 |          3 |         19 |
+| Total                                                                                    |                    |     16,875 |        599 |      2,854 |     20,328 |
++------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

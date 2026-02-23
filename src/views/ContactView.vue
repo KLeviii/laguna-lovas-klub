@@ -10,7 +10,7 @@ import ContactForm from "@/components/contact/ContactForm.vue";
         <div class="text">Kapcsolat</div>
       </div>
 
-      <section class="p-4 px-5">
+      <section class="p-3 p-md-4 px-md-5">
         <div class="container">
           <div class="row justify-content-center">
             <div class="col-lg-8">

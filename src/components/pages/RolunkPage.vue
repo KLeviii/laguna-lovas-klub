@@ -65,10 +65,10 @@ onMounted(async () => {
         <div class="text">Rólunk</div>
       </div>
 
-      <section class="p-4 px-5">
+      <section class="p-3 p-md-4 px-md-5">
         <div class="contanier">
           <div class="row">
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
               <div class="rolunk">
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">Rólunk</h3>
                 <p>
@@ -105,7 +105,7 @@ onMounted(async () => {
                     <div
                       v-for="(szolg, index) in szolgaltatasok"
                       :key="index"
-                      class="cards col-6 border rounded overflow-hidden flex-md-row p-3 shadow-sm position-relative mb-3"
+                      class="cards col-12 col-md-6 border rounded overflow-hidden flex-md-row p-3 shadow-sm position-relative mb-3"
                     >
                       <h4 class="pb-4 mb-4">{{ szolg.cim }}</h4>
                       <p>{{ szolg.leiras }}</p>
@@ -133,7 +133,7 @@ onMounted(async () => {
                       <div
                         v-for="lo in eladoLovak"
                         :key="lo.id"
-                        class="col-6"
+                        class="col-12 col-md-6"
                       >
                         <div
                           class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"
@@ -163,7 +163,7 @@ onMounted(async () => {
               </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-12 col-lg-4 mt-4 mt-lg-0">
               <div class="verseny-sidebar">
                 <div class="verseny-intro mb-4 p-3 rounded">
                   <h4 class="fst-italic mb-2">Versenyeink</h4>

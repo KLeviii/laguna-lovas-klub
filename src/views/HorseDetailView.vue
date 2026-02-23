@@ -25,7 +25,7 @@ function goBack() {
         <div class="overlay"></div>
         <div class="text">{{ selectedHorse?.name || "Ló részletei" }}</div>
       </div>
-      <section class="p-5">
+      <section class="p-3 p-md-5">
         <!-- Back Button -->
         <button class="btn btn-outline-secondary mb-4" @click="goBack">
           ← Vissza a listára

@@ -640,10 +640,6 @@ section,
   width: 100%;
 }
 
-.image-container {
-  min-height: 100vh;
-}
-
 footer img {
   border-radius: 50%;
   height: 150px;
@@ -665,7 +661,9 @@ footer a:hover {
 
 .image-container {
   position: relative;
-  height: 650px;
+  height: 50vh;
+  min-height: 300px;
+  max-height: 650px;
   background-image: url("img/cordocan.jpg");
   background-size: cover;
   background-position: top;
@@ -706,7 +704,6 @@ li img {
 }
 
 .cards {
-  width: 48%;
   margin: 0px auto 0px auto;
 }
 
@@ -739,11 +736,25 @@ table td {
 }
 
 @media (max-width: 768px) {
-  .cards {
-    width: 100%;
-  }
-
   .image-container .text {
     font-size: 40px;
+  }
+
+  .image-container {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 576px) {
+  .image-container .text {
+    font-size: 28px;
+  }
+
+  .image-container {
+    min-height: 200px;
+  }
+
+  section {
+    padding: 1rem !important;
   }
 }

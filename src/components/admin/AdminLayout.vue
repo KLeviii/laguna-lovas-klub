@@ -43,10 +43,8 @@ const router = useRouter();
 const { user, signOut, loading } = useAuth();
 
 const handleLogout = async () => {
-  const result = await signOut();
-  if (result.success) {
-    router.push("/");
-  }
+  await signOut();
+  window.location.href = "/";
 };
 </script>
 

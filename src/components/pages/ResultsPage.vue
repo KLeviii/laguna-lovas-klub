@@ -32,7 +32,7 @@ onMounted(() => {
       <section class="p-4">
         <div class="d-flex">
           <div class="row w-100">
-            <div class="col-4">
+            <div class="col-12 col-md-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-person-fill fs-1 me-2"></i>
@@ -41,7 +41,7 @@ onMounted(() => {
                 <h3 class="text-center mt-3">Aktív versenyző</h3>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-trophy-fill fs-1 me-2"></i>
@@ -50,7 +50,7 @@ onMounted(() => {
                 <h3 class="text-center mt-3">Bajnoki cím</h3>
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-md-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-award-fill fs-1 me-2"></i>
@@ -64,7 +64,7 @@ onMounted(() => {
       </section>
 
       <!-- Versenyeredmények -->
-      <section class="p-5">
+      <section class="p-3 p-md-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0">Versenyeredmények</h2>
           <router-link

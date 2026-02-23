@@ -55,7 +55,7 @@ onMounted(() => {
     <div v-else class="table-responsive">
       <table class="table table-hover align-middle">
         <thead>
-          <tr>
+          <tr class="text-center">
             <th>Státusz</th>
             <th>Név</th>
             <th>Email</th>
