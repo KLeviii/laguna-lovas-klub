@@ -19,7 +19,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="card shadow-sm">
+  <div class="card shadow-sm pt-0">
     <div class="card-header">
       <h4 class="mb-0">
         <i class="bi bi-envelope me-2"></i>Kapcsolatfelvétel
