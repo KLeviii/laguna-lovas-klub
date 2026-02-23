@@ -25,6 +25,50 @@ export async function fetchAllHorses(filters = {}) {
 }
 
 /**
+ * Fetch full pedigree tree (all available generations) for a horse
+ * @param {string} horseId - horse UUID
+ * @returns {Promise<{ root: Object, byId: Object }>}
+ */
+export async function fetchPedigree(horseId) {
+  const { data: root, error } = await supabase
+    .from("horses")
+    .select("id, name, gender, sire_id, dam_id")
+    .eq("id", horseId)
+    .single();
+
+  if (error || !root) return null;
+
+  const byId = { [root.id]: root };
+  let currentIds = [root.sire_id, root.dam_id].filter(Boolean);
+  let depth = 0;
+  const MAX_DEPTH = 10;
+
+  while (currentIds.length > 0 && depth < MAX_DEPTH) {
+    const uniqueIds = [...new Set(currentIds)].filter((id) => !byId[id]);
+    if (uniqueIds.length === 0) break;
+
+    const { data: ancestors } = await supabase
+      .from("horses")
+      .select("id, name, gender, sire_id, dam_id")
+      .in("id", uniqueIds);
+
+    if (!ancestors || ancestors.length === 0) break;
+
+    const nextIds = [];
+    for (const ancestor of ancestors) {
+      byId[ancestor.id] = ancestor;
+      if (ancestor.sire_id) nextIds.push(ancestor.sire_id);
+      if (ancestor.dam_id) nextIds.push(ancestor.dam_id);
+    }
+
+    currentIds = nextIds;
+    depth++;
+  }
+
+  return { root, byId };
+}
+
+/**
  * Fetch horses for sale (for homepage section)
  * @param {number} limit - Max number of horses to fetch
  * @returns {Promise<Array>}

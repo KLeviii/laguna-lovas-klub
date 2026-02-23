@@ -105,7 +105,7 @@ onMounted(async () => {
                     <div
                       v-for="(szolg, index) in szolgaltatasok"
                       :key="index"
-                      class="cards col-12 col-md-6 border rounded overflow-hidden flex-md-row p-3 shadow-sm position-relative mb-3"
+                      class="cards col-12 col-md-6 border rounded overflow-hidden flex-md-row row p-3 shadow-sm position-relative m-1"
                     >
                       <h4 class="pb-4 mb-4">{{ szolg.cim }}</h4>
                       <p>{{ szolg.leiras }}</p>
@@ -152,7 +152,7 @@ onMounted(async () => {
                               Tudj meg többet
                             </router-link>
                           </div>
-                          <div class="col-auto d-none d-lg-block">
+                          <div class="col-auto d-none d-lg-block object-fit-cover w-100 h-100 position-relative">
                             <img v-if="lo.main_img_url" :src="lo.main_img_url" :alt="lo.name" />
                           </div>
                         </div>

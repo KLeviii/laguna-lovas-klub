@@ -7,6 +7,7 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Klubinformációk, szolgáltatások és versenynapló főoldalon
 - Lovak nyilvános listázása szűréssel (összes / eladó)
 - Ló részletoldal képgalériával és származási adatokkal
+- Interaktív családfa (pedigree) popup zoomolható/pannolható flowchart-tal (vue-flow)
 - Webshop termékkatalógus kategóriaszűréssel
 - Termék részletoldal kapcsolódó termékekkel
 - Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület)

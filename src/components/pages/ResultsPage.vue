@@ -31,8 +31,8 @@ onMounted(() => {
       <!-- Statisztikák -->
       <section class="p-4">
         <div class="d-flex">
-          <div class="row w-100">
-            <div class="col-12 col-md-4">
+          <div class="row w-100 gap-2">
+            <div class="col-12 col-md-4 ">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-person-fill fs-1 me-2"></i>

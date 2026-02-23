@@ -1,13 +1,15 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useHorses } from "@/composables/useHorses.js";
 import { formatDate } from "@/utils/formatting.js";
 import HorseGallery from "@/components/horses/HorseGallery.vue";
+import PedigreeTree from "@/components/horses/PedigreeTree.vue";
 
 const route = useRoute();
 const router = useRouter();
 const { selectedHorse, relatedHorses, loading, error, loadHorseById } = useHorses();
+const showPedigree = ref(false);
 
 onMounted(() => loadHorseById(route.params.id));
 
@@ -108,6 +110,12 @@ function goBack() {
                   </tr>
                 </tbody>
               </table>
+              <button
+                class="btn btn-outline-primary btn-sm mt-2"
+                @click="showPedigree = true"
+              >
+                <i class="bi bi-diagram-3 me-1"></i>Családfa megtekintése
+              </button>
             </div>
 
             <!-- Contact Info -->
@@ -171,6 +179,13 @@ function goBack() {
           </div>
         </div>
       </section>
+
+      <PedigreeTree
+        v-if="selectedHorse"
+        :horse-id="selectedHorse.id"
+        :show="showPedigree"
+        @close="showPedigree = false"
+      />
     </main>
   </div>
 </template>
