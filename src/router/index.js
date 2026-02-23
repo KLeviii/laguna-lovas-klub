@@ -10,6 +10,9 @@ import LoginPage from "@/components/admin/LoginPage.vue";
 import AdminDashboard from "@/components/admin/AdminDashboard.vue";
 import AdminHorseListView from "@/views/AdminHorseListView.vue";
 import AdminProductListView from "@/views/AdminProductListView.vue";
+import AdminCompetitionListView from "@/views/AdminCompetitionListView.vue";
+import ContactView from "@/views/ContactView.vue";
+import AdminContactListView from "@/views/AdminContactListView.vue";
 import { useAuth } from "@/composables/useAuth";
 
 const routes = [
@@ -19,6 +22,7 @@ const routes = [
   { path: "/lovaink", component: HorsesPage },
   { path: "/lovaink/:id", component: HorseDetailView },
   { path: "/eredmenyeink", component: ResultsPage },
+  { path: "/kapcsolat", component: ContactView },
 
   // Admin routes
   {
@@ -75,12 +79,22 @@ const routes = [
   },
   {
     path: "/admin/competitions",
-    component: AdminDashboard, // TODO: Inkrementum 8-ban lecserélni
+    component: AdminCompetitionListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/competitions/new",
+    component: AdminCompetitionListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/admin/competitions/:id/edit",
+    component: AdminCompetitionListView,
     meta: { requiresAuth: true },
   },
   {
     path: "/admin/messages",
-    component: AdminDashboard, // TODO: Inkrementum 9-ben lecserélni
+    component: AdminContactListView,
     meta: { requiresAuth: true },
   },
 ];

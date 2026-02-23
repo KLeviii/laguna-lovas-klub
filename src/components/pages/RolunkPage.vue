@@ -1,31 +1,8 @@
 <script setup>
-const versenyek = [
-  {
-    kep: "../src/assets/img/kaposvar.jpg",
-    nev: "Kaposvár-Fedeles Nemzeti + felkészítő",
-    datum: "2025, November 7-9.",
-  },
-  {
-    kep: "../src/assets/img/kecskemet.jpg",
-    nev: "Nemzeti + felkészítő Pataki Ménes fedeles",
-    datum: "2025, Október 24-26.",
-  },
-  {
-    kep: "../src/assets/img/megyei.jpg",
-    nev: "Nemzeti + Fejér és Veszprém vármegyei döntő",
-    datum: "2025, Augusztus 15-17.",
-  },
-  {
-    kep: "../src/assets/img/kecskemett.jpg",
-    nev: "Nemzeti + Felkészítő verseny PATAKI MÉNES",
-    datum: "2025, Július 22-24.",
-  },
-  {
-    kep: "../src/assets/img/babolna.jpg",
-    nev: "Hétköznapi Nemzeti Díjugrató Verseny Bábolna",
-    datum: "January 13, 2024",
-  },
-]
+import { ref, onMounted } from "vue";
+import { fetchLatestCompetitions } from "@/services/competitionService.js";
+import { fetchHorsesForSale } from "@/services/horseService.js";
+import { formatDate } from "@/utils/formatting.js";
 
 const szolgaltatasok = [
   {
@@ -48,20 +25,36 @@ const szolgaltatasok = [
     leiras:
       "Korszerű mágnesterápiás kezelések állnak rendelkezésre lovak regenerációjára és egészségmegőrzésére.",
   },
-]
+];
 
-const eladoLovak = [
-  {
-    nev: "Vagány",
-    leiras: "Tehetséges díjugró, kiváló versenyeredményekkel.",
-    kep: "img/vagany.jpg",
-  },
-  {
-    nev: "Cooper",
-    leiras: "Megbízható, gyakorlott versenyló.",
-    kep: "img/cooper.jpg",
-  },
-]
+const versenyek = ref([]);
+const eladoLovak = ref([]);
+const versenyekLoading = ref(false);
+const lovakLoading = ref(false);
+
+onMounted(async () => {
+  versenyekLoading.value = true;
+  lovakLoading.value = true;
+
+  const [versenyResult, lovakResult] = await Promise.allSettled([
+    fetchLatestCompetitions(5),
+    fetchHorsesForSale(2),
+  ]);
+
+  if (versenyResult.status === "fulfilled") {
+    versenyek.value = versenyResult.value;
+  } else {
+    console.error("Error loading competitions:", versenyResult.reason);
+  }
+  versenyekLoading.value = false;
+
+  if (lovakResult.status === "fulfilled") {
+    eladoLovak.value = lovakResult.value;
+  } else {
+    console.error("Error loading horses for sale:", lovakResult.reason);
+  }
+  lovakLoading.value = false;
+});
 </script>
 
 <template>
@@ -120,7 +113,18 @@ const eladoLovak = [
                   </div>
                 </div>
 
-                <div class="eladoLovak mt-4">
+                <div v-if="lovakLoading" class="eladoLovak mt-4">
+                  <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                    Eladó lovaink
+                  </h3>
+                  <div class="text-center py-3">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                      <span class="visually-hidden">Betöltés...</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div v-else-if="eladoLovak.length > 0" class="eladoLovak mt-4">
                   <h3 class="pb-4 mb-4 fst-italic border-bottom">
                     Eladó lovaink
                   </h3>
@@ -128,7 +132,7 @@ const eladoLovak = [
                     <div class="row">
                       <div
                         v-for="lo in eladoLovak"
-                        :key="lo.nev"
+                        :key="lo.id"
                         class="col-6"
                       >
                         <div
@@ -137,19 +141,19 @@ const eladoLovak = [
                           <div
                             class="col p-4 d-flex flex-column position-static"
                           >
-                            <h3 class="mb-0 pt-3">{{ lo.nev }}</h3>
+                            <h3 class="mb-0 pt-3">{{ lo.name }}</h3>
                             <p class="card-text mb-auto pt-3">
-                              {{ lo.leiras }}
+                              {{ lo.description }}
                             </p>
                             <router-link
-                              to="/lovaink"
+                              :to="'/lovaink/' + lo.id"
                               class="text-end mt-3 know-more"
                             >
                               Tudj meg többet
                             </router-link>
                           </div>
                           <div class="col-auto d-none d-lg-block">
-                            <img :src="lo.kep" alt="" />
+                            <img v-if="lo.main_img_url" :src="lo.main_img_url" :alt="lo.name" />
                           </div>
                         </div>
                       </div>
@@ -169,16 +173,35 @@ const eladoLovak = [
                   </p>
                 </div>
                 <h5 class="fst-italic mb-3">Legutóbbi Versenyeink</h5>
-                <ul class="list-unstyled mb-0">
-                  <li v-for="verseny in versenyek" :key="verseny.nev">
+                <div v-if="versenyekLoading" class="text-center py-3">
+                  <div class="spinner-border spinner-border-sm" role="status">
+                    <span class="visually-hidden">Betöltés...</span>
+                  </div>
+                </div>
+                <p v-else-if="versenyek.length === 0" class="text-muted">
+                  Jelenleg nincsenek versenyek.
+                </p>
+                <ul v-else class="list-unstyled mb-0">
+                  <li v-for="verseny in versenyek" :key="verseny.id">
                     <router-link
                       class="verseny-link d-flex flex-row gap-3 align-items-center py-3 text-decoration-none border-bottom"
                       to="/eredmenyeink"
                     >
-                      <img :src="verseny.kep" class="verseny-img rounded" alt="" />
+                      <img
+                        v-if="verseny.image_url"
+                        :src="verseny.image_url"
+                        class="verseny-img rounded"
+                        :alt="verseny.name"
+                      />
+                      <div
+                        v-else
+                        class="verseny-img rounded bg-secondary d-flex align-items-center justify-content-center"
+                      >
+                        <i class="bi bi-trophy text-white"></i>
+                      </div>
                       <div>
-                        <h6 class="mb-1">{{ verseny.nev }}</h6>
-                        <small class="text-muted">{{ verseny.datum }}</small>
+                        <h6 class="mb-1">{{ verseny.name }}</h6>
+                        <small class="text-muted">{{ formatDate(verseny.start_date) }}</small>
                       </div>
                     </router-link>
                   </li>

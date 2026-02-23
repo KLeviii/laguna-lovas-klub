@@ -11,6 +11,8 @@ function phone() {
 function telLink() {
   return "tel:" + phone();
 }
+
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -116,7 +118,7 @@ function telLink() {
       </div>
     </section>
     <div class="text-center p-3 copyright">
-      2026 Copyright &copy; Laguna Lovasklub Kft.
+      {{ currentYear }} Copyright &copy; Laguna Lovasklub Kft.
     </div>
   </footer>
 </template>

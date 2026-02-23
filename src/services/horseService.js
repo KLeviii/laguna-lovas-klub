@@ -25,6 +25,27 @@ export async function fetchAllHorses(filters = {}) {
 }
 
 /**
+ * Fetch horses for sale (for homepage section)
+ * @param {number} limit - Max number of horses to fetch
+ * @returns {Promise<Array>}
+ */
+export async function fetchHorsesForSale(limit = 2) {
+  const { data, error } = await supabase
+    .from("horses")
+    .select("id, name, description, main_img_url")
+    .eq("is_for_sale", true)
+    .order("name", { ascending: true })
+    .limit(limit);
+
+  if (error) {
+    console.error("Error fetching horses for sale:", error);
+    throw new Error("Failed to fetch horses for sale");
+  }
+
+  return data || [];
+}
+
+/**
  * Fetch single horse with full details and relations
  * @param {string} id - horse UUID
  * @returns {Promise<Object>}

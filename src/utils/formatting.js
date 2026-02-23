@@ -12,6 +12,23 @@ export function formatPrice(price) {
  * @param {string} dateString - Date in YYYY-MM-DD format
  * @returns {string} Formatted date (pl. "2015. május 3.")
  */
+export function formatDateTime(dateString) {
+  if (!dateString) return "—";
+
+  try {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("hu-HU", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(date);
+  } catch {
+    return dateString;
+  }
+}
+
 export function formatDate(dateString) {
   if (!dateString) return "—";
   

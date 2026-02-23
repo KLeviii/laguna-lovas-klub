@@ -105,6 +105,13 @@ document.addEventListener("mousemove", function (event) {
 
           <router-link
             class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
+            to="/kapcsolat"
+          >
+            Kapcsolat
+          </router-link>
+
+          <router-link
+            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
             to="/admin/login"
             v-show="!isAuthenticated"
           >
