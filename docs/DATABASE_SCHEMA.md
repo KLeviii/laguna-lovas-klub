@@ -12,7 +12,7 @@
 | description | TEXT | ❌ | Részletes leírás |
 | is_for_sale | BOOLEAN | ✅ | Eladó-e (default: false) |
 | price_huf | INTEGER | ❌ | Ár (HUF) |
-| main_image_url | TEXT | ❌ | Fő kép URL |
+| main_img_url | TEXT | ❌ | Fő kép URL |
 | sire_id | UUID | ❌ | Foreign key -> horses.id |
 | dam_id | UUID | ❌ | Foreign key -> horses.id |
 | created_at | TIMESTAMP | ✅ | Auto |
@@ -50,7 +50,8 @@
 | description | TEXT | ❌ | Részletes leírás |
 | price_huf | INTEGER | ✅ | Ár (HUF) |
 | image_url | TEXT | ❌ | Termék kép URL |
-| is_available | BOOLEAN | ✅ | Elérhető-e (default: true) |
+| stock | INTEGER | ✅ | Készlet mennyiség (default: 0) |
+| is_available | BOOLEAN | ✅ | Elérhető-e (automatikus: stock > 0) |
 | created_at | TIMESTAMP | ✅ | Auto |
 | updated_at | TIMESTAMP | ✅ | Auto |
 

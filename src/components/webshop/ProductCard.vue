@@ -1,7 +1,9 @@
 <script setup>
+import { ref } from 'vue'
 import { formatPrice } from '@/utils/formatting'
+import { useCart } from '@/composables/useCart'
 
-defineProps({
+const props = defineProps({
   product: {
     type: Object,
     required: true,
@@ -15,6 +17,21 @@ defineProps({
     }
   }
 })
+
+const { addToCart } = useCart()
+const addedFeedback = ref(false)
+
+function handleAddToCart(event) {
+  event.preventDefault()
+  event.stopPropagation()
+  const success = addToCart(props.product)
+  if (success) {
+    addedFeedback.value = true
+    setTimeout(() => { addedFeedback.value = false }, 1000)
+  }
+}
+
+const canAddToCart = (product) => product.is_available && (product.stock || 0) > 0
 
 // Handle image load error
 const onImageError = (event) => {
@@ -51,20 +68,29 @@ const onImageError = (event) => {
         </p>
       </div>
 
-      <!-- Card Footer: Price & Status -->
+      <!-- Card Footer: Price & Cart -->
       <div class="card-footer bg-white border-top">
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-2">
           <span class="fw-bold text-primary">{{ formatPrice(product.price_huf) }}</span>
           <span
-            v-if="product.is_available"
+            v-if="canAddToCart(product)"
             class="badge bg-success badges-sm"
           >
-            Elérhető
+            Készleten
           </span>
           <span v-else class="badge bg-secondary badges-sm">
-            Nem elérhető
+            Nincs készleten
           </span>
         </div>
+        <button
+          v-if="canAddToCart(product)"
+          class="btn btn-sm btn-outline-primary w-100"
+          :class="{ 'btn-success': addedFeedback }"
+          @click="handleAddToCart"
+        >
+          <i :class="['bi', addedFeedback ? 'bi-check-lg' : 'bi-cart-plus']" class="me-1"></i>
+          {{ addedFeedback ? 'Hozzáadva' : 'Kosárba' }}
+        </button>
       </div>
     </div>
   </router-link>

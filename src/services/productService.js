@@ -17,6 +17,7 @@ export async function fetchAllProducts(filters = {}) {
       price_huf,
       image_url,
       is_available,
+      stock,
       created_at,
       category:category_id(id, name, slug)
     `)
@@ -50,6 +51,7 @@ export async function fetchProductById(productId) {
       price_huf,
       image_url,
       is_available,
+      stock,
       category:category_id(id, name, slug),
       created_at
     `)
@@ -97,7 +99,8 @@ export async function fetchRelatedProducts(categoryId, excludeProductId = null, 
       name,
       image_url,
       price_huf,
-      is_available
+      is_available,
+      stock
     `)
     .eq('category_id', categoryId)
     .limit(limit)
@@ -125,7 +128,7 @@ export async function createProduct(productData) {
   const { data, error } = await supabase
     .from('products')
     .insert([productData])
-    .select('id, name, description, price_huf, image_url, is_available, category_id, created_at')
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
     .single()
 
   if (error) {
@@ -145,9 +148,8 @@ export async function createProduct(productData) {
 export async function updateProduct(productId, productData) {
   const { data, error } = await supabase
     .from('products')
-    .update(productData)
-    .eq('id', productId)
-    .select('id, name, description, price_huf, image_url, is_available, category_id, created_at')
+    .upsert({ id: productId, ...productData })
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
     .single()
 
   if (error) {
@@ -196,8 +198,7 @@ export async function createProductCategory(categoryData) {
 export async function updateProductCategory(categoryId, categoryData) {
   const { data, error } = await supabase
     .from('product_categories')
-    .update(categoryData)
-    .eq('id', categoryId)
+    .upsert({ id: categoryId, ...categoryData })
     .select('id, name, slug, description, display_order')
     .single()
 

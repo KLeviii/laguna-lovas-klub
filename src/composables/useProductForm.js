@@ -19,6 +19,7 @@ export function useProductForm() {
   const isProductAvailable = ref(true)
   const productImageUrl = ref('')
   const productImageFile = ref(null)
+  const productStock = ref(0)
 
   // Category form state
   const categoryName = ref('')
@@ -50,6 +51,7 @@ export function useProductForm() {
     isProductAvailable.value = true
     productImageUrl.value = ''
     productImageFile.value = null
+    productStock.value = 0
     editingProductId.value = null
     error.value = null
   }
@@ -69,10 +71,11 @@ export function useProductForm() {
     productName.value = product.name
     productDescription.value = product.description || ''
     productPrice.value = product.price_huf
-    selectedCategoryId.value = product.category_id
-    isProductAvailable.value = product.is_available
+    selectedCategoryId.value = product.category?.id || product.category_id
     productImageUrl.value = product.image_url || ''
     productImageFile.value = null
+    productStock.value = product.stock || 0
+    isProductAvailable.value = productStock.value > 0
     editingProductId.value = product.id
     error.value = null
   }
@@ -112,13 +115,16 @@ export function useProductForm() {
         imageUrl = await uploadProductImage(productImageFile.value)
       }
 
+      const stockValue = parseInt(productStock.value) || 0
+
       const productData = {
         name: productName.value.trim(),
         description: productDescription.value.trim(),
         price_huf: parseInt(productPrice.value),
         category_id: selectedCategoryId.value,
-        is_available: isProductAvailable.value,
+        is_available: stockValue > 0,
         image_url: imageUrl || null,
+        stock: stockValue,
       }
 
       if (editingProductId.value) {
@@ -248,6 +254,7 @@ export function useProductForm() {
     isProductAvailable,
     productImageUrl,
     productImageFile,
+    productStock,
     formattedPrice,
     editingProductId,
 

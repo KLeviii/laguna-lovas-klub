@@ -10,7 +10,11 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Interaktív családfa (pedigree) popup zoomolható/pannolható flowchart-tal (vue-flow)
 - Webshop termékkatalógus kategóriaszűréssel
 - Termék részletoldal kapcsolódó termékekkel
-- Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület)
+- Kosár rendszer készletkezeléssel (localStorage alapú)
+- Kosár ikon hover tooltippel a headerben
+- Kosár oldal ajánlott termékekkel
+- Pénztár oldal (szállítás/fizetés hamarosan)
+- Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület, készletkezelés)
 - Supabase Auth alapú adminisztrátori bejelentkezés
 - Sötét / világos téma localStorage-sel
 
@@ -23,6 +27,8 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 | `/lovaink/:id` | Ló részletei – képgaléria, származás |
 | `/webshop` | Termékkatalógus kategóriaszűréssel |
 | `/webshop/:id` | Termék részletei – leírás, kapcsolódó termékek |
+| `/kosar` | Kosár – tételek kezelése, ajánlott termékek |
+| `/penztar` | Pénztár – rendelés összesítő, szállítás/fizetés (hamarosan) |
 | `/eredmenyeink` | Versenystatisztikák és eredmények |
 | `/admin/login` | Adminisztrátori bejelentkezés |
 | `/admin` | Admin dashboard |

@@ -3,6 +3,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
 import { useTheme } from "@/composables/useTheme";
+import CartIcon from "@/components/webshop/CartIcon.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -102,6 +103,7 @@ document.addEventListener("mousemove", function (event) {
           >
             Webshop
           </router-link>
+          <CartIcon @click="closeMenu" />
           <router-link
             class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
             to="/lovaink"

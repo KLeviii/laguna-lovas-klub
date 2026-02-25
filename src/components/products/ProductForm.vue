@@ -92,17 +92,27 @@ h5 {
           </small>
         </div>
 
-        <!-- Elérhetőség -->
-        <div class="mb-3 form-check">
+        <!-- Készlet -->
+        <div class="mb-3">
+          <label for="productStock" class="form-label">Készlet (db)</label>
           <input
-            id="productAvailable"
-            v-model="isProductAvailable"
-            type="checkbox"
-            class="form-check-input"
+            id="productStock"
+            v-model.number="productStock"
+            type="number"
+            class="form-control"
+            placeholder="0"
+            min="0"
           />
-          <label for="productAvailable" class="form-check-label">
-            Elérhető
-          </label>
+        </div>
+
+        <!-- Elérhetőség (readonly, stock alapján) -->
+        <div class="mb-3">
+          <span v-if="productStock > 0" class="badge bg-success">
+            <i class="bi bi-check-circle me-1"></i>Elérhető
+          </span>
+          <span v-else class="badge bg-secondary">
+            <i class="bi bi-x-circle me-1"></i>Nem elérhető (készlet: 0)
+          </span>
         </div>
 
         <!-- Kép upload section -->
@@ -190,6 +200,7 @@ const {
   isProductAvailable,
   productImageUrl,
   productImageFile,
+  productStock,
   formattedPrice,
   editingProductId,
   loading,

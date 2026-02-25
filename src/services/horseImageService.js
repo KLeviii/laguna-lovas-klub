@@ -108,8 +108,7 @@ export async function deleteImage(imageId, imageUrl) {
 export async function updateImageOrder(imageId, displayOrder) {
   const { data, error } = await supabase
     .from("horse_images")
-    .update({ display_order: displayOrder })
-    .eq("id", imageId)
+    .upsert({ id: imageId, display_order: displayOrder })
     .select()
     .single();
 
@@ -126,8 +125,7 @@ export async function updateImageOrder(imageId, displayOrder) {
 export async function updateImageAltText(imageId, altText) {
   const { data, error } = await supabase
     .from("horse_images")
-    .update({ alt_text: altText })
-    .eq("id", imageId)
+    .upsert({ id: imageId, alt_text: altText })
     .select()
     .single();
 

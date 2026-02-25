@@ -162,8 +162,7 @@ export async function createHorse(horseData) {
 export async function updateHorse(id, updates) {
   const { data, error } = await supabase
     .from("horses")
-    .update(updates)
-    .eq("id", id)
+    .upsert({ id, ...updates })
     .select()
     .single();
 

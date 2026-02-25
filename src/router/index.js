@@ -12,6 +12,8 @@ import AdminHorseListView from "@/views/AdminHorseListView.vue";
 import AdminProductListView from "@/views/AdminProductListView.vue";
 import AdminCompetitionListView from "@/views/AdminCompetitionListView.vue";
 import ContactView from "@/views/ContactView.vue";
+import CartView from "@/views/CartView.vue";
+import CheckoutView from "@/views/CheckoutView.vue";
 import AdminContactListView from "@/views/AdminContactListView.vue";
 import { useAuth } from "@/composables/useAuth";
 
@@ -23,6 +25,8 @@ const routes = [
   { path: "/lovaink/:id", component: HorseDetailView },
   { path: "/eredmenyeink", component: ResultsPage },
   { path: "/kapcsolat", component: ContactView },
+  { path: "/kosar", component: CartView },
+  { path: "/penztar", component: CheckoutView },
 
   // Admin routes
   {

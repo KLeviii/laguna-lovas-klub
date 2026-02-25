@@ -252,6 +252,41 @@
 
 ---
 
+## Inkrementum 12: Webshop Kosár Rendszer
+- **Prioritás:** Közepes
+- **User Story:** Mint látogató, szeretnék termékeket kosárba helyezni, a kosár tartalmát megtekinteni, és eljutni a pénztárhoz.
+
+### Feladatok:
+- [x] `stock` (integer) mező hozzáadása a products táblához
+- [x] `useCart.js` composable (localStorage perzisztencia, singleton pattern)
+- [x] `CartIcon.vue` a headerben – badge darabszámmal, hover tooltip kosár tartalommal
+- [x] ProductCard-on "Kosárba" gomb (készletlimit, vizuális feedback)
+- [x] ProductDetailView – mennyiségválasztó + "Kosárba" gomb, készlet kijelzés
+- [x] `CartView.vue` – kosár tartalma (+/- gombok, törlés, összesítés), ajánlott termékek szekció
+- [x] `CheckoutView.vue` – rendelés összesítő, szállítás/fizetés placeholder-ek
+- [x] Router: `/kosar` és `/penztar` útvonalak
+- [x] Admin ProductForm – stock input mező
+- [x] Dokumentáció frissítés (README, BACKLOG)
+
+### Elfogadási kritériumok:
+- [x] Termék kosárba helyezhető (max a készlet mennyiségig)
+- [x] Kosár ikon badge-dzsel jelzi a darabszámot
+- [x] Hover tooltip mutatja a kosár tartalmát (max 3 tétel + "és X további...")
+- [x] Kosár oldal: tételek listázása, mennyiség módosítás, törlés, összesítés
+- [x] Ajánlott termékek megjelennek a kosár oldalon
+- [x] Pénztár oldal: összesítő, szállítás/fizetés placeholder
+- [x] Kosár megmarad oldal újratöltés után (localStorage)
+- [x] Admin form-ban beállítható a készlet mennyiség
+
+### Státusz: Kész ✅
+
+### Adatbázis migráció (kézzel futtatandó Supabase-ben):
+```sql
+ALTER TABLE products ADD COLUMN stock integer DEFAULT 0;
+```
+
+---
+
 ## Prioritási Sorrend (Ajánlott Fejlesztési Ütemezés)
 
 1. **Inkrementum 1** - Setup (kritikus)

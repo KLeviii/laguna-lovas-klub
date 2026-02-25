@@ -1,19 +1,37 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useProducts } from '@/composables/useProducts.js'
+import { useCart } from '@/composables/useCart'
 import { formatPrice } from '@/utils/formatting'
 
 const route = useRoute()
 const router = useRouter()
 const { selectedProduct, relatedProducts, loading, error, loadProductById } = useProducts()
+const { addToCart } = useCart()
+
+const selectedQty = ref(1)
+const addedFeedback = ref(false)
 
 onMounted(() => {
   loadProductById(route.params.id)
 })
 
-const goBack = () => {
+function goBack() {
   router.back()
+}
+
+function handleAddToCart() {
+  if (!selectedProduct.value) return
+  const success = addToCart(selectedProduct.value, selectedQty.value)
+  if (success) {
+    addedFeedback.value = true
+    setTimeout(() => { addedFeedback.value = false }, 1500)
+  }
+}
+
+function canAddToCart(product) {
+  return product && product.is_available && (product.stock || 0) > 0
 }
 </script>
 
@@ -78,18 +96,25 @@ const goBack = () => {
               </h3>
             </div>
 
-            <!-- Availability -->
+            <!-- Availability / Stock indicator -->
             <div class="mb-4">
               <span
-                v-if="selectedProduct.is_available"
+                v-if="(selectedProduct.stock || 0) >= 10"
                 class="badge bg-success p-2"
               >
                 <i class="bi bi-check-circle me-1"></i>
-                Elérhető
+                Készleten
+              </span>
+              <span
+                v-else-if="(selectedProduct.stock || 0) > 0"
+                class="badge bg-warning text-dark p-2"
+              >
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Alacsony készlet: {{ selectedProduct.stock }} db
               </span>
               <span v-else class="badge bg-secondary p-2">
                 <i class="bi bi-x-circle me-1"></i>
-                Nem elérhető
+                Nincs készleten
               </span>
             </div>
 
@@ -99,12 +124,39 @@ const goBack = () => {
               <p class="text-muted">{{ selectedProduct.description }}</p>
             </div>
 
-            <!-- Contact Info -->
-            <div class="alert alert-info">
-              <strong>Megrendeléshez:</strong>
-              <p class="mb-0 mt-2">
-                Kérjük, vedd fel velünk a kapcsolatot az elérhetőségeink segítségével!
-              </p>
+            <!-- Stock & Add to Cart -->
+            <div v-if="canAddToCart(selectedProduct)" class="mb-4">
+              <div class="d-flex align-items-center gap-3">
+                <div class="input-group" style="max-width: 140px;">
+                  <button
+                    class="btn btn-outline-secondary"
+                    @click="selectedQty = Math.max(1, selectedQty - 1)"
+                  >−</button>
+                  <input
+                    type="number"
+                    class="form-control text-center"
+                    v-model.number="selectedQty"
+                    :min="1"
+                    :max="selectedProduct.stock"
+                  />
+                  <button
+                    class="btn btn-outline-secondary"
+                    @click="selectedQty = Math.min(selectedProduct.stock, selectedQty + 1)"
+                  >+</button>
+                </div>
+                <button
+                  class="btn btn-primary"
+                  :class="{ 'btn-success': addedFeedback }"
+                  @click="handleAddToCart"
+                >
+                  <i :class="['bi', addedFeedback ? 'bi-check-lg' : 'bi-cart-plus']" class="me-1"></i>
+                  {{ addedFeedback ? 'Hozzáadva!' : 'Kosárba' }}
+                </button>
+              </div>
+            </div>
+            <div v-else class="alert alert-secondary">
+              <i class="bi bi-x-circle me-1"></i>
+              Jelenleg nincs készleten
             </div>
           </div>
         </div>
