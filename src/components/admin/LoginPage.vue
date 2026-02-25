@@ -30,9 +30,8 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <div class="d-flex container mt-5 justify-content-center">
-    <div class="row justify-content-center">
-      <div class="card-body p-4 card shadow mt-5 col-md-6 col-lg-4">
+  <div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow mt-5 p-4">
         <h2 class="card-title text-center mb-4">Admin Bejelentkezés</h2>
 
         <!-- Hibaüzenet -->
@@ -88,7 +87,6 @@ const handleLogin = async () => {
             <i class="bi bi-arrow-left"></i> Vissza a főoldalra
           </router-link>
         </div>
-      </div>
     </div>
   </div>
 </template>

@@ -17,7 +17,7 @@ const currentYear = new Date().getFullYear();
 
 <template>
   <footer class="text-center text-lg-start">
-    <section class="contanier">
+    <section class="container">
       <div class="pt-2 text-center text-md-start px-3 px-md-5">
         <div class="row mt-3">
           <div

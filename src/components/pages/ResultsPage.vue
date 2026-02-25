@@ -29,9 +29,9 @@ onMounted(() => {
       </div>
 
       <!-- Statisztikák -->
-      <section class="p-4">
-        <div class="d-flex">
-          <div class="row w-100">
+      <section class="p-3 p-md-4">
+        <div>
+          <div class="row justify-content-center">
             <div class="col-12 col-md-4 mb-4"> 
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">

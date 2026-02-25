@@ -66,7 +66,7 @@ onMounted(async () => {
       </div>
 
       <section class="p-3 p-md-4 px-md-5">
-        <div class="contanier">
+        <div class="container">
           <div class="row">
             <div class="col-12 col-lg-8">
               <div class="rolunk">
@@ -100,15 +100,17 @@ onMounted(async () => {
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">
                   Szolgáltatásaink
                 </h3>
-                <div class="contanier">
-                  <div class="row">
+                <div class="container">
+                  <div class="row g-3">
                     <div
                       v-for="(szolg, index) in szolgaltatasok"
                       :key="index"
-                      class="cards col-12 col-md-6 border rounded overflow-hidden flex-md-row row p-3 shadow-sm position-relative m-1"
+                      class="col-12 col-md-6"
                     >
+                    <div class="cards border rounded overflow-hidden p-3 shadow-sm h-100">
                       <h4 class="pb-4 mb-4">{{ szolg.cim }}</h4>
                       <p>{{ szolg.leiras }}</p>
+                    </div>
                     </div>
                   </div>
                 </div>
@@ -128,7 +130,7 @@ onMounted(async () => {
                   <h3 class="pb-4 mb-4 fst-italic border-bottom">
                     Eladó lovaink
                   </h3>
-                  <div class="contanier">
+                  <div class="container">
                     <div class="row">
                       <div
                         v-for="lo in eladoLovak"
