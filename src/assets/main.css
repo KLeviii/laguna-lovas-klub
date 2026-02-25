@@ -70,7 +70,6 @@ body {
   padding: 0;
   background-color: var(--bg-dark);
   color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Headingek közvetlen szín – megkerüli a Bootstrap --bs-heading-color közvetítést */
