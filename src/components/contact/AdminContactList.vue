@@ -11,6 +11,7 @@ const {
   isEmpty,
   loadSubmissions,
   markAsRead,
+  markAsUnread,
   removeSubmission,
 } = useContacts();
 
@@ -97,6 +98,14 @@ onMounted(() => {
                   <i class="bi bi-check2"></i>
                 </button>
                 <button
+                  v-if="sub.is_read"
+                  class="btn btn-outline-warning"
+                  title="Megjelölés olvasatlanként"
+                  @click="markAsUnread(sub.id)"
+                >
+                  <i class="bi bi-envelope"></i>
+                </button>
+                <button
                   class="btn btn-outline-danger"
                   title="Törlés"
                   @click="confirmDelete(sub.id, sub.name)"
@@ -149,12 +158,21 @@ onMounted(() => {
               <hr />
               <p class="mb-0" style="white-space: pre-wrap;">{{ sub.message }}</p>
               <hr />
-              <button
-                class="btn btn-sm btn-outline-danger"
-                @click="confirmDelete(sub.id, sub.name)"
-              >
-                <i class="bi bi-trash me-1"></i>Üzenet törlése
-              </button>
+              <div class="d-flex gap-2">
+                <button
+                  v-if="sub.is_read"
+                  class="btn btn-sm btn-outline-warning"
+                  @click="markAsUnread(sub.id)"
+                >
+                  <i class="bi bi-envelope me-1"></i>Olvasatlannak jelölés
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  @click="confirmDelete(sub.id, sub.name)"
+                >
+                  <i class="bi bi-trash me-1"></i>Üzenet törlése
+                </button>
+              </div>
             </div>
           </div>
         </div>

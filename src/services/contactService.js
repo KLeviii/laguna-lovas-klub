@@ -49,6 +49,28 @@ export async function markContactAsRead(id) {
   }
 }
 
+export async function markContactAsUnread(id) {
+  const { data: existing, error: fetchError } = await supabase
+    .from("contact_submissions")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) {
+    console.error("Error fetching contact for update:", fetchError);
+    throw new Error("Hiba az olvasatlanná jelölés közben.");
+  }
+
+  const { error } = await supabase
+    .from("contact_submissions")
+    .upsert({ ...existing, is_read: false });
+
+  if (error) {
+    console.error("Error marking contact as unread:", error);
+    throw new Error("Hiba az olvasatlanná jelölés közben.");
+  }
+}
+
 export async function deleteContactSubmission(id) {
   const { error } = await supabase
     .from("contact_submissions")

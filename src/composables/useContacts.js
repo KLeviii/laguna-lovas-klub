@@ -2,6 +2,7 @@ import { ref, computed } from "vue";
 import {
   fetchContactSubmissions,
   markContactAsRead,
+  markContactAsUnread,
   deleteContactSubmission,
 } from "@/services/contactService.js";
 
@@ -39,6 +40,16 @@ export function useContacts() {
     }
   }
 
+  async function markAsUnread(id) {
+    try {
+      await markContactAsUnread(id);
+      const item = submissions.value.find((s) => s.id === id);
+      if (item) item.is_read = false;
+    } catch (err) {
+      error.value = err.message;
+    }
+  }
+
   async function removeSubmission(id) {
     try {
       await deleteContactSubmission(id);
@@ -56,6 +67,7 @@ export function useContacts() {
     isEmpty,
     loadSubmissions,
     markAsRead,
+    markAsUnread,
     removeSubmission,
   };
 }
