@@ -30,7 +30,6 @@ export async function fetchAllCompetitions() {
     .order("start_date", { ascending: false });
 
   if (error) {
-    console.error("Error fetching competitions:", error);
     throw new Error(`Failed to fetch competitions: ${error.message}`);
   }
 
@@ -50,7 +49,6 @@ export async function fetchLatestCompetitions(limit = 5) {
     .limit(limit);
 
   if (error) {
-    console.error("Error fetching latest competitions:", error);
     throw new Error(`Failed to fetch latest competitions: ${error.message}`);
   }
 
@@ -90,7 +88,6 @@ export async function fetchCompetitionById(id) {
     .single();
 
   if (error && error.code !== "PGRST116") {
-    console.error("Error fetching competition:", error);
     throw new Error(`Failed to fetch competition: ${error.message}`);
   }
 
@@ -110,7 +107,6 @@ export async function createCompetition(data) {
     .single();
 
   if (error) {
-    console.error("Error creating competition:", error);
     throw new Error(`Failed to create competition: ${error.message}`);
   }
 
@@ -133,7 +129,6 @@ export async function updateCompetition(id, data) {
     .single();
 
   if (error) {
-    console.error("Error updating competition:", error);
     throw new Error(`Failed to update competition: ${error.message}`);
   }
 
@@ -152,7 +147,6 @@ export async function deleteCompetition(id) {
     .eq("id", id);
 
   if (error) {
-    console.error("Error deleting competition:", error);
     throw new Error(`Failed to delete competition: ${error.message}`);
   }
 }
@@ -170,7 +164,6 @@ export async function createCompetitionResult(data) {
     .single();
 
   if (error) {
-    console.error("Error creating competition result:", error);
     throw new Error(`Failed to create competition result: ${error.message}`);
   }
 
@@ -189,7 +182,6 @@ export async function deleteCompetitionResult(id) {
     .eq("id", id);
 
   if (error) {
-    console.error("Error deleting competition result:", error);
     throw new Error(`Failed to delete competition result: ${error.message}`);
   }
 }
@@ -200,31 +192,8 @@ export async function deleteCompetitionResult(id) {
  * @returns {Promise<string>} Public URL of uploaded image
  */
 export async function uploadCompetitionImage(file) {
-  if (!file) {
-    throw new Error("No file provided");
-  }
-
-  if (file.size > 50 * 1024 * 1024) {
-    throw new Error("File too large (max 50MB)");
-  }
-
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const fileName = `${Date.now()}.${ext}`;
-  const { data, error: uploadError } = await supabase.storage
-    .from("competition-images")
-    .upload(fileName, file, {
-      cacheControl: "3600",
-      upsert: false,
-    });
-
-  if (uploadError) {
-    console.error("Error uploading image:", uploadError);
-    throw new Error(`Failed to upload image: ${uploadError.message}`);
-  }
-
-  const { data: publicUrlData } = supabase.storage
-    .from("competition-images")
-    .getPublicUrl(data.path);
-
-  return publicUrlData.publicUrl;
+  const { validateFile, generateSafeFilename, uploadToStorage } = await import('@/utils/fileUpload')
+  validateFile(file, { maxSizeMB: 50 })
+  const filePath = generateSafeFilename(file)
+  return uploadToStorage('competition-images', filePath, file)
 }

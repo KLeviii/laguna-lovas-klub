@@ -103,7 +103,6 @@ async function confirmDeleteCategory(categoryId, categoryName) {
     await loadCategories()
   } catch (err) {
     alert('Hiba a törlés során. Próbáld meg később!')
-    console.error('Error deleting category:', err)
   }
 }
 

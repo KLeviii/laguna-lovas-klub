@@ -6,7 +6,6 @@ export async function submitContactForm(formData) {
     .insert([formData]);
 
   if (error) {
-    console.error("Error submitting contact form:", error);
     throw new Error("Hiba az üzenet küldése közben. Kérjük, próbáld újra később.");
   }
 }
@@ -18,7 +17,6 @@ export async function fetchContactSubmissions() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching contact submissions:", error);
     throw new Error("Hiba az üzenetek betöltése közben.");
   }
 
@@ -35,7 +33,6 @@ export async function markContactAsRead(id) {
     .single();
 
   if (fetchError) {
-    console.error("Error fetching contact for update:", fetchError);
     throw new Error("Hiba az olvasottá jelölés közben.");
   }
 
@@ -44,7 +41,6 @@ export async function markContactAsRead(id) {
     .upsert({ ...existing, is_read: true });
 
   if (error) {
-    console.error("Error marking contact as read:", error);
     throw new Error("Hiba az olvasottá jelölés közben.");
   }
 }
@@ -57,7 +53,6 @@ export async function markContactAsUnread(id) {
     .single();
 
   if (fetchError) {
-    console.error("Error fetching contact for update:", fetchError);
     throw new Error("Hiba az olvasatlanná jelölés közben.");
   }
 
@@ -66,7 +61,6 @@ export async function markContactAsUnread(id) {
     .upsert({ ...existing, is_read: false });
 
   if (error) {
-    console.error("Error marking contact as unread:", error);
     throw new Error("Hiba az olvasatlanná jelölés közben.");
   }
 }
@@ -78,7 +72,6 @@ export async function deleteContactSubmission(id) {
     .eq("id", id);
 
   if (error) {
-    console.error("Error deleting contact submission:", error);
     throw new Error("Hiba az üzenet törlése közben.");
   }
 }

@@ -105,7 +105,6 @@ export function useHorseForm() {
       errors.value.main_image = null;
     } catch (err) {
       errors.value.main_image = err.message;
-      console.error("Error uploading image:", err);
     } finally {
       imageUploading.value = false;
     }
@@ -162,7 +161,7 @@ export function useHorseForm() {
     try {
       parentOptions.value = await fetchParentOptions();
     } catch (err) {
-      console.error("Error loading parent options:", err);
+      // error silently ignored – parent options are non-critical
     }
   }
 
@@ -219,7 +218,6 @@ export function useHorseForm() {
       errors.value = {};
       return true;
     } catch (err) {
-      console.error("Submit error:", err);
       errors.value = { general: err.message || "Hiba történt a mentéskor" };
       return false;
     } finally {

@@ -93,7 +93,6 @@ export function useCompetitionForm() {
       return true;
     } catch (err) {
       error.value = err.message;
-      console.error("Error saving competition:", err);
       return false;
     } finally {
       loading.value = false;
@@ -130,7 +129,6 @@ export function useCompetitionForm() {
       return created;
     } catch (err) {
       error.value = err.message;
-      console.error("Error adding result:", err);
       return null;
     } finally {
       loading.value = false;
@@ -146,7 +144,6 @@ export function useCompetitionForm() {
       return true;
     } catch (err) {
       error.value = err.message;
-      console.error("Error removing result:", err);
       return false;
     } finally {
       loading.value = false;

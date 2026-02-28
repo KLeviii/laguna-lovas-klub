@@ -139,7 +139,6 @@ export function useProductForm() {
       return true
     } catch (err) {
       error.value = err.message
-      console.error('Error saving product:', err)
       return false
     } finally {
       loading.value = false
@@ -157,7 +156,6 @@ export function useProductForm() {
       return true
     } catch (err) {
       error.value = err.message
-      console.error('Error deleting product:', err)
       return false
     } finally {
       loading.value = false
@@ -197,7 +195,6 @@ export function useProductForm() {
       return true
     } catch (err) {
       error.value = err.message
-      console.error('Error saving category:', err)
       return false
     } finally {
       loading.value = false
@@ -214,7 +211,6 @@ export function useProductForm() {
       return true
     } catch (err) {
       error.value = err.message
-      console.error('Error deleting category:', err)
       return false
     } finally {
       loading.value = false

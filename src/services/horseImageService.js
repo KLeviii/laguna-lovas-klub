@@ -61,7 +61,6 @@ export async function uploadImage(horseId, file, displayOrder = 0) {
 
     return imageData;
   } catch (err) {
-    console.error("Error uploading image:", err);
     throw err;
   }
 }
@@ -94,7 +93,6 @@ export async function deleteImage(imageId, imageUrl) {
 
     if (dbError) throw dbError;
   } catch (err) {
-    console.error("Error deleting image:", err);
     throw err;
   }
 }

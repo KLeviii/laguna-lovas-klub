@@ -17,7 +17,6 @@ export async function fetchAllHorses(filters = {}) {
   const { data, error } = await query.order("name", { ascending: true });
 
   if (error) {
-    console.error("Error fetching horses:", error);
     throw new Error("Failed to fetch horses");
   }
 
@@ -82,7 +81,6 @@ export async function fetchHorsesForSale(limit = 2) {
     .limit(limit);
 
   if (error) {
-    console.error("Error fetching horses for sale:", error);
     throw new Error("Failed to fetch horses for sale");
   }
 
@@ -106,7 +104,6 @@ export async function fetchHorseById(id) {
     .single();
 
   if (error) {
-    console.error("Error fetching horse:", error);
     throw new Error(`Failed to fetch horse with ID ${id}`);
   }
 
@@ -147,7 +144,6 @@ export async function createHorse(horseData) {
     .single();
 
   if (error) {
-    console.error("Create horse error:", error);
     throw new Error(error.message || "Failed to create horse");
   }
   return data;
@@ -217,7 +213,6 @@ export async function fetchRelatedHorses(gender, excludeId, limit = 4) {
     .limit(limit)
 
   if (error) {
-    console.error('Error fetching related horses:', error)
     throw new Error('Failed to fetch related horses')
   }
 

@@ -43,15 +43,11 @@ onMounted(async () => {
 
   if (versenyResult.status === "fulfilled") {
     versenyek.value = versenyResult.value;
-  } else {
-    console.error("Error loading competitions:", versenyResult.reason);
   }
   versenyekLoading.value = false;
 
   if (lovakResult.status === "fulfilled") {
     eladoLovak.value = lovakResult.value;
-  } else {
-    console.error("Error loading horses for sale:", lovakResult.reason);
   }
   lovakLoading.value = false;
 });

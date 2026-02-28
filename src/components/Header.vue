@@ -54,15 +54,18 @@ const handleLogout = async () => {
   window.location.href = window.location.pathname;
 };
 
+function onMouseMove(event) {
+  handlenavOnMouseMove(event.clientY);
+}
+
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
+  document.addEventListener("mousemove", onMouseMove);
 });
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
-});
-document.addEventListener("mousemove", function (event) {
-  handlenavOnMouseMove(event.clientY);
+  document.removeEventListener("mousemove", onMouseMove);
 });
 </script>
 

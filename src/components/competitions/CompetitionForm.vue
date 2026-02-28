@@ -343,7 +343,7 @@ onMounted(async () => {
   try {
     horses.value = await fetchAllHorses();
   } catch (err) {
-    console.error("Error loading horses:", err);
+    // error silently ignored – horses list is non-critical for form display
   }
 
   const competitionId = route.params?.id;
@@ -356,7 +356,6 @@ onMounted(async () => {
       }
     } catch (err) {
       error.value = "Nem sikerült betölteni a versenyt";
-      console.error("Error loading competition for edit:", err);
     }
   }
 });

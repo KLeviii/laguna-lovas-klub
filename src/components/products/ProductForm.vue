@@ -220,7 +220,7 @@ onMounted(async () => {
   try {
     categories.value = await fetchProductCategories();
   } catch (err) {
-    console.error("Error loading categories:", err);
+    // error silently ignored – categories list is non-critical for initial load
   }
 
   // If route has an id param, load the product for editing
@@ -233,7 +233,6 @@ onMounted(async () => {
       }
     } catch (err) {
       error.value = "Nem sikerült betölteni a terméket";
-      console.error("Error loading product for edit:", err);
     }
   }
 });

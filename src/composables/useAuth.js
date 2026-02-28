@@ -29,7 +29,6 @@ export function useAuth() {
         user.value = session?.user || null;
       });
     } catch (err) {
-      console.error("Auth initialization error:", err);
       error.value = err.message;
     } finally {
       loading.value = false;
@@ -55,7 +54,6 @@ export function useAuth() {
       user.value = data.user;
       return { success: true };
     } catch (err) {
-      console.error("Sign in error:", err);
       error.value = err.message;
       return { success: false, error: err.message };
     } finally {
@@ -76,7 +74,6 @@ export function useAuth() {
       user.value = null;
       return { success: true };
     } catch (err) {
-      console.error("Sign out error:", err);
       error.value = err.message;
       return { success: false, error: err.message };
     } finally {

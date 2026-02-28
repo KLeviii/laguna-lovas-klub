@@ -29,7 +29,6 @@ export async function fetchAllProducts(filters = {}) {
   const { data, error } = await query.order('name', { ascending: true })
 
   if (error) {
-    console.error('Error fetching products:', error)
     throw new Error(`Failed to fetch products: ${error.message}`)
   }
 
@@ -59,7 +58,6 @@ export async function fetchProductById(productId) {
     .single()
 
   if (error && error.code !== 'PGRST116') {
-    console.error('Error fetching product:', error)
     throw new Error(`Failed to fetch product: ${error.message}`)
   }
 
@@ -77,7 +75,6 @@ export async function fetchProductCategories() {
     .order('display_order', { ascending: true })
 
   if (error) {
-    console.error('Error fetching categories:', error)
     throw new Error(`Failed to fetch categories: ${error.message}`)
   }
 
@@ -112,7 +109,6 @@ export async function fetchRelatedProducts(categoryId, excludeProductId = null, 
   const { data, error } = await query
 
   if (error) {
-    console.error('Error fetching related products:', error)
     throw new Error(`Failed to fetch related products: ${error.message}`)
   }
 
@@ -132,7 +128,6 @@ export async function createProduct(productData) {
     .single()
 
   if (error) {
-    console.error('Error creating product:', error)
     throw new Error(`Failed to create product: ${error.message}`)
   }
 
@@ -153,7 +148,6 @@ export async function updateProduct(productId, productData) {
     .single()
 
   if (error) {
-    console.error('Error updating product:', error)
     throw new Error(`Failed to update product: ${error.message}`)
   }
 
@@ -182,7 +176,6 @@ export async function createProductCategory(categoryData) {
     .single()
 
   if (error) {
-    console.error('Error creating category:', error)
     throw new Error(`Failed to create category: ${error.message}`)
   }
 
@@ -203,7 +196,6 @@ export async function updateProductCategory(categoryId, categoryData) {
     .single()
 
   if (error) {
-    console.error('Error updating category:', error)
     throw new Error(`Failed to update category: ${error.message}`)
   }
 
@@ -222,7 +214,6 @@ export async function deleteProductCategory(categoryId) {
     .eq('id', categoryId)
 
   if (error) {
-    console.error('Error deleting category:', error)
     throw new Error(`Failed to delete category: ${error.message}`)
   }
 }
@@ -233,34 +224,8 @@ export async function deleteProductCategory(categoryId) {
  * @returns {Promise<string>} Public URL of uploaded image
  */
 export async function uploadProductImage(file) {
-  if (!file) {
-    throw new Error('No file provided')
-  }
-
-  // Validate file size (50MB max)
-  const maxSize = 50 * 1024 * 1024 // 50MB
-  if (file.size > maxSize) {
-    throw new Error('File too large (max 50MB)')
-  }
-
-  // Generate filename with safe characters only
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg"
-  const fileName = `${Date.now()}.${ext}`
-  const { data, error: uploadError } = await supabase.storage
-    .from('product-images')
-    .upload(fileName, file, {
-      cacheControl: '3600',
-      upsert: false,
-    })
-
-  if (uploadError) {
-    console.error('Error uploading image:', uploadError)
-    throw new Error(`Failed to upload image: ${uploadError.message}`)
-  }
-
-  const { data: publicUrlData } = supabase.storage
-    .from('product-images')
-    .getPublicUrl(data.path)
-
-  return publicUrlData.publicUrl
+  const { validateFile, generateSafeFilename, uploadToStorage } = await import('@/utils/fileUpload')
+  validateFile(file, { maxSizeMB: 50 })
+  const filePath = generateSafeFilename(file)
+  return uploadToStorage('product-images', filePath, file)
 }

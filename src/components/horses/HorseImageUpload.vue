@@ -89,7 +89,6 @@ async function uploadImages() {
       await uploadImage(props.horseId, file, i + 1);
       successCount++;
     } catch (err) {
-      console.error(`Hiba ${file.name} feltöltésénél:`, err);
       failureCount++;
     }
   }
