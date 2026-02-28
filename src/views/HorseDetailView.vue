@@ -5,11 +5,18 @@ import { useHorses } from "@/composables/useHorses.js";
 import { formatDate } from "@/utils/formatting.js";
 import HorseGallery from "@/components/horses/HorseGallery.vue";
 import PedigreeTree from "@/components/horses/PedigreeTree.vue";
+import { useHead } from "@/composables/useHead";
 
 const route = useRoute();
 const router = useRouter();
 const { selectedHorse, relatedHorses, loading, error, loadHorseById } = useHorses();
 const showPedigree = ref(false);
+
+watch(selectedHorse, (horse) => {
+  if (horse) {
+    useHead(horse.name, horse.description || 'Ló részletei — Laguna Lovasklub.')
+  }
+});
 
 onMounted(() => loadHorseById(route.params.id));
 

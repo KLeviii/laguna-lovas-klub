@@ -1,4 +1,5 @@
-# 🔐 GDPR Szabályzat Kódoló Agentnek
+# 🔐 GDPR Szabályzat a Claude AI-nak
+
 ### Kötelező érvényű adatvédelmi és adatkezelési előírások fejlesztés közben
 
 ---
@@ -66,7 +67,7 @@ Az adatbázissal való minden kommunikáció biztonsági kritikus. A következő
 
 ```javascript
 // ✅ HELYES – jelszó hashelése
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const hashedPassword = await bcrypt.hash(plainPassword, 12); // min. 10 kör
 
 // ❌ TILOS – soha ne tárold így
@@ -77,7 +78,7 @@ const user = { password: plainPassword }; // GDPR SÉRTÉS – ÁLLJ MEG!
 
 ```javascript
 // ✅ HELYES – paraméteres lekérdezés
-const result = await db.query('SELECT * FROM users WHERE email = $1', [email]);
+const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
 // ❌ TILOS – SQL injection lehetőség, GDPR sértés
 const result = await db.query(`SELECT * FROM users WHERE email = '${email}'`);
@@ -89,7 +90,7 @@ const result = await db.query(`SELECT * FROM users WHERE email = '${email}'`);
 // ✅ HELYES – SSL kapcsolat
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: true } // production-ben soha ne legyen false!
+  ssl: { rejectUnauthorized: true }, // production-ben soha ne legyen false!
 });
 ```
 
@@ -99,10 +100,13 @@ Soha ne kérdezz le több adatot, mint amennyire az adott funkcióhoz szükség 
 
 ```javascript
 // ✅ HELYES – csak a szükséges mezők
-const user = await db.query('SELECT id, username, email FROM users WHERE id = $1', [userId]);
+const user = await db.query(
+  "SELECT id, username, email FROM users WHERE id = $1",
+  [userId],
+);
 
 // ❌ KERÜLENDŐ – felesleges személyes adatok lekérdezése
-const user = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
+const user = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
 // A SELECT * lekérdezi a jelszóhasht, születési dátumot stb. is, amire nincs szükség!
 ```
 
@@ -128,16 +132,18 @@ Hitelesítési tokeneket mindig a `Authorization` headerben kell küldeni, soha 
 
 ```javascript
 // ✅ HELYES – token a headerben
-const response = await fetch('https://api.pelda.hu/profile', {
-  method: 'GET',
+const response = await fetch("https://api.pelda.hu/profile", {
+  method: "GET",
   headers: {
-    'Authorization': `Bearer ${accessToken}`,
-    'Content-Type': 'application/json',
-  }
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  },
 });
 
 // ❌ TILOS – token az URL-ben (megjelenik a logokban és a history-ban!)
-const response = await fetch(`https://api.pelda.hu/profile?token=${accessToken}`);
+const response = await fetch(
+  `https://api.pelda.hu/profile?token=${accessToken}`,
+);
 ```
 
 ### 3.3 Személyes adatok küldése POST body-ban
@@ -146,9 +152,9 @@ Személyes adatokat mindig a request body-jában kell küldeni, titkosított HTT
 
 ```javascript
 // ✅ HELYES – személyes adatok a body-ban
-const response = await fetch('https://api.pelda.hu/register', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+const response = await fetch("https://api.pelda.hu/register", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     email: userEmail,
     name: userName,
@@ -156,10 +162,10 @@ const response = await fetch('https://api.pelda.hu/register', {
     consent: {
       terms: true,
       privacy_policy: true,
-      version: '2.1',
-      timestamp: new Date().toISOString()
-    }
-  })
+      version: "2.1",
+      timestamp: new Date().toISOString(),
+    },
+  }),
 });
 
 // ❌ TILOS – személyes adat GET paraméterként
@@ -173,7 +179,7 @@ Fetch hívások hibakezelésénél ügyelni kell arra, hogy a hibaüzenet ne tar
 
 ```javascript
 try {
-  const response = await fetch('https://api.pelda.hu/users');
+  const response = await fetch("https://api.pelda.hu/users");
   if (!response.ok) {
     // ✅ HELYES – általános hibaüzenet, nem tartalmaz személyes adatot
     throw new Error(`API hiba: ${response.status}`);
@@ -181,8 +187,8 @@ try {
   const data = await response.json();
 } catch (error) {
   // ✅ HELYES – csak a hibakód kerül logolásra, nem a payload
-  console.error('Fetch hiba:', error.message);
-  
+  console.error("Fetch hiba:", error.message);
+
   // ❌ TILOS – soha ne logold a teljes request adatait
   // console.error('Fetch hiba:', JSON.stringify({ user: userData, error }));
 }
@@ -217,13 +223,13 @@ Ha a searchbar személyes adatot is kereshet (pl. felhasználók keresése e-mai
 ```javascript
 // ✅ HELYES – keresés POST-tal, nem GET-tel
 async function searchUsers(query) {
-  const response = await fetch('https://api.pelda.hu/admin/users/search', {
-    method: 'POST', // nem GET! A query nem kerül az URL-be
+  const response = await fetch("https://api.pelda.hu/admin/users/search", {
+    method: "POST", // nem GET! A query nem kerül az URL-be
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${adminToken}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${adminToken}`,
     },
-    body: JSON.stringify({ query }) // a keresési kifejezés a body-ban marad
+    body: JSON.stringify({ query }), // a keresési kifejezés a body-ban marad
   });
   return response.json();
 }
@@ -276,23 +282,26 @@ A visszavonásnak ugyanolyan egyszerűnek kell lennie, mint a megadásnak. Az AP
 
 ```javascript
 // ✅ Hozzájárulás visszavonásának kezelése
-app.delete('/api/consent/:purpose', authenticate, async (req, res) => {
+app.delete("/api/consent/:purpose", authenticate, async (req, res) => {
   const { purpose } = req.params;
   const userId = req.user.id;
-  
-  await db.query(`
+
+  await db.query(
+    `
     UPDATE consents 
     SET granted = false, revoked_at = NOW()
     WHERE user_id = $1 AND purpose = $2 AND granted = true
-  `, [userId, purpose]);
-  
+  `,
+    [userId, purpose],
+  );
+
   // Ha marketing hozzájárulás vonódott vissza, azonnal le kell állítani
   // a marketinglistáról való feldolgozást is
-  if (purpose === 'marketing') {
+  if (purpose === "marketing") {
     await removeFromMarketingList(userId);
   }
-  
-  res.json({ success: true, message: 'Hozzájárulás visszavonva.' });
+
+  res.json({ success: true, message: "Hozzájárulás visszavonva." });
 });
 ```
 
@@ -306,24 +315,30 @@ A GDPR hat érintetti jogot biztosít, amelyek mindegyikéhez kötelező API vé
 
 ```javascript
 // GET /api/gdpr/my-data – a felhasználó lekéri az összes tárolt adatát
-app.get('/api/gdpr/my-data', authenticate, async (req, res) => {
+app.get("/api/gdpr/my-data", authenticate, async (req, res) => {
   const userId = req.user.id;
-  
+
   // Összegyűjtjük az összes tárolt adatot – minden táblából!
   const [userData, consents, orders, logs] = await Promise.all([
-    db.query('SELECT id, name, email, created_at FROM users WHERE id = $1', [userId]),
-    db.query('SELECT * FROM consents WHERE user_id = $1', [userId]),
-    db.query('SELECT id, total, created_at FROM orders WHERE user_id = $1', [userId]),
-    db.query('SELECT action, created_at FROM audit_logs WHERE user_id = $1', [userId])
+    db.query("SELECT id, name, email, created_at FROM users WHERE id = $1", [
+      userId,
+    ]),
+    db.query("SELECT * FROM consents WHERE user_id = $1", [userId]),
+    db.query("SELECT id, total, created_at FROM orders WHERE user_id = $1", [
+      userId,
+    ]),
+    db.query("SELECT action, created_at FROM audit_logs WHERE user_id = $1", [
+      userId,
+    ]),
   ]);
-  
+
   // Gépileg olvasható formátumban kell visszaadni (JSON vagy CSV)
   res.json({
     export_date: new Date().toISOString(),
     user: userData.rows[0],
     consents: consents.rows,
     orders: orders.rows,
-    activity_logs: logs.rows
+    activity_logs: logs.rows,
   });
 });
 ```
@@ -332,15 +347,16 @@ app.get('/api/gdpr/my-data', authenticate, async (req, res) => {
 
 ```javascript
 // DELETE /api/gdpr/delete-account
-app.delete('/api/gdpr/delete-account', authenticate, async (req, res) => {
+app.delete("/api/gdpr/delete-account", authenticate, async (req, res) => {
   const userId = req.user.id;
-  
+
   // Figyelem: egyes adatokat jogi kötelezettség miatt meg KELL őrizni
   // (pl. számviteli bizonylatok 8 évig) – ezeket csak anonimizálni szabad!
-  
+
   await db.transaction(async (trx) => {
     // Anonimizálás – személyes adatok felülírása, nem törlés, ahol jogi kötelezettség van
-    await trx.query(`
+    await trx.query(
+      `
       UPDATE users SET 
         name = 'Törölt Felhasználó',
         email = CONCAT('deleted_', id, '@deleted.invalid'),
@@ -349,15 +365,17 @@ app.delete('/api/gdpr/delete-account', authenticate, async (req, res) => {
         anonymized = true,
         anonymized_at = NOW()
       WHERE id = $1
-    `, [userId]);
-    
+    `,
+      [userId],
+    );
+
     // Hozzájárulások törlése
-    await trx.query('DELETE FROM consents WHERE user_id = $1', [userId]);
-    
+    await trx.query("DELETE FROM consents WHERE user_id = $1", [userId]);
+
     // Session-ök érvénytelenítése
-    await trx.query('DELETE FROM sessions WHERE user_id = $1', [userId]);
+    await trx.query("DELETE FROM sessions WHERE user_id = $1", [userId]);
   });
-  
+
   res.json({ success: true });
 });
 ```
@@ -405,7 +423,7 @@ logger.info({ user: userData }); // az összes mező a logba kerül!
 
 // ✅ HELYES – csak azonosítók és műveletek
 console.log(`Felhasználó bejelentkezett: userId=${user.id}`);
-logger.info({ action: 'LOGIN', userId: user.id, timestamp: Date.now() });
+logger.info({ action: "LOGIN", userId: user.id, timestamp: Date.now() });
 ```
 
 ### 7.3 Environment változók és titkok kezelése
@@ -418,8 +436,8 @@ const dbUrl = process.env.DATABASE_URL;
 const jwtSecret = process.env.JWT_SECRET;
 
 // ❌ TILOS – hardcoded titkok, azonnal GDPR és biztonsági kockázat
-const dbUrl = 'postgresql://user:password@localhost/mydb'; // ÁLLJ MEG!
-const jwtSecret = 'titkosjelszo123'; // ÁLLJ MEG!
+const dbUrl = "postgresql://user:password@localhost/mydb"; // ÁLLJ MEG!
+const jwtSecret = "titkosjelszo123"; // ÁLLJ MEG!
 ```
 
 ---
@@ -432,21 +450,21 @@ A cookie-kat kategóriákba kell sorolni, és a nem feltétlenül szükséges co
 
 - **Feltétlenül szükséges:** Session cookie, biztonsági token – hozzájárulás nélkül is engedélyezett
 - **Funkcionális:** Felhasználói preferenciák – hozzájárulás szükséges
-- **Analitikai:** Látogatásstatisztika – hozzájárulás szükséges  
+- **Analitikai:** Látogatásstatisztika – hozzájárulás szükséges
 - **Marketing:** Hirdetési célzás – hozzájárulás szükséges
 
 ```javascript
 // ✅ HELYES cookie beállítások
-res.cookie('session_id', token, {
-  httpOnly: true,      // JavaScript nem férhet hozzá (XSS védelem)
-  secure: true,        // csak HTTPS-en küldi el a böngésző
-  sameSite: 'Strict',  // CSRF védelem
-  maxAge: 3600000,     // lejárati idő meghatározva (1 óra)
+res.cookie("session_id", token, {
+  httpOnly: true, // JavaScript nem férhet hozzá (XSS védelem)
+  secure: true, // csak HTTPS-en küldi el a böngésző
+  sameSite: "Strict", // CSRF védelem
+  maxAge: 3600000, // lejárati idő meghatározva (1 óra)
   // domain és path is meghatározva, ha szükséges
 });
 
 // ❌ KERÜLENDŐ
-res.cookie('session_id', token); // nincs httpOnly, secure, sameSite!
+res.cookie("session_id", token); // nincs httpOnly, secure, sameSite!
 ```
 
 ### 8.2 IP-cím kezelése
@@ -457,7 +475,7 @@ Az IP-cím személyes adat. Ha naplózod, meg kell határozni a jogalapot és a 
 // ✅ HELYES – IP anonimizálás analitikához
 function anonymizeIP(ip) {
   // IPv4: az utolsó oktet törlése
-  return ip.replace(/(\d+\.\d+\.\d+\.)\d+/, '$10');
+  return ip.replace(/(\d+\.\d+\.\d+\.)\d+/, "$10");
   // pl. 192.168.1.42 → 192.168.1.0
 }
 ```
@@ -502,7 +520,7 @@ Kérlek, futtasd le az alábbi parancsokat az adatbázison:
 
 [SQL parancsok]
 
-Addig nem folytatom a fejlesztést, amíg ezt el nem végzed, 
+Addig nem folytatom a fejlesztést, amíg ezt el nem végzed,
 mivel a jelenlegi állapot GDPR-sértést jelent.
 ```
 
@@ -552,4 +570,4 @@ Ez a dokumentum a következő jogszabályokon és iránymutatásokon alapul, ame
 
 ---
 
-*Ez a szabályzat kötelező érvényű a kódoló agent minden adatkezelési tevékenységére. Módosítása csak az adatvédelmi felelős (DPO) jóváhagyásával lehetséges. Utolsó felülvizsgálat: 2025.*
+_Ez a szabályzat kötelező érvényű a kódoló agent minden adatkezelési tevékenységére. Módosítása csak az adatvédelmi felelős (DPO) jóváhagyásával lehetséges. Utolsó felülvizsgálat: 2025._

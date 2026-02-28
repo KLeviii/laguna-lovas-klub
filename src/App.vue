@@ -11,9 +11,10 @@ onMounted(() => {
 });
 </script>
 <template>
+  <a href="#main-content" class="visually-hidden-focusable">Ugrás a fő tartalomhoz</a>
   <div class="site-wrapper">
     <Header v-show="$route.path != '/admin/login'"></Header>
-    <div class="site-content">
+    <div id="main-content" class="site-content">
       <router-view />
     </div>
     <Footer v-show="$route.path != '/admin/login'"></Footer>

@@ -3,6 +3,9 @@ import { onMounted } from "vue";
 import { useAuth } from "@/composables/useAuth";
 import { useCompetitions } from "@/composables/useCompetitions.js";
 import { formatDate } from "@/utils/formatting.js";
+import { useHead } from "@/composables/useHead";
+
+useHead("Eredményeink", "Laguna Lovasklub versenyeredményei és díjai.");
 
 const { isAuthenticated } = useAuth();
 const { loading, error, isEmpty, competitionsByYear, stats, loadCompetitions } =
@@ -189,6 +192,7 @@ onMounted(() => {
                               object-fit: cover;
                               width: 100%;
                             "
+                            loading="lazy"
                           />
 
                           <!-- Leírás -->

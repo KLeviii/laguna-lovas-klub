@@ -3,6 +3,9 @@ import { onMounted } from "vue";
 import { useAuth } from "@/composables/useAuth";
 import { useHorses } from "@/composables/useHorses.js";
 import HorseCard from "@/components/horses/HorseCard.vue";
+import { useHead } from "@/composables/useHead";
+
+useHead("Lovaink", "A Laguna Lovasklub lovai — tenyésztés és versenyeztetés.");
 import HorseFilter from "@/components/horses/HorseFilter.vue";
 
 const { isAuthenticated } = useAuth();

@@ -4,6 +4,9 @@ import { useCart } from '@/composables/useCart'
 import { formatPrice } from '@/utils/formatting'
 import { fetchRelatedProducts, fetchAllProducts } from '@/services/productService'
 import ProductCard from '@/components/webshop/ProductCard.vue'
+import { useHead } from '@/composables/useHead'
+
+useHead('Kosár')
 
 const { cartItems, cartItemCount, cartTotal, isCartEmpty, updateQuantity, removeFromCart, clearCart } = useCart()
 
@@ -102,12 +105,12 @@ onMounted(loadRecommendations)
             <table class="table align-middle">
               <thead>
                 <tr>
-                  <th style="width: 80px;"></th>
-                  <th>Termék</th>
-                  <th class="text-center">Egységár</th>
-                  <th class="text-center" style="width: 160px;">Mennyiség</th>
-                  <th class="text-end">Részösszeg</th>
-                  <th style="width: 50px;"></th>
+                  <th scope="col" style="width: 80px;"></th>
+                  <th scope="col">Termék</th>
+                  <th scope="col" class="text-center">Egységár</th>
+                  <th scope="col" class="text-center" style="width: 160px;">Mennyiség</th>
+                  <th scope="col" class="text-end">Részösszeg</th>
+                  <th scope="col" style="width: 50px;"></th>
                 </tr>
               </thead>
               <tbody>
@@ -120,6 +123,7 @@ onMounted(loadRecommendations)
                       :alt="item.name"
                       class="rounded"
                       style="width: 60px; height: 60px; object-fit: cover;"
+                      loading="lazy"
                     />
                     <div
                       v-else

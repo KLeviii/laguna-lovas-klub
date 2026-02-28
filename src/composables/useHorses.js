@@ -6,16 +6,46 @@ import {
   deleteHorse as deleteHorseService,
 } from "../services/horseService.js";
 
+/**
+ * @module useHorses
+ * Composable a lovak listázásához, szűréséhez és kezeléséhez.
+ */
+
+/**
+ * Composable a lovak adatainak betöltéséhez, szűréséhez és törléséhez.
+ * @returns {{
+ *   horses: import('vue').ComputedRef<Array<Object>>,
+ *   selectedHorse: import('vue').Ref<Object|null>,
+ *   relatedHorses: import('vue').Ref<Array<Object>>,
+ *   loading: import('vue').Ref<boolean>,
+ *   error: import('vue').Ref<string|null>,
+ *   filterStatus: import('vue').Ref<string>,
+ *   isEmpty: import('vue').ComputedRef<boolean>,
+ *   loadHorses: (initialFilter?: boolean|null) => Promise<void>,
+ *   setFilterStatus: (status: string) => Promise<void>,
+ *   loadHorseById: (id: string) => Promise<void>,
+ *   deleteHorse: (id: string) => Promise<boolean>
+ * }}
+ */
 export function useHorses() {
+  /** @type {import('vue').Ref<Array<Object>>} Az összes betöltött ló nyers listája. */
   const horses = ref([]);
+  /** @type {import('vue').Ref<Object|null>} Az egyedileg kiválasztott ló adatai. */
   const selectedHorse = ref(null);
+  /** @type {import('vue').Ref<Array<Object>>} A kiválasztott lóhoz kapcsolódó lovak (azonos nem). */
   const relatedHorses = ref([]);
+  /** @type {import('vue').Ref<boolean>} Töltési állapot jelző. */
   const loading = ref(false);
+  /** @type {import('vue').Ref<string|null>} Az utolsó hiba üzenete. */
   const error = ref(null);
+  /** @type {import('vue').Ref<string>} Szűrő állapot: 'all', 'available' vagy 'unavailable'. */
   const filterStatus = ref("all"); // 'all', 'available', 'unavailable'
 
   /**
-   * Load all horses from database
+   * Az összes ló betöltése az adatbázisból, opcionális szűréssel.
+   * @param {boolean|null} [initialFilter=null] - Ha nem null, felülírja a filterStatus-t
+   *   (pl. vendégek számára csak az eladó lovakat mutatja).
+   * @returns {Promise<void>}
    */
   async function loadHorses(initialFilter = null) {
     loading.value = true;
@@ -36,7 +66,9 @@ export function useHorses() {
   }
 
   /**
-   * Set filter and reload horses
+   * Szűrő állapot beállítása és a lovak újratöltése.
+   * @param {string} status - Az új szűrő érték: 'all', 'available' vagy 'unavailable'.
+   * @returns {Promise<void>}
    */
   async function setFilterStatus(status) {
     filterStatus.value = status;
@@ -44,7 +76,9 @@ export function useHorses() {
   }
 
   /**
-   * Load a single horse by ID
+   * Egyetlen ló betöltése ID alapján, és a kapcsolódó lovak lekérése (azonos nem).
+   * @param {string} id - A betöltendő ló azonosítója.
+   * @returns {Promise<void>}
    */
   async function loadHorseById(id) {
     loading.value = true;
@@ -65,8 +99,9 @@ export function useHorses() {
   }
 
   /**
-   * Computed: filtered horses based on current filter
-   * (Local filtering – optimized if <1000 horses)
+   * Szűrt lovak listája az aktuális filterStatus alapján.
+   * Lokális szűrés – optimalizált kis adathalmazra (<1000 ló).
+   * @type {import('vue').ComputedRef<Array<Object>>}
    */
   const filteredHorses = computed(() => {
     if (filterStatus.value === "all") return horses.value;
@@ -80,12 +115,16 @@ export function useHorses() {
   });
 
   /**
-   * Computed: is list empty
+   * Igaz, ha a szűrt lovak listája üres.
+   * @type {import('vue').ComputedRef<boolean>}
    */
   const isEmpty = computed(() => filteredHorses.value.length === 0);
 
   /**
-   * Delete horse: call service, reload list, handle errors
+   * Ló törlése az adatbázisból, majd a lista újratöltése.
+   * Foreign key constraint hiba esetén felhasználóbarát hibaüzenetet állít be.
+   * @param {string} id - A törlendő ló azonosítója.
+   * @returns {Promise<boolean>} Igaz, ha a törlés sikeres volt.
    */
   async function deleteHorse(id) {
     loading.value = true;

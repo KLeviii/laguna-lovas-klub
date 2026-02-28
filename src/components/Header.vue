@@ -89,6 +89,7 @@ onUnmounted(() => {
             @click="toggleTheme"
             class="nav-item text-uppercase fw-bold nav-link px-4 btn-theme-toggle"
             :title="isDarkMode ? 'Világos téma' : 'Sötét téma'"
+            :aria-label="isDarkMode ? 'Világos téma' : 'Sötét téma'"
           >
             <i :class="['bi', isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill']"></i>
           </button>

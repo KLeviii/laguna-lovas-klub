@@ -7,6 +7,7 @@ const {
   phone,
   subject,
   message,
+  consent,
   loading,
   error,
   success,
@@ -92,6 +93,19 @@ async function handleSubmit() {
             placeholder="Írja le üzenetét..."
             required
           ></textarea>
+        </div>
+
+        <div class="mb-3 form-check">
+          <input
+            id="contact-consent"
+            v-model="consent"
+            type="checkbox"
+            class="form-check-input"
+          />
+          <label for="contact-consent" class="form-check-label">
+            Elolvastam és elfogadom az
+            <router-link to="/adatvedelem">adatvédelmi nyilatkozatot</router-link>.
+          </label>
         </div>
 
         <button type="submit" class="btn btn-primary" :disabled="loading">

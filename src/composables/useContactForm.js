@@ -7,6 +7,7 @@ export function useContactForm() {
   const phone = ref("");
   const subject = ref("");
   const message = ref("");
+  const consent = ref(false);
   const loading = ref(false);
   const error = ref(null);
   const success = ref(false);
@@ -17,6 +18,7 @@ export function useContactForm() {
     phone.value = "";
     subject.value = "";
     message.value = "";
+    consent.value = false;
     error.value = null;
     success.value = false;
   }
@@ -33,6 +35,7 @@ export function useContactForm() {
         throw new Error("Érvénytelen email cím formátum.");
       }
       if (!message.value.trim()) throw new Error("Az üzenet megadása kötelező.");
+      if (!consent.value) throw new Error("Az adatvédelmi nyilatkozat elfogadása kötelező.");
 
       await submitContactForm({
         name: name.value.trim(),
@@ -59,6 +62,7 @@ export function useContactForm() {
     phone,
     subject,
     message,
+    consent,
     loading,
     error,
     success,

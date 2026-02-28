@@ -1,6 +1,9 @@
 <script setup>
 import { useCart } from '@/composables/useCart'
 import { formatPrice } from '@/utils/formatting'
+import { useHead } from '@/composables/useHead'
+
+useHead('Pénztár')
 
 const { cartItems, cartItemCount, cartTotal, isCartEmpty } = useCart()
 </script>

@@ -1,9 +1,10 @@
 <script setup>
 import { useRoute, useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useProducts } from '@/composables/useProducts.js'
 import { useCart } from '@/composables/useCart'
 import { formatPrice } from '@/utils/formatting'
+import { useHead } from '@/composables/useHead'
 
 const route = useRoute()
 const router = useRouter()
@@ -12,6 +13,12 @@ const { addToCart } = useCart()
 
 const selectedQty = ref(1)
 const addedFeedback = ref(false)
+
+watch(selectedProduct, (product) => {
+  if (product) {
+    useHead(product.name, product.description || 'Termék részletei — Laguna Lovasklub webshop.')
+  }
+})
 
 onMounted(() => {
   loadProductById(route.params.id)

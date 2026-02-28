@@ -9,31 +9,88 @@ import {
   uploadProductImage,
 } from '@/services/productService.js'
 
+/**
+ * @module useProductForm
+ * Composable a termék és kategória űrlapok kezeléséhez az admin felületen.
+ * Tartalmazza a validációt, kép feltöltést, CRUD műveleteket termékekhez és kategóriákhoz.
+ */
+
+/**
+ * Composable a termék és kategória űrlapok állapotának, validációjának és mentési logikájának kezeléséhez.
+ * @returns {{
+ *   productName: import('vue').Ref<string>,
+ *   productDescription: import('vue').Ref<string>,
+ *   productPrice: import('vue').Ref<string|number>,
+ *   productPriceFocused: import('vue').Ref<boolean>,
+ *   selectedCategoryId: import('vue').Ref<string|null>,
+ *   isProductAvailable: import('vue').Ref<boolean>,
+ *   productImageUrl: import('vue').Ref<string>,
+ *   productImageFile: import('vue').Ref<File|null>,
+ *   productStock: import('vue').Ref<number>,
+ *   formattedPrice: import('vue').ComputedRef<string>,
+ *   editingProductId: import('vue').Ref<string|null>,
+ *   categoryName: import('vue').Ref<string>,
+ *   categorySlug: import('vue').Ref<string>,
+ *   categoryDescription: import('vue').Ref<string>,
+ *   categoryDisplayOrder: import('vue').Ref<number>,
+ *   editingCategoryId: import('vue').Ref<string|null>,
+ *   loading: import('vue').Ref<boolean>,
+ *   error: import('vue').Ref<string|null>,
+ *   uploadingImage: import('vue').Ref<boolean>,
+ *   clearProductForm: () => void,
+ *   loadProductForEdit: (product: Object) => void,
+ *   saveProduct: () => Promise<boolean>,
+ *   removeProduct: (productId: string) => Promise<boolean>,
+ *   handleImageSelect: (file: File|null) => void,
+ *   clearCategoryForm: () => void,
+ *   loadCategoryForEdit: (category: Object) => void,
+ *   saveCategory: () => Promise<boolean>,
+ *   removeCategory: (categoryId: string) => Promise<boolean>
+ * }}
+ */
 export function useProductForm() {
   // Product form state
+  /** @type {import('vue').Ref<string>} A termék neve. */
   const productName = ref('')
+  /** @type {import('vue').Ref<string>} A termék leírása. */
   const productDescription = ref('')
+  /** @type {import('vue').Ref<string|number>} A termék ára HUF-ban. */
   const productPrice = ref('')
+  /** @type {import('vue').Ref<boolean>} Az ár mező fókuszban van-e (formázás vezérléséhez). */
   const productPriceFocused = ref(false)
+  /** @type {import('vue').Ref<string|null>} A kiválasztott kategória azonosítója. */
   const selectedCategoryId = ref(null)
+  /** @type {import('vue').Ref<boolean>} A termék elérhető-e. */
   const isProductAvailable = ref(true)
+  /** @type {import('vue').Ref<string>} A termék kép URL-je. */
   const productImageUrl = ref('')
+  /** @type {import('vue').Ref<File|null>} A kiválasztott kép fájl (feltöltés előtt). */
   const productImageFile = ref(null)
+  /** @type {import('vue').Ref<number>} A termék készleten lévő darabszáma. */
   const productStock = ref(0)
 
   // Category form state
+  /** @type {import('vue').Ref<string>} A kategória neve. */
   const categoryName = ref('')
+  /** @type {import('vue').Ref<string>} A kategória slug-ja (URL-barát azonosító). */
   const categorySlug = ref('')
+  /** @type {import('vue').Ref<string>} A kategória leírása. */
   const categoryDescription = ref('')
+  /** @type {import('vue').Ref<number>} A kategória megjelenítési sorrendje. */
   const categoryDisplayOrder = ref(0)
 
   // Loading/error state
+  /** @type {import('vue').Ref<boolean>} Töltési állapot jelző. */
   const loading = ref(false)
+  /** @type {import('vue').Ref<string|null>} Az utolsó hiba üzenete. */
   const error = ref(null)
+  /** @type {import('vue').Ref<boolean>} Kép feltöltés folyamatban jelző. */
   const uploadingImage = ref(false)
 
   // Track if editing
+  /** @type {import('vue').Ref<string|null>} A szerkesztés alatt álló termék ID-ja. */
   const editingProductId = ref(null)
+  /** @type {import('vue').Ref<string|null>} A szerkesztés alatt álló kategória ID-ja. */
   const editingCategoryId = ref(null)
 
   // Format price with Hungarian number format

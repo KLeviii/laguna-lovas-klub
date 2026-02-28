@@ -3,6 +3,9 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { useProducts } from '@/composables/useProducts'
+import { useHead } from '@/composables/useHead'
+
+useHead('Webshop', 'Laguna Lovasklub webshop — lovas felszerelések és kiegészítők.')
 import ProductCard from '@/components/webshop/ProductCard.vue'
 import ProductFilter from '@/components/webshop/ProductFilter.vue'
 

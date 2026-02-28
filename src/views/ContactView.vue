@@ -1,5 +1,8 @@
 <script setup>
 import ContactForm from "@/components/contact/ContactForm.vue";
+import { useHead } from "@/composables/useHead";
+
+useHead("Kapcsolat", "Vedd fel velünk a kapcsolatot — Laguna Lovasklub Héreg.");
 </script>
 
 <template>

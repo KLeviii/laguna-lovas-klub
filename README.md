@@ -17,6 +17,10 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület, készletkezelés)
 - Supabase Auth alapú adminisztrátori bejelentkezés
 - Sötét / világos téma localStorage-sel
+- SEO: dinamikus oldal címek és meta leírások (useHead composable)
+- SEO: Open Graph meta tagek, robots.txt, history-alapú routing
+- SEO: Route-szintű kódsplit (lazy loading) a jobb teljesítményért
+- Akadálymentesség: skip navigáció, aria-labelek, scope attribútumok, lazy képek
 
 ## Oldalak
 
@@ -39,7 +43,7 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 ## Stack
 
 - **Vue 3.5** – Composition API, `<script setup>`
-- **Vue Router 4.6** – hash-alapú routing, navigációs guard
+- **Vue Router 4.6** – history-alapú routing, navigációs guard, route-szintű kódsplit
 - **Bootstrap 5.3** – utility-first CSS, Bootstrap Icons (CDN)
 - **Supabase** – adatbázis, auth, storage
 - **Vite 7** – fejlesztői szerver és build

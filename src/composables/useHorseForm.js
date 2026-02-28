@@ -7,30 +7,84 @@ import {
   fetchParentOptions,
 } from "../services/horseService.js";
 
+/**
+ * @module useHorseForm
+ * Composable a ló létrehozó/szerkesztő űrlap kezeléséhez.
+ * Tartalmazza a validációt, kép feltöltést, és a mentés logikáját.
+ */
+
+/**
+ * Composable a ló űrlap állapotának és logikájának kezeléséhez
+ * (létrehozás és szerkesztés egyaránt).
+ * @returns {{
+ *   formErrors: import('vue').Ref<Object>,
+ *   formSubmitting: import('vue').Ref<boolean>,
+ *   loading: import('vue').Ref<boolean>,
+ *   parentOptions: import('vue').Ref<Array<Object>>,
+ *   sireOptions: import('vue').ComputedRef<Array<Object>>,
+ *   damOptions: import('vue').ComputedRef<Array<Object>>,
+ *   editingHorseId: import('vue').Ref<string|null>,
+ *   images: import('vue').Ref<Array<Object>>,
+ *   imageUploading: import('vue').Ref<boolean>,
+ *   isEditing: import('vue').ComputedRef<boolean>,
+ *   formTitle: import('vue').ComputedRef<string>,
+ *   validateForm: () => boolean,
+ *   resetForm: () => void,
+ *   loadHorse: (id: string) => Promise<void>,
+ *   loadParentOptions: () => Promise<void>,
+ *   submitForm: () => Promise<boolean|undefined>,
+ *   uploadMainImage: (file: File) => Promise<void>,
+ *   name: import('vue').Ref<string>,
+ *   gender: import('vue').Ref<string>,
+ *   birth_date: import('vue').Ref<string>,
+ *   sire_id: import('vue').Ref<string|null>,
+ *   dam_id: import('vue').Ref<string|null>,
+ *   is_for_sale: import('vue').Ref<boolean>,
+ *   description: import('vue').Ref<string>,
+ *   main_image_url: import('vue').Ref<string|null>
+ * }}
+ */
 export function useHorseForm() {
   // Form fields
+  /** @type {import('vue').Ref<string>} A ló neve. */
   const name = ref("");
+  /** @type {import('vue').Ref<string>} A ló neme ('male' vagy 'female'). */
   const gender = ref("");
-  // Initialize with today's date in YYYY-MM-DD format
+  /** @type {import('vue').Ref<string>} Születési dátum YYYY-MM-DD formátumban. */
   const birth_date = ref(new Date().toISOString().split('T')[0]);
+  /** @type {import('vue').Ref<string|null>} Az apa ló azonosítója. */
   const sire_id = ref(null);
+  /** @type {import('vue').Ref<string|null>} Az anya ló azonosítója. */
   const dam_id = ref(null);
+  /** @type {import('vue').Ref<boolean>} Eladó-e a ló. */
   const is_for_sale = ref(false);
+  /** @type {import('vue').Ref<string>} A ló leírása. */
   const description = ref("");
+  /** @type {import('vue').Ref<Array<Object>>} A lóhoz tartozó képek listája. */
   const images = ref([]);
+  /** @type {import('vue').Ref<string|null>} A fő kép publikus URL-je. */
   const main_image_url = ref(null);
+  /** @type {import('vue').Ref<File|null>} A kiválasztott fő kép fájl (feltöltés előtt). */
   const mainImageFile = ref(null);
 
   // State
+  /** @type {import('vue').Ref<boolean>} Töltési állapot jelző (adatlekéréshez). */
   const loading = ref(false);
+  /** @type {import('vue').Ref<boolean>} Beküldési állapot jelző (mentéshez). */
   const submitting = ref(false);
+  /** @type {import('vue').Ref<Object>} Validációs hibák objektuma (mező név -> hibaüzenet). */
   const errors = ref({});
+  /** @type {import('vue').Ref<Array<Object>>} Az elérhető szülő lovak listája a legördülő menühöz. */
   const parentOptions = ref([]);
+  /** @type {import('vue').Ref<string|null>} A szerkesztés alatt álló ló ID-ja, vagy null új ló esetén. */
   const editingHorseId = ref(null);
+  /** @type {import('vue').Ref<boolean>} Kép feltöltés folyamatban jelző. */
   const imageUploading = ref(false);
 
   /**
-   * Validate form
+   * Az űrlap validálása. Ellenőrzi a kötelező mezőket (név, nem),
+   * a születési dátum érvényességét, és a szülő lovak különbözőségét.
+   * @returns {boolean} Igaz, ha az űrlap érvényes (nincs hiba).
    */
   function validateForm() {
     const newErrors = {};
@@ -64,7 +118,12 @@ export function useHorseForm() {
   }
 
   /**
-   * Upload main image to Storage
+   * Fő kép feltöltése a Supabase Storage-ba ('horse-images' bucket).
+   * Validálja a fájl méretét (max 5MB) és típusát (JPG, PNG, WebP).
+   * Sikeres feltöltés után beállítja a main_image_url ref-et.
+   * @param {File} file - A feltöltendő képfájl.
+   * @returns {Promise<void>}
+   * @throws {Error} Ha a fájl túl nagy vagy érvénytelen típusú.
    */
   async function uploadMainImage(file) {
     if (!file) return;
@@ -111,7 +170,8 @@ export function useHorseForm() {
   }
 
   /**
-   * Reset form
+   * Az űrlap alaphelyzetbe állítása. Minden mezőt visszaállít az alapértékekre,
+   * törli a hibákat és a szerkesztési állapotot.
    */
   function resetForm() {
     name.value = "";
@@ -129,7 +189,10 @@ export function useHorseForm() {
   }
 
   /**
-   * Load horse data into form (for editing)
+   * Ló adatainak betöltése az űrlapba szerkesztéshez.
+   * Beállítja az editingHorseId ref-et, ami a submitForm viselkedését is befolyásolja.
+   * @param {string} id - A szerkesztendő ló azonosítója.
+   * @returns {Promise<void>}
    */
   async function loadHorse(id) {
     loading.value = true;
@@ -155,7 +218,9 @@ export function useHorseForm() {
   }
 
   /**
-   * Load parent options for dropdowns
+   * Szülő lovak betöltése a legördülő menükhöz (apa/anya kiválasztás).
+   * Hiba esetén csendben elnyeli a hibát, mivel nem kritikus funkció.
+   * @returns {Promise<void>}
    */
   async function loadParentOptions() {
     try {
@@ -166,7 +231,11 @@ export function useHorseForm() {
   }
 
   /**
-   * Submit form (create or update)
+   * Űrlap beküldése: új ló létrehozása vagy meglévő frissítése.
+   * Szerkesztés esetén a szülő referenciák nem módosíthatók.
+   * Előbb validálja az űrlapot, majd a megfelelő service-t hívja.
+   * @returns {Promise<boolean|undefined>} Igaz sikeres mentés esetén, hamis hiba esetén,
+   *   undefined ha a validáció sikertelen.
    */
   async function submitForm() {
     if (!validateForm()) return;
@@ -225,13 +294,29 @@ export function useHorseForm() {
     }
   }
 
+  /**
+   * Igaz, ha szerkesztési módban van az űrlap (editingHorseId be van állítva).
+   * @type {import('vue').ComputedRef<boolean>}
+   */
   const isEditing = computed(() => !!editingHorseId.value);
+  /**
+   * Az űrlap címe: szerkesztés esetén a ló nevét is tartalmazza.
+   * @type {import('vue').ComputedRef<string>}
+   */
   const formTitle = computed(() =>
     isEditing.value ? `Ló szerkesztése: ${name.value}` : "Új egyed felvétele",
   );
+  /**
+   * Az apa (sire) kiválasztáshoz szűrt opciók (csak hím lovak).
+   * @type {import('vue').ComputedRef<Array<Object>>}
+   */
   const sireOptions = computed(() =>
     parentOptions.value.filter(h => h.gender === 'male')
   );
+  /**
+   * Az anya (dam) kiválasztáshoz szűrt opciók (csak nőstény lovak).
+   * @type {import('vue').ComputedRef<Array<Object>>}
+   */
   const damOptions = computed(() =>
     parentOptions.value.filter(h => h.gender === 'female')
   );

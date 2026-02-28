@@ -3,6 +3,9 @@ import { ref, onMounted } from "vue";
 import { fetchLatestCompetitions } from "@/services/competitionService.js";
 import { fetchHorsesForSale } from "@/services/horseService.js";
 import { formatDate } from "@/utils/formatting.js";
+import { useHead } from "@/composables/useHead";
+
+useHead("Rólunk", "Laguna Lovasklub Héreg — lovaglásképzés, versenyeztetés, bértartás.");
 
 const szolgaltatasok = [
   {
@@ -151,7 +154,7 @@ onMounted(async () => {
                             </router-link>
                           </div>
                           <div class="col-auto d-none d-lg-block object-fit-cover w-100 h-100 position-relative">
-                            <img v-if="lo.main_img_url" :src="lo.main_img_url" :alt="lo.name" />
+                            <img v-if="lo.main_img_url" :src="lo.main_img_url" :alt="lo.name" loading="lazy" />
                           </div>
                         </div>
                       </div>
@@ -190,6 +193,7 @@ onMounted(async () => {
                         :src="verseny.image_url"
                         class="verseny-img rounded"
                         :alt="verseny.name"
+                        loading="lazy"
                       />
                       <div
                         v-else

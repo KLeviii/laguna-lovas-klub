@@ -24,6 +24,7 @@ const onImageError = (event) => {
           :alt="horse.name"
           class="card-img-top w-100 h-100"
           style="object-fit: cover"
+          loading="lazy"
           @error="onImageError"
         />
         <div v-else class="d-flex align-items-center justify-content-center h-100">

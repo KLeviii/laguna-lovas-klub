@@ -24,7 +24,7 @@ const currentYear = new Date().getFullYear();
             class="d-flex align-items-center justify-content-center m-3 mx-auto"
             style="width: 150px; height: 150px"
           >
-            <img src="@/assets/img/lagunaLovasKlub.jpg" />
+            <img src="@/assets/img/lagunaLovasKlub.jpg" alt="Laguna Lovasklub logó" loading="lazy" />
           </div>
           <div class="col-12 col-md-3 col-lg-4 col-xl-3 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Laguna lovasklub</h6>
@@ -119,6 +119,8 @@ const currentYear = new Date().getFullYear();
     </section>
     <div class="text-center p-3 copyright">
       {{ currentYear }} Copyright &copy; Laguna Lovasklub Kft.
+      <span class="mx-2">|</span>
+      <router-link to="/adatvedelem">Adatvédelmi Nyilatkozat</router-link>
     </div>
   </footer>
 </template>

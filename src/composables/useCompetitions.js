@@ -1,11 +1,36 @@
 import { ref, computed } from "vue";
 import { fetchAllCompetitions } from "@/services/competitionService.js";
 
+/**
+ * @module useCompetitions
+ * Composable a versenyek listázásához, csoportosításához és statisztikáihoz.
+ */
+
+/**
+ * Composable a versenyek adatainak betöltéséhez, évek szerinti csoportosításához
+ * és összesített statisztikák számításához.
+ * @returns {{
+ *   competitions: import('vue').Ref<Array<Object>>,
+ *   loading: import('vue').Ref<boolean>,
+ *   error: import('vue').Ref<string|null>,
+ *   isEmpty: import('vue').ComputedRef<boolean>,
+ *   competitionsByYear: import('vue').ComputedRef<Array<{year: string, competitions: Array<Object>}>>,
+ *   stats: import('vue').ComputedRef<{uniqueJockeys: number, firstPlaceCount: number, totalPlacements: number}>,
+ *   loadCompetitions: () => Promise<void>
+ * }}
+ */
 export function useCompetitions() {
+  /** @type {import('vue').Ref<Array<Object>>} Az összes betöltött verseny. */
   const competitions = ref([]);
+  /** @type {import('vue').Ref<boolean>} Töltési állapot jelző. */
   const loading = ref(false);
+  /** @type {import('vue').Ref<string|null>} Az utolsó hiba üzenete. */
   const error = ref(null);
 
+  /**
+   * Az összes verseny betöltése az adatbázisból (eredményekkel együtt).
+   * @returns {Promise<void>}
+   */
   async function loadCompetitions() {
     loading.value = true;
     error.value = null;
@@ -19,6 +44,11 @@ export function useCompetitions() {
     }
   }
 
+  /**
+   * Versenyek csoportosítva évek szerint, csökkenő sorrendben.
+   * Az eredmények (competition_results) helyezés szerint rendezve.
+   * @type {import('vue').ComputedRef<Array<{year: string, competitions: Array<Object>}>>}
+   */
   const competitionsByYear = computed(() => {
     const groups = {};
     for (const comp of competitions.value) {
@@ -38,6 +68,10 @@ export function useCompetitions() {
       .map((year) => ({ year, competitions: groups[year] }));
   });
 
+  /**
+   * Összesített versenystatisztikák: egyedi lovasok száma, első helyezések száma, összes helyezés.
+   * @type {import('vue').ComputedRef<{uniqueJockeys: number, firstPlaceCount: number, totalPlacements: number}>}
+   */
   const stats = computed(() => {
     const allResults = competitions.value.flatMap(
       (c) => c.competition_results || []
@@ -54,6 +88,10 @@ export function useCompetitions() {
     return { uniqueJockeys, firstPlaceCount, totalPlacements };
   });
 
+  /**
+   * Igaz, ha nincs egyetlen betöltött verseny sem.
+   * @type {import('vue').ComputedRef<boolean>}
+   */
   const isEmpty = computed(() => competitions.value.length === 0);
 
   return {
