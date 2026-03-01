@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useAuth } from "@/composables/useAuth";
 import { useCompetitions } from "@/composables/useCompetitions.js";
+import { fetchRacehorses } from "@/services/horseService.js";
 import { formatDate } from "@/utils/formatting.js";
 import { useHead } from "@/composables/useHead";
 
@@ -10,6 +11,7 @@ useHead("Eredményeink", "Laguna Lovasklub versenyeredményei és díjai.");
 const { isAuthenticated } = useAuth();
 const { loading, error, isEmpty, competitionsByYear, stats, loadCompetitions } =
   useCompetitions();
+const racehorsesCount = ref(0);
 
 function placementBadgeClass(placement) {
   if (placement === 1) return "bg-warning text-dark";
@@ -18,8 +20,10 @@ function placementBadgeClass(placement) {
   return "bg-primary";
 }
 
-onMounted(() => {
+onMounted(async () => {
   loadCompetitions();
+  const racehorses = await fetchRacehorses().catch(() => []);
+  racehorsesCount.value = racehorses.length;
 });
 </script>
 
@@ -47,10 +51,10 @@ onMounted(() => {
             <div class="col-12 col-md-4 mb-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
-                  <i class="bi bi-trophy-fill fs-1 me-2"></i>
-                  <h3 class="m-2">{{ stats.firstPlaceCount }}</h3>
+                  <i class="bi bi-lightning-fill fs-1 me-2"></i>
+                  <h3 class="m-2">{{ racehorsesCount }}</h3>
                 </div>
-                <h3 class="text-center mt-3">Bajnoki cím</h3>
+                <h3 class="text-center mt-3">Aktív versenyló</h3>
               </div>
             </div>
             <div class="col-12 col-md-4 mb-4">
@@ -221,7 +225,6 @@ onMounted(() => {
                                   <th>Versenyző</th>
                                   <th>Ló</th>
                                   <th>Szakág</th>
-                                  <th>Elismerés</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -244,7 +247,6 @@ onMounted(() => {
                                   <td>{{ result.jockey_name || "—" }}</td>
                                   <td>{{ result.horse?.name || "—" }}</td>
                                   <td>{{ result.discipline || "—" }}</td>
-                                  <td>{{ result.achievement || "—" }}</td>
                                 </tr>
                               </tbody>
                             </table>

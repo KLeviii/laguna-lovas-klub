@@ -65,30 +65,38 @@ function buildNode(horse, byId, generation, maxDepth, nodes, edges, counter) {
     counter.yOffset += ROW_GAP;
   }
 
-  const x = (maxDepth - generation) * COL_WIDTH;
+  const x = generation * COL_WIDTH;
   const role = getRoleName(generation, horse.gender);
 
   nodes.push({
     id: horse.id,
     type: "pedigreeNode",
     position: { x, y },
-    data: { name: horse.name, gender: horse.gender, role, horseId: horse.id },
+    data: {
+      name: horse.name,
+      gender: horse.gender,
+      role,
+      horseId: horse.id,
+      isPedigreeOnly: horse.is_pedigree_only || false,
+      hasSire: !!horse.sire_id,
+      hasDam: !!horse.dam_id,
+    },
   });
 
-  // Edges from parent → child (left → right)
+  // Edges from child → parent (left → right)
   if (sire) {
     edges.push({
-      id: `e-${sire.id}-${horse.id}`,
-      source: sire.id,
-      target: horse.id,
+      id: `e-${horse.id}-${sire.id}`,
+      source: horse.id,
+      target: sire.id,
       type: "smoothstep",
     });
   }
   if (dam) {
     edges.push({
-      id: `e-${dam.id}-${horse.id}`,
-      source: dam.id,
-      target: horse.id,
+      id: `e-${horse.id}-${dam.id}`,
+      source: horse.id,
+      target: dam.id,
       type: "smoothstep",
     });
   }

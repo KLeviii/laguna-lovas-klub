@@ -1,16 +1,34 @@
-<script setup></script>
+<script setup>
+const user = "lagunalovasklub";
+const site = "gmail" + "." + "com";
+const p1 = "+36",
+  p2 = "20",
+  p3 = "981",
+  p4 = "3383";
+const zip = "2832",
+  city = "H\u00e9reg",
+  club = "Laguna Lovasklub";
+
+import { computed } from "vue";
+
+const emailAddress = computed(() =>
+  atob("bGFndW5hbG92YXNrbHViQGdtYWlsLmNvbQ=="),
+);
+const phoneDisplay = computed(() => atob("KzM2IDIwIDk4MSAzMzgz"));
+const addressDisplay = zip + " " + city + ", " + club;
+</script>
 
 <template>
-  <main class="container pb-5" style="padding-top: 100px;">
+  <main class="container pb-5" style="padding-top: 100px">
     <h1 class="mb-4">Adatvédelmi Nyilatkozat</h1>
 
     <section class="mb-4">
       <h2>Adatkezelő adatai</h2>
       <ul class="list-unstyled">
         <li><strong>Név:</strong> Laguna Lovasklub Kft.</li>
-        <li><strong>Székhely:</strong> 2832 Héreg</li>
-        <li><strong>Email:</strong> lagunalovasklub@gmail.com</li>
-        <li><strong>Telefon:</strong> +36 20 981 3383</li>
+        <li><strong>Székhely:</strong> {{ addressDisplay }}</li>
+        <li><strong>Email:</strong> {{ emailAddress }}</li>
+        <li><strong>Telefon:</strong> {{ phoneDisplay }}</li>
       </ul>
     </section>
 
@@ -94,14 +112,10 @@
     <section class="mb-4">
       <h2>Kapcsolat</h2>
       <p>
-        Adatvédelmi kérdéseivel, kérelmeivel kérjük, forduljon hozzánk az alábbi
-        elérhetőségeken:
+        Jogainak megsértése esetén a Nemzeti Adatvédelmi és Információszabadság
+        Hatósághoz (1055 Budapest, Falk Miksa utca 9-11., www.naih.hu) vagy
+        bírósághoz fordulhat.
       </p>
-      <ul class="list-unstyled">
-        <li><strong>Email:</strong> lagunalovasklub@gmail.com</li>
-        <li><strong>Telefon:</strong> +36 20 981 3383</li>
-        <li><strong>Cím:</strong> 2832 Héreg, Laguna Lovasklub</li>
-      </ul>
     </section>
   </main>
 </template>

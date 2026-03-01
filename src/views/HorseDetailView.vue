@@ -69,8 +69,8 @@ function goBack() {
               </span>
             </div>
 
-            <!-- Availability -->
-            <div class="mb-4">
+            <!-- Availability + Racehorse -->
+            <div class="mb-4 d-flex flex-wrap gap-2">
               <span
                 v-if="selectedHorse.is_for_sale"
                 class="badge bg-success p-2"
@@ -81,6 +81,10 @@ function goBack() {
               <span v-else class="badge bg-secondary p-2">
                 <i class="bi bi-x-circle me-1"></i>
                 Nem eladó
+              </span>
+              <span v-if="selectedHorse.is_racehorse" class="badge bg-warning text-dark p-2">
+                <i class="bi bi-lightning-fill me-1"></i>
+                Versenyló
               </span>
             </div>
 

@@ -186,7 +186,6 @@ h5 {
                 <th>Ló</th>
                 <th>Szakág</th>
                 <th>Helyezés</th>
-                <th>Elismerés</th>
                 <th></th>
               </tr>
             </thead>
@@ -201,7 +200,6 @@ h5 {
                   </span>
                   <span v-else class="text-muted">—</span>
                 </td>
-                <td>{{ result.achievement || "—" }}</td>
                 <td>
                   <button
                     class="btn btn-sm btn-outline-danger"
@@ -264,14 +262,6 @@ h5 {
                   min="1"
                 />
               </div>
-              <div class="col-md-2">
-                <input
-                  v-model="newResult.achievement"
-                  type="text"
-                  class="form-control form-control-sm"
-                  placeholder="Elismerés"
-                />
-              </div>
               <div class="col-md-1">
                 <button
                   type="button"
@@ -328,7 +318,6 @@ const newResult = reactive({
   horse_id: null,
   discipline: "",
   placement: null,
-  achievement: "",
 });
 
 function clearNewResult() {
@@ -336,7 +325,6 @@ function clearNewResult() {
   newResult.horse_id = null;
   newResult.discipline = "";
   newResult.placement = null;
-  newResult.achievement = "";
 }
 
 onMounted(async () => {
@@ -395,7 +383,6 @@ async function handleAddResult() {
     horse_id: newResult.horse_id || null,
     discipline: newResult.discipline.trim(),
     placement: newResult.placement || null,
-    achievement: newResult.achievement.trim() || null,
   };
 
   const created = await addResult(resultData);

@@ -8,7 +8,11 @@ import { supabase } from "./supabase";
 export async function fetchAllHorses(filters = {}) {
   let query = supabase
     .from("horses")
-    .select("id, name, gender, birth_date, is_for_sale, main_img_url");
+    .select("id, name, gender, birth_date, is_for_sale, main_img_url, is_pedigree_only");
+
+  if (!filters.include_pedigree_only) {
+    query = query.eq("is_pedigree_only", false);
+  }
 
   if (filters.available_only) {
     query = query.eq("is_for_sale", true);
@@ -31,7 +35,7 @@ export async function fetchAllHorses(filters = {}) {
 export async function fetchPedigree(horseId) {
   const { data: root, error } = await supabase
     .from("horses")
-    .select("id, name, gender, sire_id, dam_id")
+    .select("id, name, gender, sire_id, dam_id, is_pedigree_only")
     .eq("id", horseId)
     .single();
 
@@ -48,7 +52,7 @@ export async function fetchPedigree(horseId) {
 
     const { data: ancestors } = await supabase
       .from("horses")
-      .select("id, name, gender, sire_id, dam_id")
+      .select("id, name, gender, sire_id, dam_id, is_pedigree_only")
       .in("id", uniqueIds);
 
     if (!ancestors || ancestors.length === 0) break;
@@ -77,6 +81,7 @@ export async function fetchHorsesForSale(limit = 2) {
     .from("horses")
     .select("id, name, description, main_img_url")
     .eq("is_for_sale", true)
+    .eq("is_pedigree_only", false)
     .order("name", { ascending: true })
     .limit(limit);
 
@@ -96,7 +101,7 @@ export async function fetchHorseById(id) {
   const { data, error } = await supabase
     .from("horses")
     .select(
-      `id, name, gender, birth_date, is_for_sale, main_img_url, description,
+      `id, name, gender, birth_date, is_for_sale, is_racehorse, main_img_url, description,
        sire_id, dam_id,
        images:horse_images(id, image_url, display_order)`,
     )
@@ -209,6 +214,7 @@ export async function fetchRelatedHorses(gender, excludeId, limit = 4) {
     .from('horses')
     .select('id, name, gender, birth_date, is_for_sale, main_img_url')
     .eq('gender', gender)
+    .eq('is_pedigree_only', false)
     .neq('id', excludeId)
     .limit(limit)
 
@@ -231,6 +237,88 @@ export async function fetchParentOptions() {
 
   if (error) throw error;
   return data || [];
+}
+
+/**
+ * Create a pedigree-only horse (minimal record: name + gender)
+ * @param {string} name - horse name
+ * @param {string} gender - 'male' or 'female'
+ * @returns {Promise<Object>}
+ */
+export async function createPedigreeHorse(name, gender) {
+  const { data, error } = await supabase
+    .from("horses")
+    .insert([{ name, gender, is_pedigree_only: true, is_for_sale: false }])
+    .select("id, name, gender")
+    .single();
+
+  if (error) throw new Error(error.message || "Nem sikerült létrehozni a lovat");
+  return data;
+}
+
+/**
+ * Assign a parent (sire or dam) to a horse
+ * @param {string} horseId - the child horse UUID
+ * @param {string} parentId - the parent horse UUID
+ * @param {'sire'|'dam'} role - parent role
+ * @returns {Promise<Object>}
+ */
+export async function assignParent(horseId, parentId, role) {
+  const field = role === "sire" ? "sire_id" : "dam_id";
+  const { data: existing, error: fetchErr } = await supabase
+    .from("horses").select("*").eq("id", horseId).single();
+  if (fetchErr) throw fetchErr;
+  const { data, error } = await supabase
+    .from("horses")
+    .upsert({ ...existing, [field]: parentId })
+    .select("id, name, sire_id, dam_id")
+    .single();
+  if (error) throw new Error(error.message || "Nem sikerült a szülő hozzárendelése");
+  return data;
+}
+
+/**
+ * Clear sire_id or dam_id on a horse (disconnect parent link)
+ * @param {string} horseId
+ * @param {'sire'|'dam'} role
+ */
+export async function removeParent(horseId, role) {
+  const field = role === "sire" ? "sire_id" : "dam_id";
+  const { data: existing, error: fetchErr } = await supabase
+    .from("horses").select("*").eq("id", horseId).single();
+  if (fetchErr) throw fetchErr;
+  const { error } = await supabase
+    .from("horses")
+    .upsert({ ...existing, [field]: null })
+    .select("id")
+    .single();
+  if (error) throw new Error(error.message || "Nem sikerült eltávolítani a szülőt");
+}
+
+/**
+ * Update only the name of a horse
+ * @param {string} id
+ * @param {string} name
+ */
+export async function updateHorseName(id, name) {
+  const { data: existing, error: fetchErr } = await supabase
+    .from("horses").select("*").eq("id", id).single();
+  if (fetchErr) throw fetchErr;
+  const { error } = await supabase
+    .from("horses")
+    .upsert({ ...existing, name })
+    .select("id")
+    .single();
+  if (error) throw new Error(error.message || "Nem sikerült frissíteni a nevet");
+}
+
+/**
+ * Delete a pedigree-only horse record (no images to clean up)
+ * @param {string} id
+ */
+export async function deletePedigreeHorse(id) {
+  const { error } = await supabase.from("horses").delete().eq("id", id);
+  if (error) throw new Error(error.message || "Nem sikerült törölni a lovat");
 }
 
 /**
@@ -260,4 +348,36 @@ export async function fetchHorseForEdit(id) {
 
   if (error) throw error;
   return data;
+}
+
+/**
+ * Fetch all active racehorses
+ * @returns {Promise<Array>}
+ */
+export async function fetchRacehorses() {
+  const { data, error } = await supabase
+    .from("horses")
+    .select("id, name, gender, birth_date, main_img_url")
+    .eq("is_racehorse", true)
+    .eq("is_pedigree_only", false)
+    .order("name", { ascending: true });
+
+  if (error) throw new Error("Failed to fetch racehorses");
+  return data || [];
+}
+
+/**
+ * Set or unset racehorse status for a horse
+ * @param {string} id - horse UUID
+ * @param {boolean} isRacehorse
+ */
+export async function setRacehorse(id, isRacehorse) {
+  const { data: existing, error: fetchErr } = await supabase
+    .from("horses").select("*").eq("id", id).single();
+  if (fetchErr) throw fetchErr;
+  const { error } = await supabase
+    .from("horses")
+    .upsert({ ...existing, is_racehorse: isRacehorse })
+    .select("id").single();
+  if (error) throw new Error(error.message || "Nem sikerült a versenyló státusz módosítása");
 }

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { fetchLatestCompetitions } from "@/services/competitionService.js";
 import { fetchAllHorses } from "@/services/horseService.js";
 import { fetchAllProducts } from "@/services/productService.js";
@@ -7,7 +7,17 @@ import { formatDate } from "@/utils/formatting.js";
 import { useHead } from "@/composables/useHead";
 import ProductCard from "@/components/webshop/ProductCard.vue";
 import heroImg from "@/assets/img/vagany.jpg";
+import champiImg from "@/assets/img/champi.jpg";
+import champi2Img from "@/assets/img/champi2.jpg";
+import cooperImg from "@/assets/img/cooper.jpg";
+import kaposvarImg from "@/assets/img/kaposvar.jpg";
+import megyeiImg from "@/assets/img/megyei.jpg";
 import aboutImg from "@/assets/img/cordocan.jpg";
+
+const heroImages = [heroImg, champiImg, champi2Img, cooperImg, kaposvarImg, megyeiImg];
+const currentIndex = ref(0);
+const prevIndex = ref(-1);
+let slideInterval = null;
 
 useHead(
   "Kezdőlap",
@@ -20,6 +30,11 @@ const competitions = ref([]);
 const loading = ref(true);
 
 onMounted(async () => {
+  slideInterval = setInterval(() => {
+    prevIndex.value = currentIndex.value;
+    currentIndex.value = (currentIndex.value + 1) % heroImages.length;
+  }, 4000);
+
   const [prodResult, horseResult, compResult] = await Promise.allSettled([
     fetchAllProducts({ available_only: true }),
     fetchAllHorses(),
@@ -39,6 +54,8 @@ onMounted(async () => {
   loading.value = false;
 });
 
+onUnmounted(() => clearInterval(slideInterval));
+
 function scrollToRolunk() {
   const el = document.getElementById("rolunk");
   if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -50,8 +67,16 @@ function scrollToRolunk() {
     <!-- Hero Section -->
     <section
       class="hero-section d-flex align-items-center justify-content-center text-center"
-      :style="{ backgroundImage: `url(${heroImg})` }"
     >
+      <div class="hero-slides" aria-hidden="true">
+        <img
+          v-for="(img, i) in heroImages"
+          :key="i"
+          :src="img"
+          :class="['hero-slide', { 'slide-active': i === currentIndex, 'slide-prev': i === prevIndex }]"
+          alt=""
+        />
+      </div>
       <div class="hero-overlay"></div>
       <div class="hero-content position-relative">
         <h1 class="hero-title mb-4">
@@ -291,20 +316,43 @@ function scrollToRolunk() {
   position: relative;
   min-height: 100vh;
   min-width: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  overflow: hidden;
+}
+
+.hero-slides {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateX(100%);
+  transition: transform 0.8s ease;
+}
+
+.hero-slide.slide-active {
+  transform: translateX(0);
+  z-index: 1;
+}
+
+.hero-slide.slide-prev {
+  transform: translateX(-100%);
 }
 
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
+  z-index: 2;
 }
 
 .hero-content {
-  z-index: 1;
+  z-index: 3;
   padding: 2rem;
 }
 

@@ -20,7 +20,7 @@ export async function fetchAllCompetitions() {
         jockey_name,
         discipline,
         placement,
-        achievement,
+
         horse:horse_id (
           id,
           name
@@ -76,7 +76,7 @@ export async function fetchCompetitionById(id) {
         jockey_name,
         discipline,
         placement,
-        achievement,
+
         horse_id,
         horse:horse_id (
           id,
@@ -153,14 +153,14 @@ export async function deleteCompetition(id) {
 
 /**
  * Create a competition result
- * @param {Object} data - { competition_id, jockey_name, discipline, placement, achievement, horse_id }
+ * @param {Object} data - { competition_id, jockey_name, discipline, placement, horse_id }
  * @returns {Promise<Object>}
  */
 export async function createCompetitionResult(data) {
   const { data: created, error } = await supabase
     .from("competition_results")
     .insert([data])
-    .select("id, competition_id, jockey_name, discipline, placement, achievement, horse_id")
+    .select("id, competition_id, jockey_name, discipline, placement, horse_id")
     .single();
 
   if (error) {

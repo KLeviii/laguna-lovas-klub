@@ -1,5 +1,32 @@
 <template>
   <div class="admin-horse-list">
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          :class="{ active: activeTab === 'horses' }"
+          @click="activeTab = 'horses'"
+        >
+          <i class="bi bi-list me-1"></i>Lovak
+        </button>
+      </li>
+      <li class="nav-item">
+        <button
+          class="nav-link"
+          :class="{ active: activeTab === 'racehorses' }"
+          @click="activeTab = 'racehorses'"
+        >
+          <i class="bi bi-lightning me-1"></i>Versenylovak
+        </button>
+      </li>
+    </ul>
+
+    <!-- Racehorses tab -->
+    <AdminRacehorseList v-if="activeTab === 'racehorses'" />
+
+    <!-- Horses tab -->
+    <template v-else>
     <!-- Header with New button -->
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
       <h2 class="mb-0">Lovak kezelése</h2>
@@ -53,7 +80,14 @@
               />
               <span v-else class="text-muted">—</span>
             </td>
-            <td class="fw-bold">{{ horse.name }}</td>
+            <td class="fw-bold">
+              {{ horse.name }}
+              <span
+                v-if="horse.is_pedigree_only"
+                class="badge bg-secondary ms-1"
+                style="font-size: 0.65rem"
+              >Családfa</span>
+            </td>
             <td>
               <span v-if="horse.gender === 'male'" class="badge bg-info">
                 ♂ Mén
@@ -77,6 +111,14 @@
             <td>
               <div class="btn-group btn-group-sm">
                 <button
+                  class="btn btn-outline-success"
+                  @click="openPedigree(horse.id)"
+                  title="Családfa"
+                >
+                  <i class="bi bi-diagram-3"></i>
+                  <span class="d-none d-lg-inline ms-1">Családfa</span>
+                </button>
+                <button
                   class="btn btn-outline-primary"
                   @click="goToEdit(horse.id)"
                   title="Szerkesztés"
@@ -98,21 +140,48 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Pedigree modal -->
+    <PedigreeTree
+      v-if="pedigreeHorseId"
+      :horse-id="pedigreeHorseId"
+      :show="showPedigree"
+      :editable="true"
+      @close="closePedigree"
+    />
+    </template>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useHorses } from "../../composables/useHorses.js";
 import { formatDate } from "@/utils/formatting.js";
+import PedigreeTree from "@/components/horses/PedigreeTree.vue";
+import AdminRacehorseList from "@/components/horses/AdminRacehorseList.vue";
+
+const activeTab = ref("horses");
 
 const router = useRouter();
 const { horses, loading, error, isEmpty, loadHorses, deleteHorse } = useHorses();
 
-// Load all horses (without filters) when component mounts
+const pedigreeHorseId = ref(null);
+const showPedigree = ref(false);
+
+function openPedigree(horseId) {
+  pedigreeHorseId.value = horseId;
+  showPedigree.value = true;
+}
+
+function closePedigree() {
+  showPedigree.value = false;
+  pedigreeHorseId.value = null;
+}
+
+// Load all horses (without filters) when component mounts, including pedigree-only
 onMounted(() => {
-  loadHorses(false); // false = show all horses, not just available ones
+  loadHorses(false, { include_pedigree_only: true });
 });
 
 function goToCreate() {

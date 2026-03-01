@@ -47,7 +47,7 @@ export function useHorses() {
    *   (pl. vendégek számára csak az eladó lovakat mutatja).
    * @returns {Promise<void>}
    */
-  async function loadHorses(initialFilter = null) {
+  async function loadHorses(initialFilter = null, options = {}) {
     loading.value = true;
     error.value = null;
 
@@ -55,6 +55,7 @@ export function useHorses() {
       // If initialFilter is provided (for guests showing only available), use it
       const filters = {
         available_only: initialFilter !== null ? initialFilter : filterStatus.value === "available",
+        include_pedigree_only: options.include_pedigree_only || false,
       };
       horses.value = await fetchAllHorses(filters);
     } catch (err) {

@@ -1,16 +1,24 @@
 <script setup>
-function email() {
-  return "lagunalovasklub" + "@" + "gmail.com";
-}
-function mailto() {
-  return "mailto:" + email();
-}
-function phone() {
-  return "+36" + "20" + "981" + "3383";
-}
-function telLink() {
-  return "tel:" + phone();
-}
+const user = "lagunalovasklub";
+const site = "gmail" + "." + "com";
+const p1 = "+36",
+  p2 = "20",
+  p3 = "981",
+  p4 = "3383";
+const zip = "2832",
+  city = "H\u00e9reg",
+  club = "Laguna Lovasklub";
+
+import { computed } from "vue";
+
+const emailAddress = computed(() =>
+  atob("bGFndW5hbG92YXNrbHViQGdtYWlsLmNvbQ=="),
+);
+const phoneDisplay = computed(() => atob("KzM2IDIwIDk4MSAzMzgz"));
+const mailtoHref = computed(() => `mailto:${emailAddress.value}`);
+const telHref = computed(() => `tel:${atob("KzM2MjA5ODEzMzgz")}`);
+
+const addressDisplay = zip + " " + city + ", " + club;
 
 const currentYear = new Date().getFullYear();
 </script>
@@ -24,7 +32,11 @@ const currentYear = new Date().getFullYear();
             class="d-flex align-items-center justify-content-center m-3 mx-auto"
             style="width: 150px; height: 150px"
           >
-            <img src="@/assets/img/lagunaLovasKlub.jpg" alt="Laguna Lovasklub logó" loading="lazy" />
+            <img
+              src="@/assets/img/lagunaLovasKlub.jpg"
+              alt="Laguna Lovasklub logó"
+              loading="lazy"
+            />
           </div>
           <div class="col-12 col-md-3 col-lg-4 col-xl-3 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Laguna lovasklub</h6>
@@ -101,16 +113,16 @@ const currentYear = new Date().getFullYear();
               style="width: 60px; background-color: var(--primary); height: 2px"
             />
             <p>
-              <a :href="mailto"> lagunalovasklub@gmail.com </a>
+              <a :href="mailtoHref">{{ emailAddress }}</a>
             </p>
             <p>
-              <a :href="telLink">+36 20 981 3383</a>
+              <a :href="telHref">{{ phoneDisplay }}</a>
             </p>
             <p>
               <a
                 href="https://www.google.com/maps/place/Laguna+lovasklub+H%C3%A9reg/@47.6480603,18.5212508,17z/data=!3m1!4b1!4m6!3m5!1s0x476a43bd70a547c3:0x4afb99b01aff5255!8m2!3d47.6480603!4d18.5238257!16s%2Fg%2F11vhgh8v6g?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoKLDEwMDc5MjA2N0gBUAM%3D"
               >
-                2832, Héreg, Laguna Lovasklub
+                {{ addressDisplay }}
               </a>
             </p>
           </div>
@@ -163,6 +175,5 @@ footer {
     text-align: center;
     justify-content: center;
   }
-  
 }
 </style>
