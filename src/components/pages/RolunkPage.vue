@@ -286,10 +286,12 @@ function scrollToRolunk() {
 .hero-section {
   position: relative;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 100%;
+  overflow-x: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .hero-overlay {
