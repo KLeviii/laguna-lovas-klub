@@ -44,19 +44,10 @@ export async function fetchContactSubmissions() {
  * @throws {Error} If the update fails
  */
 async function updateContactReadStatus(id, isRead) {
-  const { data: existing, error: fetchError } = await supabase
-    .from("contact_submissions")
-    .select("id, is_read, created_at")
-    .eq("id", id)
-    .single();
-
-  if (fetchError) {
-    throw new Error(`Hiba a jelölés közben.`);
-  }
-
   const { error } = await supabase
     .from("contact_submissions")
-    .upsert({ ...existing, is_read: isRead });
+    .update({ is_read: isRead })
+    .eq("id", id);
 
   if (error) {
     throw new Error(`Hiba a jelölés közben.`);

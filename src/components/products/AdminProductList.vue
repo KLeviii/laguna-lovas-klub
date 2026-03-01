@@ -32,9 +32,9 @@
           <tr class="text-center">
             <th class="d-none d-md-table-cell">ID</th>
             <th class="d-none d-sm-table-cell">Kép</th>
-            <th>Név</th>
-            <th class="d-none d-md-table-cell">Kategória</th>
-            <th>Ár</th>
+            <th class="text-start">Név</th>
+            <th class="d-none d-md-table-cell text-start">Kategória</th>
+            <th class="text-start">Ár</th>
             <th class="d-none d-lg-table-cell">Elérhető</th>
             <th>Műveletek</th>
           </tr>
@@ -53,14 +53,14 @@
               />
               <span v-else class="text-muted">—</span>
             </td>
-            <td class="fw-bold">{{ product.name }}</td>
-            <td class="d-none d-md-table-cell">
+            <td class="fw-bold text-start">{{ product.name }}</td>
+            <td class="d-none d-md-table-cell text-start">
               <span v-if="product.category" class="badge bg-info">
                 {{ product.category.name }}
               </span>
               <span v-else class="text-muted">—</span>
             </td>
-            <td class="fw-bold text-success">
+            <td class="fw-bold text-success text-start">
               {{ formatPrice(product.price_huf) }}
             </td>
             <td class="d-none d-lg-table-cell">
