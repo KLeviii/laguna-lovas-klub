@@ -114,7 +114,7 @@ function scrollToRolunk() {
     </section>
 
     <!-- Webshop Section -->
-    <section class="section-padding section-alt">
+    <section class="section-padding section-alt webshop-preview">
       <div class="container">
         <div class="text-center mb-5">
           <h2 class="section-title">Vásárolj tőlünk</h2>
@@ -205,7 +205,7 @@ function scrollToRolunk() {
     </section>
 
     <!-- Eredményeink Section -->
-    <section class="section-padding section-alt">
+    <section class="section-padding section-alt results-preview">
       <div class="container">
         <div class="text-center mb-5">
           <h2 class="section-title">Eredményeink</h2>
@@ -279,11 +279,14 @@ function scrollToRolunk() {
 </template>
 
 <style scoped>
-
+.webshop-preview, .results-preview{
+  border-radius: 20px;
+}
 /* Hero */
 .hero-section {
   position: relative;
   min-height: 100vh;
+  min-width: 100vw;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
