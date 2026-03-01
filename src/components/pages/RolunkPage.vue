@@ -286,7 +286,7 @@ function scrollToRolunk() {
 .hero-section {
   position: relative;
   min-height: 100vh;
-  min-width: 100vw;
+  min-width: 100%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
