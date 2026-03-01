@@ -44,13 +44,22 @@ export async function fetchContactSubmissions() {
  * @throws {Error} If the update fails
  */
 async function updateContactReadStatus(id, isRead) {
+  const { data: existing, error: fetchError } = await supabase
+    .from("contact_submissions")
+    .select("id, name, email, phone, subject, message, is_read, created_at")
+    .eq("id", id)
+    .single();
+
+  if (fetchError) {
+    throw new Error("Hiba az üzenet lekérése közben.");
+  }
+
   const { error } = await supabase
     .from("contact_submissions")
-    .update({ is_read: isRead })
-    .eq("id", id);
+    .upsert({ ...existing, is_read: isRead });
 
   if (error) {
-    throw new Error(`Hiba a jelölés közben.`);
+    throw new Error("Hiba a jelölés közben.");
   }
 }
 
@@ -80,9 +89,7 @@ export async function markContactAsUnread(id) {
  */
 export async function deleteContactSubmission(id) {
   const { error } = await supabase
-    .from("contact_submissions")
-    .delete()
-    .eq("id", id);
+    .rpc("delete_contact_submission", { submission_id: id });
 
   if (error) {
     throw new Error("Hiba az üzenet törlése közben.");
