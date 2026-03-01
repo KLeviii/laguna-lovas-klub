@@ -61,6 +61,10 @@ body.light {
   --bs-link-hover-color: var(--highlight);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Mulish", sans-serif;
   font-optical-sizing: auto;
@@ -638,6 +642,7 @@ section,
   margin-right: auto;
   width: 100%;
 }
+
 
 footer img {
   border-radius: 50%;
