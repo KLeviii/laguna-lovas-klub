@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-layout">
+  <AdminLayout>
     <!-- Navigation tabs -->
     <nav class="mb-4">
       <div class="nav nav-tabs" role="tablist">
@@ -36,12 +36,13 @@
     <div v-if="currentView === 'edit'">
       <CompetitionForm @saved="onCompetitionSaved" @cancel="onCompetitionCancel" />
     </div>
-  </div>
+  </AdminLayout>
 </template>
 
 <script setup>
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import AdminLayout from "@/components/admin/AdminLayout.vue";
 import AdminCompetitionList from "@/components/competitions/AdminCompetitionList.vue";
 import CompetitionForm from "@/components/competitions/CompetitionForm.vue";
 
@@ -83,10 +84,6 @@ function onCompetitionCancel() {
 </script>
 
 <style scoped>
-.admin-layout {
-  padding: 2rem 1rem;
-}
-
 .nav-tabs {
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
@@ -118,10 +115,6 @@ i {
 }
 
 @media (max-width: 576px) {
-  .admin-layout {
-    padding: 1rem 0.5rem;
-  }
-
   .nav-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.85rem;

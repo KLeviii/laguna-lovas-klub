@@ -1,12 +1,9 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
 import { useTheme } from "@/composables/useTheme";
 import CartIcon from "@/components/webshop/CartIcon.vue";
 
-const route = useRoute();
-const router = useRouter();
 const { isAuthenticated, signOut, loading } = useAuth();
 const { isDarkMode, toggleTheme } = useTheme();
 
@@ -49,6 +46,7 @@ function handlenavOnMouseMove(mousePosY) {
     showNavbar.value = false;
   }
 }
+
 const handleLogout = async () => {
   await signOut();
   window.location.href = window.location.pathname;
@@ -71,113 +69,134 @@ onUnmounted(() => {
 
 <template>
   <header id="nav" :class="['nav-bar', { hidden: !showNavbar }]">
-    <nav>
-      <div class="lh-1 heading d-flex justify-content-between align-items-center px-3">
-        <h2 class="text-uppercase fw-bold mb-0" style="padding: 0.4rem 0 0.5rem;">Laguna Lovasklub</h2>
+    <!-- Fő sor: logó | linkek | akció ikonok -->
+    <div class="navbar-inner d-flex align-items-center px-3">
+      <!-- Bal: logó -->
+      <router-link to="/" class="navbar-brand" @click="closeMenu">
+        <img
+          src="@/assets/img/lagunaLovasKlub.jpg"
+          alt="Laguna Lovasklub"
+          class="navbar-logo"
+        />
+      </router-link>
+
+      <!-- Közép: navigációs linkek (csak desktop) -->
+      <div class="nav-links d-none d-lg-flex align-items-center">
+        <router-link class="nav-link text-uppercase fw-bold" to="/">
+          Rólunk
+        </router-link>
+        <router-link class="nav-link text-uppercase fw-bold" to="/webshop">
+          Webshop
+        </router-link>
+        <router-link class="nav-link text-uppercase fw-bold" to="/lovaink">
+          Lovaink
+        </router-link>
+        <router-link class="nav-link text-uppercase fw-bold" to="/eredmenyeink">
+          Eredményeink
+        </router-link>
+        <router-link class="nav-link text-uppercase fw-bold" to="/kapcsolat">
+          Kapcsolat
+        </router-link>
+      </div>
+
+      <!-- Jobb: akció ikonok -->
+      <div class="nav-actions d-flex align-items-center ms-auto">
+        <CartIcon />
+
         <button
-          class="btn-hamburger d-lg-none"
+          @click="toggleTheme"
+          class="btn-icon"
+          :title="isDarkMode ? 'Világos téma' : 'Sötét téma'"
+          :aria-label="isDarkMode ? 'Világos téma' : 'Sötét téma'"
+        >
+          <i :class="['bi', isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill']"></i>
+        </button>
+
+        <!-- Kijelentkezett: login ikon -->
+        <router-link
+          v-if="!isAuthenticated"
+          to="/admin/login"
+          class="btn-icon"
+          title="Bejelentkezés"
+          aria-label="Bejelentkezés"
+          @click="closeMenu"
+        >
+          <i class="bi bi-person-circle"></i>
+        </router-link>
+
+        <!-- Bejelentkezett: profil + logout ikon -->
+        <router-link
+          v-if="isAuthenticated"
+          to="/admin"
+          class="btn-icon"
+          title="Admin"
+          aria-label="Admin"
+          @click="closeMenu"
+        >
+          <i class="bi bi-person-fill"></i>
+        </router-link>
+        <button
+          v-if="isAuthenticated"
+          @click="handleLogout"
+          class="btn-icon"
+          :disabled="loading"
+          title="Kijelentkezés"
+          aria-label="Kijelentkezés"
+        >
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+
+        <!-- Hamburger (csak mobil) -->
+        <button
+          class="btn-icon d-lg-none ms-1"
           @click="toggleMenu"
           :aria-expanded="menuOpen"
           aria-label="Menü"
         >
-          <i :class="['bi', menuOpen ? 'bi-x-lg' : 'bi-list']" style="font-size: 1.5rem;"></i>
+          <i :class="['bi', menuOpen ? 'bi-x-lg' : 'bi-list']" style="font-size: 1.4rem;"></i>
         </button>
       </div>
-      <div :class="['nav-scroller', { 'menu-open': menuOpen }]">
-        <nav class="nav justify-content-center flex-lg-row flex-column align-items-center">
-          <button
-            @click="toggleTheme"
-            class="nav-item text-uppercase fw-bold nav-link px-4 btn-theme-toggle"
-            :title="isDarkMode ? 'Világos téma' : 'Sötét téma'"
-            :aria-label="isDarkMode ? 'Világos téma' : 'Sötét téma'"
-          >
-            <i :class="['bi', isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill']"></i>
-          </button>
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/"
-            @click="closeMenu"
-          >
-            Rólunk
-          </router-link>
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/webshop"
-            @click="closeMenu"
-          >
-            Webshop
-          </router-link>
-          <CartIcon @click="closeMenu" />
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/lovaink"
-            @click="closeMenu"
-          >
-            Lovaink
-          </router-link>
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/eredmenyeink"
-            @click="closeMenu"
-          >
-            Eredményeink
-          </router-link>
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/kapcsolat"
-            @click="closeMenu"
-          >
-            Kapcsolat
-          </router-link>
+    </div>
 
-          <router-link
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/admin/login"
-            v-show="!isAuthenticated"
-            @click="closeMenu"
-          >
-            <i class="bi bi-shield-lock me-1"></i>
-            Login
-          </router-link>
-
-          <router-link
-            v-if="isAuthenticated"
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4"
-            to="/admin"
-            @click="closeMenu"
-          >
-            <i class="bi bi-shield-lock me-1"></i>
-            Admin
-          </router-link>
-          <button
-            v-if="isAuthenticated"
-            @click="handleLogout"
-            class="nav-item text-uppercase fw-bold nav-link link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover px-4 btn-logout"
-            :disabled="loading"
-          >
-            <i class="bi bi-box-arrow-right me-1"></i>
-            {{ loading ? "Kijelentkezés..." : "Kijelentkezés" }}
-          </button>
-        </nav>
-      </div>
-    </nav>
+    <!-- Mobil menü -->
+    <div :class="['mobile-menu', { 'menu-open': menuOpen }]">
+      <nav class="d-flex flex-column">
+        <router-link class="mobile-link" to="/" @click="closeMenu">Rólunk</router-link>
+        <router-link class="mobile-link" to="/webshop" @click="closeMenu">Webshop</router-link>
+        <router-link class="mobile-link" to="/lovaink" @click="closeMenu">Lovaink</router-link>
+        <router-link class="mobile-link" to="/eredmenyeink" @click="closeMenu">Eredményeink</router-link>
+        <router-link class="mobile-link" to="/kapcsolat" @click="closeMenu">Kapcsolat</router-link>
+        <router-link
+          v-if="!isAuthenticated"
+          class="mobile-link"
+          to="/admin/login"
+          @click="closeMenu"
+        >
+          <i class="bi bi-person-circle me-2"></i>Bejelentkezés
+        </router-link>
+        <router-link
+          v-if="isAuthenticated"
+          class="mobile-link"
+          to="/admin"
+          @click="closeMenu"
+        >
+          <i class="bi bi-person-fill me-2"></i>Admin
+        </router-link>
+        <button
+          v-if="isAuthenticated"
+          class="mobile-link text-start"
+          @click="handleLogout"
+          :disabled="loading"
+        >
+          <i class="bi bi-box-arrow-right me-2"></i>
+          {{ loading ? "Kijelentkezés..." : "Kijelentkezés" }}
+        </button>
+      </nav>
+    </div>
   </header>
 </template>
 
 <style scoped>
-.nav-scroller {
-  border-bottom: 2px solid var(--highlight);
-}
-
-.heading {
-  border-bottom: 1px solid var(--border);
-}
-
-h2 {
-  color: var(--text);
-  font-size: 1.25rem;
-}
-
 #nav {
   position: fixed;
   top: 0;
@@ -195,56 +214,39 @@ h2 {
   opacity: 0;
 }
 
-/* Hamburger button */
-.btn-hamburger {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text);
-  padding: 0.5rem;
+/* Navbar single row */
+.navbar-inner {
+  border-bottom: 2px solid var(--highlight);
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
 }
 
-/* Mobile menu collapse */
-@media (max-width: 991.98px) {
-  .nav-scroller {
-    display: none;
-    padding: 0 !important;
-  }
-
-  .nav-scroller.menu-open {
-    display: block;
-  }
-
-  .nav-scroller .nav {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    padding: 0.5rem 0;
-  }
-
-  .nav-scroller .nav .nav-link {
-    padding: 0.75rem 1.5rem !important;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav-scroller .nav .nav-link:last-child {
-    border-bottom: none;
-  }
+/* Logo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 
-@media (min-width: 992px) {
-  .btn-hamburger {
-    display: none !important;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  border-radius: 4px;
 }
 
-/* Header linkek stílusa */
+/* Center nav links */
+.nav-links {
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+/* Nav link styling */
 .nav-link {
   color: var(--text) !important;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
 }
 
 .nav-link:hover {
@@ -256,31 +258,94 @@ h2 {
   color: var(--primary) !important;
 }
 
-.btn-theme-toggle {
+/* Right action icons */
+.nav-actions {
+  gap: 0.25rem;
+}
+
+.btn-icon {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem !important;
-  color: var(--text) !important;
-  fill: var(--text) !important;
+  color: var(--text);
   font-size: 1.2rem;
-  transition: color 0.3s ease;
+  padding: 0.4rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.btn-theme-toggle:hover {
-  color: var(--primary) !important;
+.btn-icon:hover {
+  color: var(--primary);
 }
 
-.btn-theme-toggle i {
+.btn-icon i {
   transition: transform 0.3s ease;
 }
 
-.btn-theme-toggle:hover i {
-  transform: rotate(20deg);
+.btn-icon:hover i {
+  transform: rotate(10deg);
 }
 
-.btn-logout {
+/* Mobile menu */
+.mobile-menu {
+  display: none;
+  border-bottom: 2px solid var(--highlight);
+}
+
+.mobile-menu.menu-open {
+  display: block;
+}
+
+.mobile-link {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
   background: none;
-  border: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.mobile-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-link:hover {
+  color: var(--primary);
+}
+
+.mobile-link.router-link-active,
+.mobile-link.router-link-exact-active {
+  color: var(--primary);
+}
+
+@media (min-width: 992px) {
+  .navbar-logo {
+    height: 45px;
+  }
+
+  /* Equal flex on both sides so center links are truly centered */
+  .navbar-brand {
+    flex: 1 0 0;
+  }
+
+  .nav-actions {
+    flex: 1 0 0;
+    justify-content: flex-end;
+  }
+
+  .mobile-menu {
+    display: none !important;
+  }
 }
 </style>

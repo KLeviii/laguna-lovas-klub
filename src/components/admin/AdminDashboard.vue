@@ -42,9 +42,9 @@
           <div class="card admin-card h-100 shadow-sm">
             <div class="card-body text-center d-flex flex-column align-items-center">
               <i class="bi bi-shop admin-icon text-success"></i>
-              <h5 class="card-title mt-3">Termékek</h5>
+              <h5 class="card-title mt-3">Webshop</h5>
               <p class="card-text text-muted">
-                Webshop termékek és kategóriák kezelése
+                Webshop kezelése
               </p>
               <router-link
                 to="/admin/products"

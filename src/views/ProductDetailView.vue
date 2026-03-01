@@ -45,12 +45,7 @@ function canAddToCart(product) {
 <template>
   <div>
     <main>
-      <div class="image-container">
-        <div class="overlay"></div>
-        <div class="text">{{ selectedProduct?.name || 'Termék részletei' }}</div>
-      </div>
-
-      <section class="p-3 p-md-5">
+      <section class="p-3 p-md-5" style="padding-top: 100px !important;">
         <!-- Back Button -->
         <button class="btn btn-outline-secondary mb-4" @click="goBack">
           ← Vissza a termékekhez
@@ -239,34 +234,6 @@ function canAddToCart(product) {
 </template>
 
 <style scoped>
-.image-container {
-  position: relative;
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300"><rect fill="%23333" width="1200" height="300"/></svg>');
-}
-
-.image-container .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.image-container .text {
-  position: relative;
-  z-index: 2;
-}
-
 .product-image-container {
   width: 100%;
   max-width: 500px;

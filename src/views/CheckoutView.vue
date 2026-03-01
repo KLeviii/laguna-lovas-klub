@@ -11,14 +11,7 @@ const { cartItems, cartItemCount, cartTotal, isCartEmpty } = useCart()
 <template>
   <div>
     <main>
-      <div class="image-container">
-        <div class="overlay"></div>
-        <div class="text">
-          <i class="bi bi-credit-card me-2"></i>Pénztár
-        </div>
-      </div>
-
-      <section class="p-3 p-md-5">
+      <section class="p-3 p-md-5" style="padding-top: 100px !important;">
         <!-- Empty cart redirect -->
         <div v-if="isCartEmpty" class="text-center py-5">
           <i class="bi bi-cart-x" style="font-size: 4rem; color: var(--text-muted, #6c757d);"></i>
@@ -120,30 +113,3 @@ const { cartItems, cartItemCount, cartTotal, isCartEmpty } = useCart()
     </main>
   </div>
 </template>
-
-<style scoped>
-.image-container {
-  position: relative;
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300"><rect fill="%23333" width="1200" height="300"/></svg>');
-}
-
-.image-container .overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.image-container .text {
-  position: relative;
-  z-index: 2;
-}
-</style>

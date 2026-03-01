@@ -6,18 +6,21 @@ defineProps({
     type: Object,
     required: true,
   },
-})
+});
 
 const onImageError = (event) => {
-  event.target.style.display = 'none'
-}
+  event.target.style.display = "none";
+};
 </script>
 
 <template>
   <router-link :to="`/lovaink/${horse.id}`" class="text-decoration-none">
-    <div class="card h-100 shadow-sm border-0 horse-card">
+    <div class="card h-100 shadow-sm border-0 horse-card pt-0">
       <!-- Horse Image -->
-      <div class="position-relative bg-light overflow-hidden" style="height: 200px">
+      <div
+        class="position-relative bg-light overflow-hidden card-horse-img"
+        style="height: 200px"
+      >
         <img
           v-if="horse.main_img_url"
           :src="horse.main_img_url"
@@ -27,7 +30,10 @@ const onImageError = (event) => {
           loading="lazy"
           @error="onImageError"
         />
-        <div v-else class="d-flex align-items-center justify-content-center h-100">
+        <div
+          v-else
+          class="d-flex align-items-center justify-content-center h-100"
+        >
           <span class="text-muted small">Nincs kép</span>
         </div>
       </div>
@@ -36,7 +42,7 @@ const onImageError = (event) => {
       <div class="card-body d-flex flex-column">
         <h6 class="card-title text-truncate mb-2">{{ horse.name }}</h6>
         <p class="card-text text-muted small flex-grow-1">
-          {{ horse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }} •
+          {{ horse.gender === "female" ? "♀ Kanca" : "♂ Mén" }} •
           {{ formatDate(horse.birth_date) }}
         </p>
       </div>
@@ -44,15 +50,10 @@ const onImageError = (event) => {
       <!-- Card Footer: Availability -->
       <div class="card-footer bg-white border-top">
         <div class="d-flex justify-content-between align-items-center">
-          <span
-            v-if="horse.is_for_sale"
-            class="badge bg-success badge-sm"
-          >
+          <span v-if="horse.is_for_sale" class="badge bg-success badge-sm">
             <i class="bi bi-tag me-1"></i>Eladó
           </span>
-          <span v-else class="badge bg-secondary badge-sm">
-            Nem eladó
-          </span>
+          <span v-else class="badge bg-secondary badge-sm"> Nem eladó </span>
         </div>
       </div>
     </div>
@@ -60,8 +61,15 @@ const onImageError = (event) => {
 </template>
 
 <style scoped>
+.card-horse-img {
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
 .horse-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .horse-card:hover {

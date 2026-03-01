@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <main class="container py-5">
+  <main class="container pb-5" style="padding-top: 100px;">
     <h1 class="mb-4">Adatvédelmi Nyilatkozat</h1>
 
     <section class="mb-4">

@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { useAuth } from '@/composables/useAuth'
 import { useProducts } from '@/composables/useProducts'
 import { useHead } from '@/composables/useHead'
@@ -9,7 +8,6 @@ useHead('Webshop', 'Laguna Lovasklub webshop — lovas felszerelések és kiegé
 import ProductCard from '@/components/webshop/ProductCard.vue'
 import ProductFilter from '@/components/webshop/ProductFilter.vue'
 
-const router = useRouter()
 const { isAuthenticated } = useAuth()
 const {
   products,
@@ -29,10 +27,6 @@ onMounted(() => {
   loadCategories()
 })
 
-function goToCategories() {
-  router.push("/admin/products/categories");
-}
-
 </script>
 
 <template>
@@ -48,19 +42,14 @@ function goToCategories() {
 
           <!-- Admin button - only visible when logged in -->
           
-          <div class="d-flex">
-            <router-link
+          <router-link
             v-if="isAuthenticated"
             to="/admin/products"
             class="btn btn-primary"
           >
             <i class="bi bi-pencil-square me-2"></i>
-            Termékek kezelése
+            Webshop kezelése
           </router-link>
-            <button v-if="isAuthenticated" class="btn btn-outline-primary ms-2" @click="goToCategories">
-            <i class="bi bi-tags"></i> Kategóriák kezelése
-          </button>
-          </div>
         </div>
 
         <!-- Filter -->

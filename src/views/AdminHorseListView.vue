@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-layout mt-5">
+  <AdminLayout>
 
     <!-- List view -->
     <div v-if="currentView === 'list'">
@@ -15,12 +15,13 @@
     <div v-if="currentView === 'edit'">
       <HorseForm />
     </div>
-  </div>
+  </AdminLayout>
 </template>
 
 <script setup>
 import { ref, watch, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import AdminLayout from "@/components/admin/AdminLayout.vue";
 import { useHorses } from "@/composables/useHorses.js";
 import AdminHorseList from "@/components/horses/AdminHorseList.vue";
 import HorseForm from "@/components/horses/HorseForm.vue";
@@ -56,10 +57,6 @@ function setView(view) {
 </script>
 
 <style scoped>
-.admin-layout {
-  padding: 2rem 1rem;
-}
-
 .nav-tabs {
   border-bottom: 1px solid var(--border);
   margin-bottom: 2rem;
@@ -91,10 +88,6 @@ i {
 }
 
 @media (max-width: 576px) {
-  .admin-layout {
-    padding: 1rem 0.5rem;
-  }
-
   .nav-link {
     padding: 0.5rem 0.75rem;
     font-size: 0.85rem;

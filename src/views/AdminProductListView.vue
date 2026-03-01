@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-layout">
+  <AdminLayout>
     <!-- Navigation tabs -->
     <nav class="mb-4">
       <div class="nav nav-tabs" role="tablist">
@@ -70,12 +70,13 @@
         @cancel="onCategoryCancel"
       />
     </div>
-  </div>
+  </AdminLayout>
 </template>
 
 <script setup>
 import { ref, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import AdminLayout from '@/components/admin/AdminLayout.vue'
 import AdminProductList from '@/components/products/AdminProductList.vue'
 import ProductForm from '@/components/products/ProductForm.vue'
 import AdminCategoryList from '@/components/products/AdminCategoryList.vue'
@@ -144,9 +145,6 @@ async function onEditCategory(category) {
 </script>
 
 <style scoped>
-.admin-layout {
-  padding: 2rem 1rem;
-}
 
 .nav-tabs {
   border-bottom: 1px solid var(--border);
@@ -179,10 +177,6 @@ i {
 }
 
 @media (max-width: 576px) {
-  .admin-layout {
-    padding: 1rem 0.5rem;
-  }
-
   .nav-tabs {
     flex-wrap: nowrap;
     overflow-x: auto;
