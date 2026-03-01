@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { fetchLatestCompetitions } from "@/services/competitionService.js";
 import { fetchAllHorses } from "@/services/horseService.js";
 import { fetchAllProducts } from "@/services/productService.js";
 import { formatDate } from "@/utils/formatting.js";
 import { useHead } from "@/composables/useHead";
+import { useReveal } from "@/composables/useReveal";
 import ProductCard from "@/components/webshop/ProductCard.vue";
 import heroImg from "@/assets/img/vagany.jpg";
 import aboutImg from "@/assets/img/cordocan.jpg";
@@ -13,6 +14,7 @@ useHead(
   "Kezdőlap",
   "Laguna Lovasklub Héreg — lovas hagyomány, modern szemlélettel.",
 );
+const { observe } = useReveal();
 
 const products = ref([]);
 const horses = ref([]);
@@ -37,6 +39,9 @@ onMounted(async () => {
   }
 
   loading.value = false;
+
+  await nextTick();
+  observe();
 });
 
 function scrollToRolunk() {
@@ -77,7 +82,7 @@ function scrollToRolunk() {
     <section id="rolunk" class="section-padding">
       <div class="container">
         <div class="row align-items-center g-5">
-          <div class="col-12 col-lg-7">
+          <div class="col-12 col-lg-7 reveal">
             <h2 class="section-title mb-4">Rólunk</h2>
             <p class="lead mb-4">
               A Laguna Lovasklub Héregen a minőségi lótartás, a szakmai fejlődés
@@ -97,7 +102,7 @@ function scrollToRolunk() {
               igényesség és a közösség ereje kéz a kézben jár.
             </p>
           </div>
-          <div class="col-12 col-lg-5">
+          <div class="col-12 col-lg-5 reveal reveal-delay-2">
             <img
               :src="aboutImg"
               alt="Laguna Lovasklub"
@@ -117,7 +122,7 @@ function scrollToRolunk() {
     <div class="webshop-overlay"></div>
       <section class="section-padding section-alt webshop-preview">
         <div class="container">
-          <div class="text-center mb-5">
+          <div class="text-center mb-5 reveal">
             <h2 class="section-title">Vásárolj tőlünk</h2>
             <p class="text-muted mt-3">
               Válogass minőségi lovas felszerelések és kiegészítők közül.
@@ -132,15 +137,16 @@ function scrollToRolunk() {
 
           <div v-else-if="products.length > 0" class="row g-4">
             <div
-              v-for="product in products"
+              v-for="(product, i) in products"
               :key="product.id"
-              class="col-12 col-sm-6 col-lg-3"
+              class="col-12 col-sm-6 col-lg-3 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
             >
               <ProductCard :product="product" />
             </div>
           </div>
 
-          <div class="text-center mt-5">
+          <div class="text-center mt-5 reveal">
             <router-link to="/webshop" class="btn btn-primary btn-lg px-5">
               Összes termék
               <i class="bi bi-arrow-right ms-2"></i>
@@ -154,7 +160,7 @@ function scrollToRolunk() {
     <div class="snap-section">
       <section class="section-padding">
         <div class="container">
-          <div class="text-center mb-5">
+          <div class="text-center mb-5 reveal">
             <h2 class="section-title">Pedigrénk</h2>
             <p class="text-muted mt-3">
               Ismerkedj meg lovainkkal — minőségi tenyésztés, kiválóan képzett
@@ -173,9 +179,10 @@ function scrollToRolunk() {
             class="row g-4 justify-content-center"
           >
             <div
-              v-for="horse in horses"
+              v-for="(horse, i) in horses"
               :key="horse.id"
-              class="col-12 col-sm-6 col-lg-4"
+              class="col-12 col-sm-6 col-lg-4 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
             >
               <router-link
                 :to="`/lovaink/${horse.id}`"
@@ -210,7 +217,7 @@ function scrollToRolunk() {
             </div>
           </div>
 
-          <div class="text-center mt-5">
+          <div class="text-center mt-5 reveal">
             <router-link to="/lovaink" class="btn btn-primary btn-lg px-5">
               Összes lovunk
               <i class="bi bi-arrow-right ms-2"></i>
@@ -225,7 +232,7 @@ function scrollToRolunk() {
       <div class="results-overlay"></div>
       <section class="section-padding section-alt results-preview">
         <div class="container">
-          <div class="text-center mb-5">
+          <div class="text-center mb-5 reveal">
             <h2 class="section-title">Eredményeink</h2>
             <p class="text-muted mt-3">
               Legutóbbi versenyeink és eredményeink.
@@ -243,9 +250,10 @@ function scrollToRolunk() {
             class="row g-4 justify-content-center"
           >
             <div
-              v-for="comp in competitions"
+              v-for="(comp, i) in competitions"
               :key="comp.id"
-              class="col-12 col-sm-6 col-lg-4"
+              class="col-12 col-sm-6 col-lg-4 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
             >
               <div
                 class="card competition-card h-100 border-0 shadow-sm overflow-hidden pt-0"
@@ -279,7 +287,7 @@ function scrollToRolunk() {
             </div>
           </div>
 
-          <div class="text-center mt-5">
+          <div class="text-center mt-5 reveal">
             <router-link to="/eredmenyeink" class="btn btn-primary btn-lg px-5">
               Összes eredmény
               <i class="bi bi-arrow-right ms-2"></i>
@@ -292,7 +300,7 @@ function scrollToRolunk() {
     <!-- Kapcsolat Section -->
     <section class="section-padding">
       <div class="container">
-        <div class="text-center" style="max-width: 600px; margin: 0 auto">
+        <div class="text-center reveal" style="max-width: 600px; margin: 0 auto">
           <h2 class="section-title mb-4">Keress meg minket</h2>
           <p class="text-muted mb-5">
             Kérdésed van, vagy szeretnél többet megtudni szolgáltatásainkról?

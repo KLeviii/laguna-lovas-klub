@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
   <main class="container pb-5" style="padding-top: 100px;">

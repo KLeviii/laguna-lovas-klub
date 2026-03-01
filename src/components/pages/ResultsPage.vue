@@ -10,7 +10,6 @@ useHead("Eredményeink", "Laguna Lovasklub versenyeredményei és díjai.");
 const { isAuthenticated } = useAuth();
 const { loading, error, isEmpty, competitionsByYear, stats, loadCompetitions } =
   useCompetitions();
-
 function placementBadgeClass(placement) {
   if (placement === 1) return "bg-warning text-dark";
   if (placement === 2) return "bg-secondary";
@@ -18,8 +17,8 @@ function placementBadgeClass(placement) {
   return "bg-primary";
 }
 
-onMounted(() => {
-  loadCompetitions();
+onMounted(async () => {
+  await loadCompetitions();
 });
 </script>
 
@@ -35,7 +34,7 @@ onMounted(() => {
       <section class="p-3 p-md-4">
         <div>
           <div class="row justify-content-center">
-            <div class="col-12 col-md-4 mb-4"> 
+            <div class="col-12 col-md-4 mb-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-person-fill fs-1 me-2"></i>

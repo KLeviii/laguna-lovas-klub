@@ -21,10 +21,8 @@ const {
   setProductCategory,
   clearProductFilter,
 } = useProducts()
-
-onMounted(() => {
-  loadProducts()
-  loadCategories()
+onMounted(async () => {
+  await Promise.all([loadProducts(), loadCategories()])
 })
 
 </script>
