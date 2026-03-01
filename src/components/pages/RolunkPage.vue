@@ -279,6 +279,10 @@ function scrollToRolunk() {
 </template>
 
 <style scoped>
+.hero-container {
+  margin-top: 57.8px;
+}
+
 .webshop-preview, .results-preview{
   border-radius: 20px;
 }
