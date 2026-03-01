@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, nextTick, onUnmounted } from "vue";
 import { fetchLatestCompetitions } from "@/services/competitionService.js";
 import { fetchAllHorses } from "@/services/horseService.js";
 import { fetchAllProducts } from "@/services/productService.js";
 import { formatDate } from "@/utils/formatting.js";
 import { useHead } from "@/composables/useHead";
+import { useReveal } from "@/composables/useReveal";
 import ProductCard from "@/components/webshop/ProductCard.vue";
 import heroImg from "@/assets/img/vagany.jpg";
 import champiImg from "@/assets/img/champi.jpg";
@@ -18,11 +19,12 @@ const heroImages = [heroImg, champiImg, champi2Img, cooperImg, kaposvarImg, megy
 const currentIndex = ref(0);
 const prevIndex = ref(-1);
 let slideInterval = null;
-
+import webshopImg from "@/assets/img/babolna.jpg";
 useHead(
   "Kezdőlap",
-  "Laguna Lovasklub Héreg — lovas hagyomány, modern szemlélettel."
+  "Laguna Lovasklub Héreg — lovas hagyomány, modern szemlélettel.",
 );
+const { observe } = useReveal();
 
 const products = ref([]);
 const horses = ref([]);
@@ -52,6 +54,9 @@ onMounted(async () => {
   }
 
   loading.value = false;
+
+  await nextTick();
+  observe();
 });
 
 onUnmounted(() => clearInterval(slideInterval));
@@ -79,12 +84,8 @@ function scrollToRolunk() {
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-content position-relative">
-        <h1 class="hero-title mb-4">
-          Lovas hagyomány, modern szemlélettel
-        </h1>
-        <p class="hero-subtitle mb-5">
-          Laguna Lovasklub — Héreg
-        </p>
+        <h1 class="hero-title mb-4">Lovas hagyomány, modern szemlélettel</h1>
+        <p class="hero-subtitle mb-5">Laguna Lovasklub — Héreg</p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
           <button
             class="btn btn-outline-light btn-lg px-4"
@@ -106,27 +107,27 @@ function scrollToRolunk() {
     <section id="rolunk" class="section-padding">
       <div class="container">
         <div class="row align-items-center g-5">
-          <div class="col-12 col-lg-7">
+          <div class="col-12 col-lg-7 reveal">
             <h2 class="section-title mb-4">Rólunk</h2>
             <p class="lead mb-4">
-              A Laguna Lovasklub Héregen a minőségi lótartás, a szakmai
-              fejlődés és a természetközeli életforma találkozik.
+              A Laguna Lovasklub Héregen a minőségi lótartás, a szakmai fejlődés
+              és a természetközeli életforma találkozik.
             </p>
             <p>
-              Célunk, hogy a lovak és lovasok egyaránt a legjobb körülmények között
-              bontakozhassanak ki — legyen szó belovaglásról,
+              Célunk, hogy a lovak és lovasok egyaránt a legjobb körülmények
+              között bontakozhassanak ki — legyen szó belovaglásról,
               versenyeztetésről vagy tenyésztésről. Klubunkban tapasztalt edzők
               és felkészült szakemberek dolgoznak azon, hogy minden ló és lovas
               a saját szintjén fejlődjön.
             </p>
             <p>
-              A lovak regenerációját és egészségét korszerű terápiás
-              eszközökkel támogatjuk. A Laguna Lovasklub versenyorientált
-              szemlélete mellett megőrzi barátságos, családias hangulatát —
-              nálunk a szakmai igényesség és a közösség ereje kéz a kézben jár.
+              A lovak regenerációját és egészségét korszerű terápiás eszközökkel
+              támogatjuk. A Laguna Lovasklub versenyorientált szemlélete mellett
+              megőrzi barátságos, családias hangulatát — nálunk a szakmai
+              igényesség és a közösség ereje kéz a kézben jár.
             </p>
           </div>
-          <div class="col-12 col-lg-5">
+          <div class="col-12 col-lg-5 reveal reveal-delay-2">
             <img
               :src="aboutImg"
               alt="Laguna Lovasklub"
@@ -139,155 +140,192 @@ function scrollToRolunk() {
     </section>
 
     <!-- Webshop Section -->
-    <section class="section-padding section-alt webshop-preview">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="section-title">Vásárolj tőlünk</h2>
-          <p class="text-muted mt-3">
-            Válogass minőségi lovas felszerelések és kiegészítők közül.
-          </p>
-        </div>
-
-        <div v-if="loading" class="text-center py-5">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Betöltés...</span>
+    <section
+      class="webshop-section-bg d-flex align-items-center justify-content-center text-center"
+      :style="{ backgroundImage: `url(${webshopImg})` }"
+    >
+    <div class="webshop-overlay"></div>
+      <section class="section-padding section-alt webshop-preview">
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <h2 class="section-title">Vásárolj tőlünk</h2>
+            <p class="text-muted mt-3">
+              Válogass minőségi lovas felszerelések és kiegészítők közül.
+            </p>
           </div>
-        </div>
 
-        <div v-else-if="products.length > 0" class="row g-4">
-          <div
-            v-for="product in products"
-            :key="product.id"
-            class="col-12 col-sm-6 col-lg-3"
-          >
-            <ProductCard :product="product" />
+          <div v-if="loading" class="text-center py-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Betöltés...</span>
+            </div>
           </div>
-        </div>
 
-        <div class="text-center mt-5">
-          <router-link to="/webshop" class="btn btn-primary btn-lg px-5">
-            Összes termék
-            <i class="bi bi-arrow-right ms-2"></i>
-          </router-link>
-        </div>
-      </div>
-    </section>
-
-    <!-- Pedigré Section -->
-    <section class="section-padding">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="section-title">Pedigrénk</h2>
-          <p class="text-muted mt-3">
-            Ismerkedj meg lovainkkal — minőségi tenyésztés, kiválóan képzett lovak.
-          </p>
-        </div>
-
-        <div v-if="loading" class="text-center py-5">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Betöltés...</span>
-          </div>
-        </div>
-
-        <div v-else-if="horses.length > 0" class="row g-4 justify-content-center">
-          <div
-            v-for="horse in horses"
-            :key="horse.id"
-            class="col-12 col-sm-6 col-lg-4"
-          >
-            <router-link
-              :to="`/lovaink/${horse.id}`"
-              class="text-decoration-none"
+          <div v-else-if="products.length > 0" class="row g-4">
+            <div
+              v-for="(product, i) in products"
+              :key="product.id"
+              class="col-12 col-sm-6 col-lg-3 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
             >
-              <div class="card horse-card h-100 border-0 shadow-sm overflow-hidden pt-0">
-                <div class="horse-img-wrapper">
-                  <img
-                    v-if="horse.main_img_url"
-                    :src="horse.main_img_url"
-                    :alt="horse.name"
-                    class="card-img-top"
-                    loading="lazy"
-                  />
-                  <div v-else class="horse-img-placeholder d-flex align-items-center justify-content-center">
-                    <i class="bi bi-heart text-muted" style="font-size: 3rem"></i>
-                  </div>
-                </div>
-                <div class="card-body text-center">
-                  <h5 class="card-title mb-0">{{ horse.name }}</h5>
-                </div>
-              </div>
+              <ProductCard :product="product" />
+            </div>
+          </div>
+
+          <div class="text-center mt-5 reveal">
+            <router-link to="/webshop" class="btn btn-primary btn-lg px-5">
+              Összes termék
+              <i class="bi bi-arrow-right ms-2"></i>
             </router-link>
           </div>
         </div>
-
-        <div class="text-center mt-5">
-          <router-link to="/lovaink" class="btn btn-primary btn-lg px-5">
-            Összes lovunk
-            <i class="bi bi-arrow-right ms-2"></i>
-          </router-link>
-        </div>
-      </div>
+      </section>
     </section>
 
-    <!-- Eredményeink Section -->
-    <section class="section-padding section-alt results-preview">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2 class="section-title">Eredményeink</h2>
-          <p class="text-muted mt-3">
-            Legutóbbi versenyeink és eredményeink.
-          </p>
-        </div>
+    <!-- Pedigré Section -->
+    <div class="snap-section">
+      <section class="section-padding">
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <h2 class="section-title">Pedigrénk</h2>
+            <p class="text-muted mt-3">
+              Ismerkedj meg lovainkkal — minőségi tenyésztés, kiválóan képzett
+              lovak.
+            </p>
+          </div>
 
-        <div v-if="loading" class="text-center py-5">
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Betöltés...</span>
+          <div v-if="loading" class="text-center py-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Betöltés...</span>
+            </div>
+          </div>
+
+          <div
+            v-else-if="horses.length > 0"
+            class="row g-4 justify-content-center"
+          >
+            <div
+              v-for="(horse, i) in horses"
+              :key="horse.id"
+              class="col-12 col-sm-6 col-lg-4 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
+            >
+              <router-link
+                :to="`/lovaink/${horse.id}`"
+                class="text-decoration-none"
+              >
+                <div
+                  class="card horse-card h-100 border-0 shadow-sm overflow-hidden pt-0"
+                >
+                  <div class="horse-img-wrapper">
+                    <img
+                      v-if="horse.main_img_url"
+                      :src="horse.main_img_url"
+                      :alt="horse.name"
+                      class="card-img-top"
+                      loading="lazy"
+                    />
+                    <div
+                      v-else
+                      class="horse-img-placeholder d-flex align-items-center justify-content-center"
+                    >
+                      <i
+                        class="bi bi-heart text-muted"
+                        style="font-size: 3rem"
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="card-body text-center">
+                    <h5 class="card-title mb-0">{{ horse.name }}</h5>
+                  </div>
+                </div>
+              </router-link>
+            </div>
+          </div>
+
+          <div class="text-center mt-5 reveal">
+            <router-link to="/lovaink" class="btn btn-primary btn-lg px-5">
+              Összes lovunk
+              <i class="bi bi-arrow-right ms-2"></i>
+            </router-link>
           </div>
         </div>
+      </section>
+    </div>
 
-        <div v-else-if="competitions.length > 0" class="row g-4 justify-content-center">
+    <!-- Eredményeink Section -->
+    <div class="results-section-bg">
+      <div class="results-overlay"></div>
+      <section class="section-padding section-alt results-preview">
+        <div class="container">
+          <div class="text-center mb-5 reveal">
+            <h2 class="section-title">Eredményeink</h2>
+            <p class="text-muted mt-3">
+              Legutóbbi versenyeink és eredményeink.
+            </p>
+          </div>
+
+          <div v-if="loading" class="text-center py-5">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Betöltés...</span>
+            </div>
+          </div>
+
           <div
-            v-for="comp in competitions"
-            :key="comp.id"
-            class="col-12 col-sm-6 col-lg-4"
+            v-else-if="competitions.length > 0"
+            class="row g-4 justify-content-center"
           >
-            <div class="card competition-card h-100 border-0 shadow-sm overflow-hidden pt-0">
-              <div class="comp-img-wrapper">
-                <img
-                  v-if="comp.image_url"
-                  :src="comp.image_url"
-                  :alt="comp.name"
-                  class="card-img-top"
-                  loading="lazy"
-                />
-                <div v-else class="comp-img-placeholder d-flex align-items-center justify-content-center">
-                  <i class="bi bi-trophy text-muted" style="font-size: 3rem"></i>
+            <div
+              v-for="(comp, i) in competitions"
+              :key="comp.id"
+              class="col-12 col-sm-6 col-lg-4 reveal"
+              :style="{ transitionDelay: `${i * 0.04}s` }"
+            >
+              <div
+                class="card competition-card h-100 border-0 shadow-sm overflow-hidden pt-0"
+              >
+                <div class="comp-img-wrapper">
+                  <img
+                    v-if="comp.image_url"
+                    :src="comp.image_url"
+                    :alt="comp.name"
+                    class="card-img-top"
+                    loading="lazy"
+                  />
+                  <div
+                    v-else
+                    class="comp-img-placeholder d-flex align-items-center justify-content-center"
+                  >
+                    <i
+                      class="bi bi-trophy text-muted"
+                      style="font-size: 3rem"
+                    ></i>
+                  </div>
                 </div>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title mb-2">{{ comp.name }}</h6>
-                <small class="text-muted">
-                  <i class="bi bi-calendar3 me-1"></i>
-                  {{ formatDate(comp.start_date) }}
-                </small>
+                <div class="card-body">
+                  <h6 class="card-title mb-2">{{ comp.name }}</h6>
+                  <small class="text-muted">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    {{ formatDate(comp.start_date) }}
+                  </small>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="text-center mt-5">
-          <router-link to="/eredmenyeink" class="btn btn-primary btn-lg px-5">
-            Összes eredmény
-            <i class="bi bi-arrow-right ms-2"></i>
-          </router-link>
+          <div class="text-center mt-5 reveal">
+            <router-link to="/eredmenyeink" class="btn btn-primary btn-lg px-5">
+              Összes eredmény
+              <i class="bi bi-arrow-right ms-2"></i>
+            </router-link>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- Kapcsolat Section -->
     <section class="section-padding">
       <div class="container">
-        <div class="text-center" style="max-width: 600px; margin: 0 auto">
+        <div class="text-center reveal" style="max-width: 600px; margin: 0 auto">
           <h2 class="section-title mb-4">Keress meg minket</h2>
           <p class="text-muted mb-5">
             Kérdésed van, vagy szeretnél többet megtudni szolgáltatásainkról?
@@ -308,7 +346,29 @@ function scrollToRolunk() {
   margin-top: 57.8px;
 }
 
-.webshop-preview, .results-preview{
+.webshop-section-bg {
+  position: relative;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  min-width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+.results-section-bg {
+  position: relative;
+  background: url("@/assets/img/vagany.jpg") no-repeat center center fixed;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  min-width: 100%;
+  background-size: cover;
+}
+
+.webshop-preview,
+.results-preview {
+  position: relative;
+  z-index: 1;
   border-radius: 20px;
 }
 /* Hero */
@@ -343,14 +403,24 @@ function scrollToRolunk() {
 .hero-slide.slide-prev {
   transform: translateX(-100%);
 }
-
+.webshop-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
   z-index: 2;
 }
-
+.results-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
 .hero-content {
   z-index: 3;
   padding: 2rem;
@@ -376,14 +446,24 @@ function scrollToRolunk() {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-10px); }
-  60% { transform: translateY(-5px); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
 }
 
 /* Sections */
 .section-padding {
-  padding: 6rem 0;
+  padding: 5rem 0;
 }
 
 .section-alt {
@@ -406,7 +486,9 @@ function scrollToRolunk() {
 
 /* Horse cards */
 .horse-card {
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   background-color: var(--bg-light);
 }
 

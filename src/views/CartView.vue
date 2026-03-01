@@ -66,7 +66,9 @@ async function loadRecommendations() {
   }
 }
 
-onMounted(loadRecommendations)
+onMounted(async () => {
+  await loadRecommendations()
+})
 </script>
 
 <template>

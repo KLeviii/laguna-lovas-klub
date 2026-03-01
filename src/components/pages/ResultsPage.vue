@@ -12,7 +12,6 @@ const { isAuthenticated } = useAuth();
 const { loading, error, isEmpty, competitionsByYear, stats, loadCompetitions } =
   useCompetitions();
 const racehorsesCount = ref(0);
-
 function placementBadgeClass(placement) {
   if (placement === 1) return "bg-warning text-dark";
   if (placement === 2) return "bg-secondary";
@@ -21,7 +20,7 @@ function placementBadgeClass(placement) {
 }
 
 onMounted(async () => {
-  loadCompetitions();
+  await loadCompetitions();
   const racehorses = await fetchRacehorses().catch(() => []);
   racehorsesCount.value = racehorses.length;
 });
@@ -39,7 +38,7 @@ onMounted(async () => {
       <section class="p-3 p-md-4">
         <div>
           <div class="row justify-content-center">
-            <div class="col-12 col-md-4 mb-4"> 
+            <div class="col-12 col-md-4 mb-4">
               <div class="card">
                 <div class="d-flex justify-content-center align-items-center">
                   <i class="bi bi-person-fill fs-1 me-2"></i>

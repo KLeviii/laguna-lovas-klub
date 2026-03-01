@@ -18,10 +18,8 @@ const {
   loadHorses,
   setFilterStatus,
 } = useHorses();
-
-onMounted(() => {
-  // Load all horses, filtering is done client-side via filterStatus
-  loadHorses();
+onMounted(async () => {
+  await loadHorses();
 });
 </script>
 
