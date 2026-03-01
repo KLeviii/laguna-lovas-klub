@@ -25,11 +25,15 @@ function createMockChain(resolveValue = { data: null, error: null }) {
 
 let defaultChain
 
-const mockStorage = {
-  from: vi.fn(() => ({
-    remove: vi.fn().mockResolvedValue({ data: null, error: null }),
-  })),
-}
+const { mockStorage } = vi.hoisted(() => {
+  return {
+    mockStorage: {
+      from: vi.fn(() => ({
+        remove: vi.fn().mockResolvedValue({ data: null, error: null }),
+      })),
+    },
+  }
+})
 
 vi.mock('./supabase', () => {
   return {

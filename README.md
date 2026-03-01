@@ -14,13 +14,16 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Kosár ikon hover tooltippel a headerben
 - Kosár oldal ajánlott termékekkel
 - Pénztár oldal (szállítás/fizetés hamarosan)
-- Admin felület lovak, termékek és kategóriák CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület, készletkezelés)
+- Kapcsolat oldal űrlappal (GDPR hozzájárulás checkbox-szal)
+- Admin felület lovak, termékek, kategóriák és üzenetek CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület, készletkezelés)
 - Supabase Auth alapú adminisztrátori bejelentkezés
 - Sötét / világos téma localStorage-sel
-- SEO: dinamikus oldal címek és meta leírások (useHead composable)
+- Adatvédelmi nyilatkozat oldal (GDPR megfelelőség)
+- SEO: dinamikus oldalcímek és meta leírások (useHead composable)
 - SEO: Open Graph meta tagek, robots.txt, history-alapú routing
 - SEO: Route-szintű kódsplit (lazy loading) a jobb teljesítményért
-- Akadálymentesség: skip navigáció, aria-labelek, scope attribútumok, lazy képek
+- Akadálymentesítés: skip navigáció, aria-live régiók, aria-labelek, scope attribútumok, lazy képek
+- 190 unit teszt (Vitest) — composable-ök, service-ek, utils
 
 ## Oldalak
 
@@ -34,11 +37,14 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 | `/kosar` | Kosár – tételek kezelése, ajánlott termékek |
 | `/penztar` | Pénztár – rendelés összesítő, szállítás/fizetés (hamarosan) |
 | `/eredmenyeink` | Versenystatisztikák és eredmények |
+| `/kapcsolat` | Kapcsolat űrlap |
+| `/adatvedelem` | Adatvédelmi nyilatkozat |
 | `/admin/login` | Adminisztrátori bejelentkezés |
 | `/admin` | Admin dashboard |
 | `/admin/horses` | Lovak kezelése (CRUD, képfeltöltés) |
 | `/admin/products` | Termékek kezelése (CRUD, képfeltöltés) |
 | `/admin/products/categories` | Kategóriák kezelése (CRUD) |
+| `/admin/contacts` | Beérkezett üzenetek kezelése |
 
 ## Stack
 
@@ -47,6 +53,7 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - **Bootstrap 5.3** – utility-first CSS, Bootstrap Icons (CDN)
 - **Supabase** – adatbázis, auth, storage
 - **Vite 7** – fejlesztői szerver és build
+- **Vitest** – unit tesztelés
 
 ## Könyvtárstruktúra
 
@@ -60,7 +67,7 @@ src/
 │   └── webshop/        # Webshop megjelenítő komponensek
 ├── composables/        # Üzleti logika (useAuth, useHorses, useProducts, …)
 ├── services/           # Supabase adathozzáférési réteg + supabase.js kliens
-├── utils/              # Segédfüggvények (formatting.js)
+├── utils/              # Segédfüggvények (formatting, fileUpload, pedigreeTree)
 ├── views/              # Vékony route-view komponensek
 ├── router/index.js
 └── main.js
@@ -81,6 +88,7 @@ VITE_SUPABASE_ANON_KEY=
 npm install
 cp .env.example .env   # töltsd ki a Supabase adatokat
 npm run dev
+npm run test           # unit tesztek futtatása
 ```
 
 ## Kapcsolat

@@ -93,13 +93,20 @@ export function useProductForm() {
   /** @type {import('vue').Ref<string|null>} A szerkesztés alatt álló kategória ID-ja. */
   const editingCategoryId = ref(null)
 
-  // Format price with Hungarian number format
+  /**
+   * Az ár megjelenítése magyar számformátumban (pl. "12 500").
+   * @type {import('vue').ComputedRef<string>}
+   */
   const formattedPrice = computed(() => {
     if (!productPrice.value) return ''
     return parseInt(productPrice.value).toLocaleString('hu-HU')
   })
 
-  // Clear all product form fields
+  /**
+   * Az összes termék űrlap mező alaphelyzetbe állítása.
+   * Törli a hibákat és a szerkesztési állapotot is.
+   * @returns {void}
+   */
   const clearProductForm = () => {
     productName.value = ''
     productDescription.value = ''
@@ -113,7 +120,11 @@ export function useProductForm() {
     error.value = null
   }
 
-  // Clear all category form fields
+  /**
+   * Az összes kategória űrlap mező alaphelyzetbe állítása.
+   * Törli a hibákat és a szerkesztési állapotot is.
+   * @returns {void}
+   */
   const clearCategoryForm = () => {
     categoryName.value = ''
     categorySlug.value = ''
@@ -123,7 +134,20 @@ export function useProductForm() {
     error.value = null
   }
 
-  // Load product for editing
+  /**
+   * Termék adatainak betöltése az űrlapba szerkesztéshez.
+   * Beállítja az editingProductId ref-et, ami a saveProduct viselkedését befolyásolja.
+   * @param {Object} product - A szerkesztendő termék objektum.
+   * @param {string} product.id - A termék azonosítója.
+   * @param {string} product.name - A termék neve.
+   * @param {string} [product.description] - A termék leírása.
+   * @param {number} product.price_huf - A termék ára HUF-ban.
+   * @param {Object} [product.category] - A termék kategóriája (ha join-nal lekérve).
+   * @param {string} [product.category_id] - A termék kategória azonosítója.
+   * @param {string} [product.image_url] - A termék kép URL-je.
+   * @param {number} [product.stock] - A termék raktárkészlete.
+   * @returns {void}
+   */
   const loadProductForEdit = (product) => {
     productName.value = product.name
     productDescription.value = product.description || ''
@@ -137,7 +161,17 @@ export function useProductForm() {
     error.value = null
   }
 
-  // Load category for editing
+  /**
+   * Kategória adatainak betöltése az űrlapba szerkesztéshez.
+   * Beállítja az editingCategoryId ref-et, ami a saveCategory viselkedését befolyásolja.
+   * @param {Object} category - A szerkesztendő kategória objektum.
+   * @param {string} category.id - A kategória azonosítója.
+   * @param {string} category.name - A kategória neve.
+   * @param {string} category.slug - A kategória slug-ja.
+   * @param {string} [category.description] - A kategória leírása.
+   * @param {number} [category.display_order] - A kategória megjelenítési sorrendje.
+   * @returns {void}
+   */
   const loadCategoryForEdit = (category) => {
     categoryName.value = category.name
     categorySlug.value = category.slug
@@ -147,7 +181,13 @@ export function useProductForm() {
     error.value = null
   }
 
-  // Save product (create or update)
+  /**
+   * Termék mentése (létrehozás vagy frissítés).
+   * Validálja a kötelező mezőket (név, kategória, ár), feltölti a képet ha van,
+   * majd menti a terméket. Ha editingProductId be van állítva, frissít; egyébként újat hoz létre.
+   * Sikeres mentés után az űrlapot alaphelyzetbe állítja.
+   * @returns {Promise<boolean>} Igaz, ha a mentés sikeres volt; hamis hiba esetén.
+   */
   const saveProduct = async () => {
     loading.value = true
     error.value = null
@@ -203,7 +243,11 @@ export function useProductForm() {
     }
   }
 
-  // Delete product (soft delete)
+  /**
+   * Termék törlése (soft delete: nem elérhetőként jelölés).
+   * @param {string} productId - A törlendő termék azonosítója.
+   * @returns {Promise<boolean>} Igaz, ha a törlés sikeres volt; hamis hiba esetén.
+   */
   const removeProduct = async (productId) => {
     loading.value = true
     error.value = null
@@ -219,7 +263,13 @@ export function useProductForm() {
     }
   }
 
-  // Save category (create or update)
+  /**
+   * Kategória mentése (létrehozás vagy frissítés).
+   * Validálja a kötelező mezőket (név, slug), majd menti a kategóriát.
+   * Ha editingCategoryId be van állítva, frissít; egyébként újat hoz létre.
+   * Sikeres mentés után az űrlapot alaphelyzetbe állítja.
+   * @returns {Promise<boolean>} Igaz, ha a mentés sikeres volt; hamis hiba esetén.
+   */
   const saveCategory = async () => {
     loading.value = true
     error.value = null
@@ -258,7 +308,11 @@ export function useProductForm() {
     }
   }
 
-  // Delete category
+  /**
+   * Kategória törlése az adatbázisból.
+   * @param {string} categoryId - A törlendő kategória azonosítója.
+   * @returns {Promise<boolean>} Igaz, ha a törlés sikeres volt; hamis hiba esetén.
+   */
   const removeCategory = async (categoryId) => {
     loading.value = true
     error.value = null
@@ -274,7 +328,13 @@ export function useProductForm() {
     }
   }
 
-  // Handle image file selection
+  /**
+   * Kép fájl kiválasztásának kezelése.
+   * Validálja a fájl típusát (csak képfájlok) és méretét (max 50MB).
+   * Ha a validáció sikertelen, hibaüzenetet állít be az error ref-ben.
+   * @param {File|null} file - A kiválasztott fájl, vagy null a kiválasztás törléséhez.
+   * @returns {void}
+   */
   const handleImageSelect = (file) => {
     if (!file) {
       productImageFile.value = null

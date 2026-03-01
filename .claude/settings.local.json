@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npx vitest run src/composables/useAuth.spec.js src/composables/useContacts.spec.js src/composables/useProductForm.spec.js src/composables/useCompetitionForm.spec.js)",
+      "Bash(npx vitest run src/composables/useProducts.spec.js src/composables/useCompetitions.spec.js src/composables/useHorseForm.spec.js)",
+      "Bash(npx vitest run src/services/contactService.spec.js src/services/horseService.spec.js src/composables/useCart.spec.js src/composables/useTheme.spec.js src/composables/useContactForm.spec.js src/composables/useHorses.spec.js src/utils/formatting.spec.js src/utils/fileUpload.spec.js src/utils/pedigreeTree.spec.js)",
+      "Bash(npx vitest run)",
+      "Bash(npx vite build)",
+      "Bash(npx vitest run src/services/contactService.spec.js src/services/horseService.spec.js)",
+      "Bash(npm install --save-dev docx)"
     ]
   }
 }
