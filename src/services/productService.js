@@ -141,9 +141,19 @@ export async function createProduct(productData) {
  * @returns {Promise<Object>} Updated product object
  */
 export async function updateProduct(productId, productData) {
+  const { data: existing, error: fetchError } = await supabase
+    .from('products')
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
+    .eq('id', productId)
+    .single()
+
+  if (fetchError) {
+    throw new Error(`Failed to fetch product: ${fetchError.message}`)
+  }
+
   const { data, error } = await supabase
     .from('products')
-    .upsert({ id: productId, ...productData })
+    .upsert({ ...existing, ...productData })
     .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
     .single()
 
@@ -155,12 +165,16 @@ export async function updateProduct(productId, productData) {
 }
 
 /**
- * Soft delete a product by marking it as unavailable.
+ * Permanently delete a product from the database.
  * @param {string} productId - Product UUID
- * @returns {Promise<Object>} Updated product object
  */
 export async function deleteProduct(productId) {
-  return updateProduct(productId, { is_available: false })
+  const { error } = await supabase
+    .rpc('delete_product', { product_id: productId })
+
+  if (error) {
+    throw new Error(`Failed to delete product: ${error.message}`)
+  }
 }
 
 /**

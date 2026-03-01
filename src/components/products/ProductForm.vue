@@ -105,14 +105,24 @@ h5 {
           />
         </div>
 
-        <!-- Elérhetőség (readonly, stock alapján) -->
+        <!-- Elérhetőség -->
         <div class="mb-3">
-          <span v-if="productStock > 0" class="badge bg-success">
-            <i class="bi bi-check-circle me-1"></i>Elérhető
-          </span>
-          <span v-else class="badge bg-secondary">
-            <i class="bi bi-x-circle me-1"></i>Nem elérhető (készlet: 0)
-          </span>
+          <div class="form-check form-switch">
+            <input
+              id="productAvailable"
+              v-model="isProductAvailable"
+              type="checkbox"
+              class="form-check-input"
+              role="switch"
+              :disabled="productStock <= 0"
+            />
+            <label class="form-check-label" for="productAvailable">
+              Elérhető
+            </label>
+          </div>
+          <small v-if="productStock <= 0" class="text-muted">
+            A termék nem lehet elérhető, ha a készlet 0.
+          </small>
         </div>
 
         <!-- Kép upload section -->

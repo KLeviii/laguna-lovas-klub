@@ -156,7 +156,7 @@ export function useProductForm() {
     productImageUrl.value = product.image_url || ''
     productImageFile.value = null
     productStock.value = product.stock || 0
-    isProductAvailable.value = productStock.value > 0
+    isProductAvailable.value = productStock.value > 0 ? (product.is_available ?? true) : false
     editingProductId.value = product.id
     error.value = null
   }
@@ -219,7 +219,7 @@ export function useProductForm() {
         description: productDescription.value.trim(),
         price_huf: parseInt(productPrice.value),
         category_id: selectedCategoryId.value,
-        is_available: stockValue > 0,
+        is_available: stockValue > 0 ? isProductAvailable.value : false,
         image_url: imageUrl || null,
         stock: stockValue,
       }
