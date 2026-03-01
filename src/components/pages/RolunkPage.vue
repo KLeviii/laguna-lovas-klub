@@ -174,7 +174,7 @@ function scrollToRolunk() {
               :to="`/lovaink/${horse.id}`"
               class="text-decoration-none"
             >
-              <div class="card horse-card h-100 border-0 shadow-sm overflow-hidden">
+              <div class="card horse-card h-100 border-0 shadow-sm overflow-hidden pt-0">
                 <div class="horse-img-wrapper">
                   <img
                     v-if="horse.main_img_url"
@@ -226,7 +226,7 @@ function scrollToRolunk() {
             :key="comp.id"
             class="col-12 col-sm-6 col-lg-4"
           >
-            <div class="card competition-card h-100 border-0 shadow-sm overflow-hidden">
+            <div class="card competition-card h-100 border-0 shadow-sm overflow-hidden pt-0">
               <div class="comp-img-wrapper">
                 <img
                   v-if="comp.image_url"
