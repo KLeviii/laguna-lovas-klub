@@ -14,12 +14,13 @@ import cooperImg from "@/assets/img/cooper.jpg";
 import kaposvarImg from "@/assets/img/kaposvar.jpg";
 import megyeiImg from "@/assets/img/megyei.jpg";
 import aboutImg from "@/assets/img/cordocan.jpg";
+import webshopImg from "@/assets/img/babolna.jpg";
 
 const heroImages = [heroImg, champiImg, champi2Img, cooperImg, kaposvarImg, megyeiImg];
 const currentIndex = ref(0);
 const prevIndex = ref(-1);
 let slideInterval = null;
-import webshopImg from "@/assets/img/babolna.jpg";
+
 useHead(
   "Kezdőlap",
   "Laguna Lovasklub Héreg — lovas hagyomány, modern szemlélettel.",
@@ -69,10 +70,9 @@ function scrollToRolunk() {
 
 <template>
   <div class="hero-container">
+
     <!-- Hero Section -->
-    <section
-      class="hero-section d-flex align-items-center justify-content-center text-center"
-    >
+    <section class="hero-section d-flex align-items-center justify-content-center text-center">
       <div class="hero-slides" aria-hidden="true">
         <img
           v-for="(img, i) in heroImages"
@@ -84,18 +84,27 @@ function scrollToRolunk() {
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-content position-relative">
-        <h1 class="hero-title mb-4">Lovas hagyomány, modern szemlélettel</h1>
-        <p class="hero-subtitle mb-5">Laguna Lovasklub — Héreg</p>
+        <h1 class="hero-title mb-4">
+          Lovas <em class="serif-accent text-primary">hagyomány</em>,<br />
+          <strong>modern</strong> szemlélettel
+        </h1>
+        <p class="hero-subtitle mb-5">
+          Fedezze fel a lovaglás művészetét exkluzív környezetben, ahol a<br class="d-none d-md-inline" />
+          tradíció és az innováció találkozik a Laguna Lovasklub szívében.
+        </p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
           <button
-            class="btn btn-outline-light btn-lg px-4"
+            class="btn btn-primary btn-lg rounded-pill px-5"
             @click="scrollToRolunk"
           >
-            Ismerd meg a klubot
+            Fedezd fel
           </button>
-          <router-link to="/webshop" class="btn btn-primary btn-lg px-4">
-            Webshop
-          </router-link>
+          <button
+            class="btn btn-outline-light btn-lg rounded-pill px-5"
+            @click="$router.push('/webshop')"
+          >
+            Vásárolj tőlünk
+          </button>
         </div>
         <div class="hero-chevron mt-5">
           <i class="bi bi-chevron-down"></i>
@@ -107,51 +116,88 @@ function scrollToRolunk() {
     <section id="rolunk" class="section-padding">
       <div class="container">
         <div class="row align-items-center g-5">
-          <div class="col-12 col-lg-7 reveal">
-            <h2 class="section-title mb-4">Rólunk</h2>
-            <p class="lead mb-4">
-              A Laguna Lovasklub Héregen a minőségi lótartás, a szakmai fejlődés
-              és a természetközeli életforma találkozik.
+          <!-- Image with decorative frame -->
+          <div class="col-12 col-lg-6 reveal">
+            <div class="about-img-wrapper">
+              <div class="about-corner-tl"></div>
+              <img
+                :src="aboutImg"
+                alt="Laguna Lovasklub"
+                class="about-img rounded-3 shadow-lg"
+                loading="lazy"
+              />
+              <div class="about-badge d-none d-md-flex">
+                <span class="about-badge-number">15+</span>
+                <span class="about-badge-text">Év tapasztalat</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text -->
+          <div class="col-12 col-lg-6 reveal reveal-delay-2">
+            <div class="about-tag mb-4">
+              <i class="bi bi-stars me-1"></i> Prémium Színvonal
+            </div>
+            <h2 class="about-heading mb-4">
+              A minőség az <em class="serif-accent text-secondary">alapvetésünk</em>
+            </h2>
+            <p class="lead mb-3">
+              A Laguna Lovasklub nem csupán egy istálló; ez egy közösség és egy
+              életérzés.
             </p>
-            <p>
+            <p class="text-muted mb-5">
               Célunk, hogy a lovak és lovasok egyaránt a legjobb körülmények
               között bontakozhassanak ki — legyen szó belovaglásról,
               versenyeztetésről vagy tenyésztésről. Klubunkban tapasztalt edzők
-              és felkészült szakemberek dolgoznak azon, hogy minden ló és lovas
-              a saját szintjén fejlődjön.
+              és felkészült szakemberek gondoskodnak mindenkiről.
             </p>
-            <p>
-              A lovak regenerációját és egészségét korszerű terápiás eszközökkel
-              támogatjuk. A Laguna Lovasklub versenyorientált szemlélete mellett
-              megőrzi barátságos, családias hangulatát — nálunk a szakmai
-              igényesség és a közösség ereje kéz a kézben jár.
-            </p>
-          </div>
-          <div class="col-12 col-lg-5 reveal reveal-delay-2">
-            <img
-              :src="aboutImg"
-              alt="Laguna Lovasklub"
-              class="img-fluid rounded shadow-lg about-img"
-              loading="lazy"
-            />
+            <div class="row g-4">
+              <div class="col-6">
+                <div class="d-flex gap-3 align-items-start">
+                  <i class="bi bi-award text-secondary fs-3 flex-shrink-0"></i>
+                  <div>
+                    <h6 class="fw-bold mb-1">Elit Képzés</h6>
+                    <p class="small text-muted mb-0">Tapasztalt edzők és módszertanok.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex gap-3 align-items-start">
+                  <i class="bi bi-house text-secondary fs-3 flex-shrink-0"></i>
+                  <div>
+                    <h6 class="fw-bold mb-1">Modern Boxok</h6>
+                    <p class="small text-muted mb-0">Tágas, világos és higiénikus terek.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Webshop Section -->
-    <section
-      class="webshop-section-bg d-flex align-items-center justify-content-center text-center"
+    <!-- Webshop Section with parallax background -->
+    <div
+      class="webshop-parallax"
       :style="{ backgroundImage: `url(${webshopImg})` }"
     >
-    <div class="webshop-overlay"></div>
-      <section class="section-padding section-alt webshop-preview">
+      <div class="webshop-overlay"></div>
+      <section class="section-padding webshop-inner">
         <div class="container">
-          <div class="text-center mb-5 reveal">
-            <h2 class="section-title">Vásárolj tőlünk</h2>
-            <p class="text-muted mt-3">
-              Válogass minőségi lovas felszerelések és kiegészítők közül.
-            </p>
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-5 gap-3 reveal">
+            <div>
+              <h2 class="section-title mb-2">Webshop kínálatunk</h2>
+              <p class="text-muted mb-0">
+                Válogatott prémium kiegészítők a legmagasabb minőségben.
+              </p>
+            </div>
+            <router-link
+              to="/webshop"
+              class="d-inline-flex align-items-center gap-2 fw-bold text-primary text-decoration-none webshop-link"
+            >
+              Minden termék megtekintése
+              <i class="bi bi-arrow-right"></i>
+            </router-link>
           </div>
 
           <div v-if="loading" class="text-center py-5">
@@ -170,208 +216,166 @@ function scrollToRolunk() {
               <ProductCard :product="product" />
             </div>
           </div>
-
-          <div class="text-center mt-5 reveal">
-            <router-link to="/webshop" class="btn btn-primary btn-lg px-5">
-              Összes termék
-              <i class="bi bi-arrow-right ms-2"></i>
-            </router-link>
-          </div>
-        </div>
-      </section>
-    </section>
-
-    <!-- Pedigré Section -->
-    <div class="snap-section">
-      <section class="section-padding">
-        <div class="container">
-          <div class="text-center mb-5 reveal">
-            <h2 class="section-title">Pedigrénk</h2>
-            <p class="text-muted mt-3">
-              Ismerkedj meg lovainkkal — minőségi tenyésztés, kiválóan képzett
-              lovak.
-            </p>
-          </div>
-
-          <div v-if="loading" class="text-center py-5">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Betöltés...</span>
-            </div>
-          </div>
-
-          <div
-            v-else-if="horses.length > 0"
-            class="row g-4 justify-content-center"
-          >
-            <div
-              v-for="(horse, i) in horses"
-              :key="horse.id"
-              class="col-12 col-sm-6 col-lg-4 reveal"
-              :style="{ transitionDelay: `${i * 0.04}s` }"
-            >
-              <router-link
-                :to="`/lovaink/${horse.id}`"
-                class="text-decoration-none"
-              >
-                <div
-                  class="card horse-card h-100 border-0 shadow-sm overflow-hidden pt-0"
-                >
-                  <div class="horse-img-wrapper">
-                    <img
-                      v-if="horse.main_img_url"
-                      :src="horse.main_img_url"
-                      :alt="horse.name"
-                      class="card-img-top"
-                      loading="lazy"
-                    />
-                    <div
-                      v-else
-                      class="horse-img-placeholder d-flex align-items-center justify-content-center"
-                    >
-                      <i
-                        class="bi bi-heart text-muted"
-                        style="font-size: 3rem"
-                      ></i>
-                    </div>
-                  </div>
-                  <div class="card-body text-center">
-                    <h5 class="card-title mb-0">{{ horse.name }}</h5>
-                  </div>
-                </div>
-              </router-link>
-            </div>
-          </div>
-
-          <div class="text-center mt-5 reveal">
-            <router-link to="/lovaink" class="btn btn-primary btn-lg px-5">
-              Összes lovunk
-              <i class="bi bi-arrow-right ms-2"></i>
-            </router-link>
-          </div>
         </div>
       </section>
     </div>
 
-    <!-- Eredményeink Section -->
-    <div class="results-section-bg">
-      <div class="results-overlay"></div>
-      <section class="section-padding section-alt results-preview">
-        <div class="container">
-          <div class="text-center mb-5 reveal">
-            <h2 class="section-title">Eredményeink</h2>
-            <p class="text-muted mt-3">
-              Legutóbbi versenyeink és eredményeink.
-            </p>
-          </div>
+    <!-- Büszkeségeink Section -->
+    <section class="section-padding">
+      <div class="container-xl">
+        <h2 class="section-title text-center mb-5 reveal">Büszkeségeink</h2>
 
-          <div v-if="loading" class="text-center py-5">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Betöltés...</span>
-            </div>
+        <div v-if="loading" class="text-center py-5">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Betöltés...</span>
           </div>
+        </div>
 
-          <div
-            v-else-if="competitions.length > 0"
-            class="row g-4 justify-content-center"
-          >
-            <div
-              v-for="(comp, i) in competitions"
-              :key="comp.id"
-              class="col-12 col-sm-6 col-lg-4 reveal"
-              :style="{ transitionDelay: `${i * 0.04}s` }"
-            >
-              <div
-                class="card competition-card h-100 border-0 shadow-sm overflow-hidden pt-0"
-              >
-                <div class="comp-img-wrapper">
-                  <img
-                    v-if="comp.image_url"
-                    :src="comp.image_url"
-                    :alt="comp.name"
-                    class="card-img-top"
-                    loading="lazy"
-                  />
-                  <div
-                    v-else
-                    class="comp-img-placeholder d-flex align-items-center justify-content-center"
-                  >
-                    <i
-                      class="bi bi-trophy text-muted"
-                      style="font-size: 3rem"
-                    ></i>
-                  </div>
+        <div v-else-if="horses.length > 0" class="row g-3">
+          <!-- First horse: big card -->
+          <div class="col-12 col-md-7 reveal">
+            <router-link :to="`/lovaink/${horses[0].id}`" class="horse-card-link">
+              <div class="horse-card horse-card-big">
+                <img
+                  v-if="horses[0].main_img_url"
+                  :src="horses[0].main_img_url"
+                  :alt="horses[0].name"
+                  class="horse-card-img"
+                />
+                <div v-else class="horse-card-placeholder">
+                  <i class="bi bi-heart text-muted" style="font-size: 3rem"></i>
                 </div>
-                <div class="card-body">
-                  <h6 class="card-title mb-2">{{ comp.name }}</h6>
-                  <small class="text-muted">
-                    <i class="bi bi-calendar3 me-1"></i>
-                    {{ formatDate(comp.start_date) }}
-                  </small>
+                <div class="horse-card-overlay">
+                  <h4 class="horse-card-name">{{ horses[0].name }}</h4>
                 </div>
               </div>
-            </div>
+            </router-link>
           </div>
 
-          <div class="text-center mt-5 reveal">
-            <router-link to="/eredmenyeink" class="btn btn-primary btn-lg px-5">
-              Összes eredmény
-              <i class="bi bi-arrow-right ms-2"></i>
+          <!-- Remaining horses: stacked small cards -->
+          <div class="col-12 col-md-5 d-flex flex-column gap-3">
+            <router-link
+              v-for="(horse, i) in horses.slice(1)"
+              :key="horse.id"
+              :to="`/lovaink/${horse.id}`"
+              class="horse-card-link reveal"
+              :style="{ transitionDelay: `${(i + 1) * 0.06}s` }"
+            >
+              <div class="horse-card horse-card-small">
+                <img
+                  v-if="horse.main_img_url"
+                  :src="horse.main_img_url"
+                  :alt="horse.name"
+                  class="horse-card-img"
+                />
+                <div v-else class="horse-card-placeholder">
+                  <i class="bi bi-heart text-muted" style="font-size: 2rem"></i>
+                </div>
+                <div class="horse-card-overlay">
+                  <h5 class="horse-card-name">{{ horse.name }}</h5>
+                </div>
+              </div>
             </router-link>
           </div>
         </div>
-      </section>
-    </div>
 
-    <!-- Kapcsolat Section -->
-    <section class="section-padding">
-      <div class="container">
-        <div class="text-center reveal" style="max-width: 600px; margin: 0 auto">
-          <h2 class="section-title mb-4">Keress meg minket</h2>
-          <p class="text-muted mb-5">
-            Kérdésed van, vagy szeretnél többet megtudni szolgáltatásainkról?
-            Vedd fel velünk a kapcsolatot!
-          </p>
-          <router-link to="/kapcsolat" class="btn btn-primary btn-lg px-5">
-            Kapcsolatfelvétel
-            <i class="bi bi-envelope ms-2"></i>
+        <div class="text-center mt-5 reveal">
+          <router-link to="/lovaink" class="btn btn-primary btn-lg px-5">
+            Összes lovunk
+            <i class="bi bi-arrow-right ms-2"></i>
           </router-link>
         </div>
       </div>
     </section>
+
+    <!-- Eredményeink Section -->
+    <section class="results-section section-padding">
+      <div class="container">
+        <div class="text-center mb-5 reveal">
+          <h2 class="section-title">Legutóbbi eredményeink</h2>
+          <p class="text-muted mt-2">Lovasaink sikere a mi büszkeségünk is egyben.</p>
+        </div>
+
+        <div v-if="loading" class="text-center py-5">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Betöltés...</span>
+          </div>
+        </div>
+
+        <div v-else-if="competitions.length > 0" class="d-flex flex-column gap-3 mx-auto results-list">
+          <div
+            v-for="(comp, i) in competitions"
+            :key="comp.id"
+            class="result-item reveal"
+            :style="{ transitionDelay: `${i * 0.04}s` }"
+          >
+            <div class="d-flex align-items-center gap-4">
+              <div class="result-badge" :class="i === 0 ? 'result-badge-gold' : ''">
+                {{ i + 1 }}.
+              </div>
+              <div>
+                <h5 class="mb-0 fw-bold">{{ comp.name }}</h5>
+                <small class="text-muted">
+                  <i class="bi bi-calendar3 me-1"></i>{{ formatDate(comp.start_date) }}
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-5 reveal">
+          <router-link to="/eredmenyeink" class="btn btn-primary btn-lg px-5">
+            Összes eredmény
+            <i class="bi bi-arrow-right ms-2"></i>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Személyes megtekintés Section -->
+    <section class="section-padding">
+      <div class="container">
+        <div class="cta-box text-center reveal">
+          <div class="cta-gradient"></div>
+          <div class="cta-content">
+            <h2 class="cta-title mb-4">Keress meg minket</h2>
+            <p class="cta-text mb-5">
+              Kérdésed van, vagy szeretnél többet megtudni szolgáltatásainkról?
+              Vedd fel velünk a kapcsolatot!
+            </p>
+            <router-link to="/kapcsolat" class="btn btn-primary btn-lg px-5">
+              Kapcsolatfelvétel
+              <i class="bi bi-envelope ms-2"></i>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <style scoped>
+/* ---- Base ---- */
 .hero-container {
   margin-top: 57.8px;
 }
 
-.webshop-section-bg {
-  position: relative;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  min-width: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-.results-section-bg {
-  position: relative;
-  background: url("@/assets/img/vagany.jpg") no-repeat center center fixed;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  min-width: 100%;
-  background-size: cover;
+.serif-accent {
+  font-family: "Times New Roman", serif;
+  font-style: italic;
 }
 
-.webshop-preview,
-.results-preview {
-  position: relative;
-  z-index: 1;
-  border-radius: 20px;
+.section-padding {
+  padding: 5rem 0;
 }
-/* Hero */
+
+.section-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+/* ---- Hero ---- */
 .hero-section {
   position: relative;
   min-height: 100vh;
@@ -403,153 +407,349 @@ function scrollToRolunk() {
 .hero-slide.slide-prev {
   transform: translateX(-100%);
 }
-.webshop-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
   z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(1, 4, 14, 0.45) 0%,
+    rgba(1, 4, 14, 0.45) 45%,
+    rgba(1, 4, 14, 0.92) 100%
+  );
+  text-shadow: 0px 4px 4px #00000030, 0px 12px 12px 
 }
-.results-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
+
 .hero-content {
   z-index: 3;
   padding: 2rem;
 }
 
 .hero-title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 800;
+  font-size: clamp(2.25rem, 5.5vw, 5.5rem);
+  font-weight: 300;
   color: #fff;
   letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.hero-title strong {
+  font-weight: 800;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.75);
   font-weight: 300;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.65;
 }
 
 .hero-chevron {
   animation: bounce 2s infinite;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 1.5rem;
 }
 
 @keyframes bounce {
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
 }
 
-/* Sections */
-.section-padding {
-  padding: 5rem 0;
+/* ---- About ---- */
+.about-img-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 1.5rem;
+  padding-right: 1.5rem;
 }
 
-.section-alt {
-  background-color: var(--bg-light);
+.about-corner-tl {
+  position: absolute;
+  top: -1.25rem;
+  left: -1.25rem;
+  width: 5rem;
+  height: 5rem;
+  border-top: 2px solid var(--secondary);
+  border-left: 2px solid var(--secondary);
+  opacity: 0.45;
+  z-index: 1;
+  pointer-events: none;
 }
 
-.section-title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-/* About image */
 .about-img {
   width: 100%;
   height: auto;
   object-fit: cover;
-  max-height: 450px;
+  max-height: 460px;
+  position: relative;
+  z-index: 2;
 }
 
-/* Horse cards */
+.about-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  background-color: var(--secondary);
+  padding: 1.25rem 1.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.about-badge-number {
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: var(--bg-dark);
+  line-height: 1;
+}
+
+.about-badge-text {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(1, 4, 14, 0.7);
+  white-space: nowrap;
+}
+
+.about-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.9;
+}
+
+.about-heading {
+  font-size: clamp(1.75rem, 3vw, 3rem);
+  font-weight: 700;
+}
+
+/* ---- Webshop parallax ---- */
+.webshop-parallax {
+  position: relative;
+  min-width: 100%;
+  padding: 3rem 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.webshop-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.webshop-inner {
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg-light);
+  border-radius: 1.25rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.webshop-link:hover {
+  text-decoration: underline !important;
+}
+
+/* ---- CTA / Személyes megtekintés box ---- */
+.cta-box {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background-color: var(--bg);
+  padding: 4rem 2.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.cta-gradient {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  pointer-events: none;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.cta-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.cta-text {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.cta-ghost-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  backdrop-filter: blur(4px);
+}
+
+.cta-ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+/* ---- Horses ---- */
+.horse-card-link {
+  display: block;
+  text-decoration: none;
+}
+
 .horse-card {
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-  background-color: var(--bg-light);
-}
-
-.horse-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
-}
-
-.horse-img-wrapper {
-  height: 250px;
+  position: relative;
+  border-radius: 1rem;
   overflow: hidden;
+  cursor: pointer;
 }
 
-.horse-img-wrapper img {
+.horse-card-big {
+  height: 540px;
+}
+
+.horse-card-small {
+  height: 255px;
+}
+
+.horse-card-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.7s ease;
 }
 
-.horse-img-placeholder {
-  height: 100%;
-  background-color: var(--bg);
+.horse-card-link:hover .horse-card-img {
+  transform: scale(1.08);
 }
 
-.horse-card .card-title {
+.horse-card-placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.horse-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.1) 45%,
+    transparent 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem 2rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.horse-card-link:hover .horse-card-overlay {
+  opacity: 1;
+}
+
+.horse-card-name {
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+/* ---- Results ---- */
+.results-section {
+  background-color: var(--bg-dark);
+  min-width: 100%;
+}
+
+.results-list {
+  max-width: 780px;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  transition: background 0.2s;
+}
+
+.result-item:hover {
+  background: var(--highlight);
+}
+
+.result-badge {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--border);
   color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.9rem;
+  flex-shrink: 0;
 }
 
-/* Competition cards */
-.competition-card {
-  background-color: var(--bg);
+.result-badge-gold {
+  background: var(--secondary);
+  color: var(--bg-dark);
 }
 
-.comp-img-wrapper {
-  height: 200px;
-  overflow: hidden;
-}
-
-.comp-img-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.comp-img-placeholder {
-  height: 100%;
-  background-color: var(--bg-light);
-}
-
-.competition-card .card-title {
-  color: var(--text);
-}
-
-/* Responsive */
+/* ---- Responsive ---- */
 @media (max-width: 768px) {
   .section-padding {
     padding: 4rem 0;
   }
 
   .hero-title {
-    font-size: 1.75rem;
+    font-size: 2rem;
+  }
+
+  .horse-card-big {
+    height: 340px;
+  }
+
+  .horse-card-small {
+    height: 200px;
   }
 }
 </style>
