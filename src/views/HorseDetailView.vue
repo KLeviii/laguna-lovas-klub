@@ -95,30 +95,9 @@ function goBack() {
             </div>
 
             <!-- Pedigree -->
-            <div v-if="selectedHorse.sire || selectedHorse.dam" class="mb-4">
-              <h4>Származása</h4>
-              <table class="table table-sm">
-                <tbody>
-                  <tr v-if="selectedHorse.sire">
-                    <td><strong>Fedeztetőmén</strong></td>
-                    <td>
-                      <router-link :to="`/lovaink/${selectedHorse.sire.id}`">
-                        {{ selectedHorse.sire.name }}
-                      </router-link>
-                    </td>
-                  </tr>
-                  <tr v-if="selectedHorse.dam">
-                    <td><strong>Anyakanca</strong></td>
-                    <td>
-                      <router-link :to="`/lovaink/${selectedHorse.dam.id}`">
-                        {{ selectedHorse.dam.name }}
-                      </router-link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="mb-4">
               <button
-                class="btn btn-outline-primary btn-sm mt-2"
+                class="btn btn-outline-primary btn-sm"
                 @click="showPedigree = true"
               >
                 <i class="bi bi-diagram-3 me-1"></i>Családfa megtekintése

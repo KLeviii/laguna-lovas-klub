@@ -1,15 +1,20 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRoute } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
 import { useTheme } from "@/composables/useTheme";
 import CartIcon from "@/components/webshop/CartIcon.vue";
 
 const { isAuthenticated, signOut, loading } = useAuth();
 const { isDarkMode, toggleTheme } = useTheme();
+const route = useRoute();
 
 const showNavbar = ref(true);
 const menuOpen = ref(false);
+const isAtTop = ref(window.scrollY === 0);
 let lastScrollY = window.scrollY;
+
+const isTransparent = computed(() => isAtTop.value && route.path === "/");
 
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
@@ -21,6 +26,8 @@ function closeMenu() {
 
 const handleScroll = () => {
   const currentScrollY = window.scrollY;
+
+  isAtTop.value = currentScrollY === 0;
 
   if (currentScrollY > lastScrollY && currentScrollY > 80) {
     showNavbar.value = false;
@@ -68,7 +75,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header id="nav" :class="['nav-bar', { hidden: !showNavbar }]">
+  <header id="nav" :class="['nav-bar', { hidden: !showNavbar, transparent: isTransparent }]">
     <!-- Fő sor: logó | linkek | akció ikonok -->
     <div class="navbar-inner d-flex align-items-center px-3">
       <!-- Bal: logó -->
@@ -205,8 +212,13 @@ onUnmounted(() => {
   background-color: var(--bg-light);
   transition:
     transform 0.25s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    background-color 0.4s ease;
   z-index: 1000;
+}
+
+#nav.transparent {
+  background-color: transparent;
 }
 
 .hidden {
@@ -219,6 +231,32 @@ onUnmounted(() => {
   border-bottom: 2px solid var(--highlight);
   padding-top: 0.35rem;
   padding-bottom: 0.35rem;
+  transition: border-color 0.4s ease;
+}
+
+#nav.transparent .navbar-inner {
+  border-color: transparent;
+}
+
+#nav.transparent .nav-link {
+  color: #fff !important;
+}
+
+#nav.transparent .nav-link:hover {
+  color: var(--primary) !important;
+}
+
+#nav.transparent .nav-link.router-link-active,
+#nav.transparent .nav-link.router-link-exact-active {
+  color: var(--primary) !important;
+}
+
+#nav.transparent .btn-icon {
+  color: #fff;
+}
+
+#nav.transparent .btn-icon:hover {
+  color: var(--primary);
 }
 
 /* Logo */

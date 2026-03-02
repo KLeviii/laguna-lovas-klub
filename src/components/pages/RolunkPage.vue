@@ -358,7 +358,7 @@ function scrollToRolunk() {
 <style scoped>
 /* ---- Base ---- */
 .hero-container {
-  margin-top: 57.8px;
+  margin-top: 0;
 }
 
 .serif-accent {
@@ -381,6 +381,7 @@ function scrollToRolunk() {
   min-height: 100vh;
   min-width: 100%;
   overflow: hidden;
+  padding-top: 58px;
 }
 
 .hero-slides {
