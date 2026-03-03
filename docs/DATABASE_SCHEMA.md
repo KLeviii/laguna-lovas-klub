@@ -107,8 +107,11 @@
 | shipping_address | TEXT | ✅ | Utca, házszám |
 | shipping_country | TEXT | ✅ | Ország (default: 'Magyarország') |
 | notes | TEXT | ❌ | Megjegyzés a rendeléshez |
+| shipping_method | TEXT | ✅ | `'magyar_posta'` / `'sajat_szallitas'` (default: `'magyar_posta'`) |
+| shipping_cost_huf | INTEGER | ✅ | Szállítási díj (HUF), az order leadásakor rögzítve |
+| payment_method | TEXT | ✅ | `'simple_pay'` (default: `'simple_pay'`) |
 | status | TEXT | ✅ | 'pending' / 'confirmed' / 'shipped' / 'delivered' / 'cancelled' (default: 'pending') |
-| total_amount_huf | INTEGER | ✅ | Végösszeg (HUF) |
+| total_amount_huf | INTEGER | ✅ | Végösszeg HUF-ban (termékek + szállítás) |
 | is_read | BOOLEAN | ✅ | Admin olvasta-e (default: false) |
 | created_at | TIMESTAMP | ✅ | Auto |
 | updated_at | TIMESTAMP | ✅ | Auto |
@@ -164,6 +167,17 @@ order_items.product_id -> products.id (N:1, SET NULL on delete)
 | `orders` | SELECT / UPDATE / DELETE | Csak hitelesített admin |
 | `order_items` | INSERT | Publikus (order_id-vel együtt) |
 | `order_items` | SELECT / UPDATE / DELETE | Csak hitelesített admin |
+
+## Migrációs SQL (orders tábla bővítés)
+
+```sql
+ALTER TABLE orders
+  ADD COLUMN shipping_method   TEXT    NOT NULL DEFAULT 'magyar_posta',
+  ADD COLUMN shipping_cost_huf INTEGER NOT NULL DEFAULT 1490,
+  ADD COLUMN payment_method    TEXT    NOT NULL DEFAULT 'simple_pay';
+```
+
+> Érvényes értékek: `shipping_method` → `'magyar_posta'` | `'sajat_szallitas'`; `payment_method` → `'simple_pay'`
 
 ## Storage Buckets
 

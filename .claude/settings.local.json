@@ -12,5 +12,9 @@
       "Bash(npm run docs:generate)",
       "Bash(pip install python-docx)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "context7"
+  ],
+  "enableAllProjectMcpServers": true
 }

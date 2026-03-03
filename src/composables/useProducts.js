@@ -1,6 +1,8 @@
 import { ref, computed } from 'vue'
 import {
   fetchAllProducts,
+  fetchProductsPaginated,
+  fetchPriceRange,
   fetchProductCategories,
   fetchProductById,
   fetchRelatedProducts,
@@ -40,8 +42,10 @@ export function useProducts() {
   const selectedProduct = ref(null)
   /** @type {import('vue').Ref<Array<Object>>} A kiválasztott termékhez kapcsolódó termékek (azonos kategória). */
   const relatedProducts = ref([])
-  /** @type {import('vue').Ref<string|null>} Kategória szűrő: null = minden kategória. */
+  /** @type {import('vue').Ref<string|null>} Kategória szűrő (legacy, single): null = minden kategória. */
   const categoryFilter = ref(null) // null = all categories
+  /** @type {import('vue').Ref<Array<string>>} Kategória szűrők (multi-select, paginated webshophoz). */
+  const categoryFilters = ref([])
   /** @type {import('vue').Ref<boolean>} Töltési állapot jelző. */
   const loading = ref(false)
   /** @type {import('vue').Ref<string|null>} Az utolsó hiba üzenete. */
@@ -161,6 +165,89 @@ export function useProducts() {
     }
   }
 
+  // --- Paginated webshop state ---
+  const paginatedProducts = ref([])
+  const currentPage = ref(1)
+  const perPage = ref(12)
+  const totalCount = ref(0)
+  const sortBy = ref('name')
+  const priceMin = ref(0)
+  const priceMax = ref(500000)
+  const priceRangeMin = ref(0)
+  const priceRangeMax = ref(500000)
+
+  const totalPages = computed(() => Math.ceil(totalCount.value / perPage.value) || 1)
+
+  async function loadPriceRange() {
+    try {
+      const range = await fetchPriceRange()
+      priceRangeMin.value = range.min
+      priceRangeMax.value = range.max
+      priceMin.value = range.min
+      priceMax.value = range.max
+    } catch (_) {
+      // keep defaults
+    }
+  }
+
+  async function loadProductsPaginated() {
+    loading.value = true
+    error.value = null
+    try {
+      const result = await fetchProductsPaginated({
+        categoryIds: categoryFilters.value,
+        minPrice: priceMin.value,
+        maxPrice: priceMax.value,
+        page: currentPage.value,
+        perPage: perPage.value,
+        sortBy: sortBy.value,
+      })
+      paginatedProducts.value = result.data
+      totalCount.value = result.count
+    } catch (err) {
+      error.value = err.message
+      paginatedProducts.value = []
+      totalCount.value = 0
+    } finally {
+      loading.value = false
+    }
+  }
+
+  function setPage(page) {
+    currentPage.value = page
+  }
+
+  function setSortBy(sort) {
+    sortBy.value = sort
+    currentPage.value = 1
+  }
+
+  function setPriceRange(min, max) {
+    priceMin.value = min
+    priceMax.value = max
+    currentPage.value = 1
+  }
+
+  function setCategoryFilters(ids) {
+    categoryFilters.value = [...ids]
+    currentPage.value = 1
+  }
+
+  function applyFilters() {
+    currentPage.value = 1
+    loadProductsPaginated()
+  }
+
+  function resetAllFilters() {
+    categoryFilters.value = []
+    priceMin.value = priceRangeMin.value
+    priceMax.value = priceRangeMax.value
+    sortBy.value = 'name'
+    currentPage.value = 1
+  }
+
+  const isPaginatedEmpty = computed(() => paginatedProducts.value.length === 0)
+
   return {
     products: filteredProducts,
     categories,
@@ -176,5 +263,26 @@ export function useProducts() {
     setProductCategory,
     clearProductFilter,
     deleteProduct,
+    // Paginated webshop
+    paginatedProducts,
+    currentPage,
+    perPage,
+    totalCount,
+    totalPages,
+    sortBy,
+    priceMin,
+    priceMax,
+    priceRangeMin,
+    priceRangeMax,
+    categoryFilters,
+    loadPriceRange,
+    loadProductsPaginated,
+    setPage,
+    setSortBy,
+    setPriceRange,
+    setCategoryFilters,
+    applyFilters,
+    resetAllFilters,
+    isPaginatedEmpty,
   }
 }

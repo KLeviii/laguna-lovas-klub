@@ -8,7 +8,7 @@ import vueDevTools from "vite-plugin-vue-devtools";
 export default defineConfig({
   plugins: [vue(), vueDevTools()],
   server: {
-    allowedHosts: "aboral-monocular-scarlett.ngrok-free.dev",
+    allowedHosts: ["aboral-monocular-scarlett.ngrok-free.dev"],
   },
   resolve: {
     alias: {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, nextTick, onUnmounted } from "vue";
+import { ref, computed, onMounted, nextTick, onUnmounted } from "vue";
 import { fetchLatestCompetitions } from "@/services/competitionService.js";
 import { fetchAllHorses } from "@/services/horseService.js";
 import { fetchAllProducts } from "@/services/productService.js";
@@ -26,6 +26,8 @@ useHead(
   "Laguna Lovasklub Héreg — lovas hagyomány, modern szemlélettel.",
 );
 const { observe } = useReveal();
+
+const yearsOfExperience = computed(() => new Date().getFullYear() - 2019);
 
 const products = ref([]);
 const horses = ref([]);
@@ -127,7 +129,7 @@ function scrollToRolunk() {
                 loading="lazy"
               />
               <div class="about-badge d-none d-md-flex">
-                <span class="about-badge-number">15+</span>
+                <span class="about-badge-number">{{ yearsOfExperience }}+</span>
                 <span class="about-badge-text">Év tapasztalat</span>
               </div>
             </div>

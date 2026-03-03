@@ -18,6 +18,8 @@ export async function fetchAllProducts(filters = {}) {
       image_url,
       is_available,
       stock,
+      rating,
+      review_count,
       created_at,
       category:category_id(id, name, slug)
     `)
@@ -36,6 +38,102 @@ export async function fetchAllProducts(filters = {}) {
 }
 
 /**
+ * Fetch products with server-side pagination, filtering, and sorting.
+ * @param {Object} options
+ * @param {Array<string>} options.categoryIds - Filter by category IDs (empty = all)
+ * @param {number|null} options.minPrice - Minimum price filter
+ * @param {number|null} options.maxPrice - Maximum price filter
+ * @param {number} options.page - Page number (1-based)
+ * @param {number} options.perPage - Items per page
+ * @param {string} options.sortBy - Sort option: 'name', 'price_asc', 'price_desc', 'newest'
+ * @returns {Promise<{data: Array, count: number}>}
+ */
+export async function fetchProductsPaginated({
+  categoryIds = [],
+  minPrice = null,
+  maxPrice = null,
+  page = 1,
+  perPage = 12,
+  sortBy = 'name',
+} = {}) {
+  let query = supabase
+    .from('products')
+    .select(`
+      id,
+      name,
+      description,
+      price_huf,
+      image_url,
+      is_available,
+      stock,
+      rating,
+      review_count,
+      created_at,
+      category:category_id(id, name, slug)
+    `, { count: 'exact' })
+
+  if (categoryIds.length > 0) {
+    query = query.in('category_id', categoryIds)
+  }
+  if (minPrice != null) {
+    query = query.gte('price_huf', minPrice)
+  }
+  if (maxPrice != null) {
+    query = query.lte('price_huf', maxPrice)
+  }
+
+  const sortMap = {
+    name: { column: 'name', ascending: true },
+    price_asc: { column: 'price_huf', ascending: true },
+    price_desc: { column: 'price_huf', ascending: false },
+    newest: { column: 'created_at', ascending: false },
+  }
+  const sort = sortMap[sortBy] || sortMap.name
+  query = query.order(sort.column, { ascending: sort.ascending })
+
+  const from = (page - 1) * perPage
+  const to = from + perPage - 1
+  query = query.range(from, to)
+
+  const { data, error, count } = await query
+
+  if (error) {
+    throw new Error(`Failed to fetch products: ${error.message}`)
+  }
+
+  return { data: data || [], count: count || 0 }
+}
+
+/**
+ * Fetch the min and max price_huf from all products.
+ * @returns {Promise<{min: number, max: number}>}
+ */
+export async function fetchPriceRange() {
+  const { data: minData, error: minError } = await supabase
+    .from('products')
+    .select('price_huf')
+    .order('price_huf', { ascending: true })
+    .limit(1)
+    .single()
+
+  const { data: maxData, error: maxError } = await supabase
+    .from('products')
+    .select('price_huf')
+    .order('price_huf', { ascending: false })
+    .limit(1)
+    .single()
+
+  if (minError || maxError) {
+    return { min: 0, max: 500000 }
+  }
+
+  return {
+    min: minData?.price_huf || 0,
+    max: maxData?.price_huf || 500000,
+  }
+}
+
+/**
  * Fetch a single product by ID with full details.
  * @param {string} productId - Product UUID
  * @returns {Promise<Object|null>} Product object with related category, or null if not found
@@ -51,6 +149,8 @@ export async function fetchProductById(productId) {
       image_url,
       is_available,
       stock,
+      rating,
+      review_count,
       category:category_id(id, name, slug),
       created_at
     `)

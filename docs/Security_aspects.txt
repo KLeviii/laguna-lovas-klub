@@ -1,0 +1,5 @@
+Not getting hacked with vibecoding:
+-Never expose API keys (server only)
+-Input validation, sanitation
+-Well established auth platform (supabase, auth0 etc.)
+-Rate limit api routes
