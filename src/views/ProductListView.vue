@@ -87,13 +87,9 @@ function handlePageChange(page) {
   <div>
     <main>
       <!-- Hero Header Card -->
-      <section class="container-fluid px-3 px-md-5 pt-4">
-        <div class="webshop-hero position-relative overflow-hidden rounded-4">
-          <img
-            :src="heroImg"
-            alt="Laguna Lovasklub Webshop"
-            class="w-100 hero-img"
-          />
+      <section class="container-fluid px-3 px-md-5 pt-4 webshop-hero-section" >
+        <div class="webshop-hero position-relative overflow-hidden rounded-4 background-image background-image-position-center" :style="{ backgroundImage: `url(${heroImg})` }">
+         
           <div class="hero-overlay d-flex align-items-end p-4 p-md-5">
             <div class="hero-text">
               <h1 class="display-6 fw-bold mb-1" style="color: #fff">Termékeink</h1>
@@ -237,8 +233,12 @@ function handlePageChange(page) {
 </template>
 
 <style scoped>
+
 .webshop-hero {
+  background-attachment: fixed;
+  background-position: 50% 60%;
   min-height: 300px;
+  min-width: 100%;
   height: 220px;
   position: relative;
   margin-top: 58px;
@@ -248,9 +248,11 @@ function handlePageChange(page) {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  background-attachment: fixed;
 }
 
 .hero-overlay {
+  background-image: url();
   position: absolute;
   inset: 0;
   background:

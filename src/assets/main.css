@@ -619,7 +619,7 @@ body.light .btn-secondary {
   transform: translateY(18px);
   transition:
     opacity 0.35s ease-out,
-    transform 0.35s ease-out;
+    transform 0.7s ease-in-out;
 }
 
 .reveal-visible {
