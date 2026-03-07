@@ -13,8 +13,9 @@
       "Bash(pip install python-docx)"
     ]
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
-    "context7"
-  ],
-  "enableAllProjectMcpServers": true
+    "context7",
+    "supabase"
+  ]
 }

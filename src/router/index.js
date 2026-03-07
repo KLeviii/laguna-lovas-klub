@@ -17,6 +17,8 @@ const AdminCompetitionListView = () =>
 const ContactView = () => import("@/views/ContactView.vue");
 const CartView = () => import("@/views/CartView.vue");
 const CheckoutView = () => import("@/views/CheckoutView.vue");
+const CheckoutSuccessView = () => import("@/views/CheckoutSuccessView.vue");
+const CheckoutFailView = () => import("@/views/CheckoutFailView.vue");
 const AdminContactListView = () =>
   import("@/views/AdminContactListView.vue");
 
@@ -33,6 +35,8 @@ const routes = [
     component: () => import("@/views/PrivacyPolicyView.vue"),
   },
   { path: "/kosar", component: CartView },
+  { path: "/penztar/sikeres", component: CheckoutSuccessView },
+  { path: "/penztar/sikertelen", component: CheckoutFailView },
   { path: "/penztar", component: CheckoutView },
 
   // Admin routes

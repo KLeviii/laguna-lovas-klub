@@ -1,49 +1,34 @@
 <script setup>
-import { ref, computed } from 'vue'
 import { useCart } from '@/composables/useCart'
+import { useCheckout } from '@/composables/useCheckout'
 import { formatPrice } from '@/utils/formatting'
 import { useHead } from '@/composables/useHead'
+import ErrorAlert from '@/components/ErrorAlert.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 useHead('Pénztár')
 
 const { cartItems, cartItemCount, cartTotal, isCartEmpty } = useCart()
 
-const SHIPPING_OPTIONS = [
-  {
-    id: 'magyar_posta',
-    name: 'Magyar Posta (MPL)',
-    description: 'Házhozszállítás, 2–3 munkanap',
-    price_huf: 1490,
-    icon: 'bi-envelope-fill'
-  },
-  {
-    id: 'sajat_szallitas',
-    name: 'Saját szállítás',
-    description: 'Cég általi kiszállítás, 5–7 munkanap',
-    price_huf: 2000,
-    icon: 'bi-truck'
-  }
-]
-
-const PAYMENT_OPTIONS = [
-  {
-    id: 'simple_pay',
-    name: 'SimplePay',
-    description: 'Biztonságos online bankkártyás fizetés – OTP Mobil Kft.',
-    icon: 'bi-credit-card-2-front-fill'
-  }
-]
-
-const selectedShipping = ref('magyar_posta')
-const selectedPayment = ref('simple_pay')
-
-const selectedShippingOption = computed(() =>
-  SHIPPING_OPTIONS.find(o => o.id === selectedShipping.value)
-)
-
-const grandTotal = computed(() =>
-  cartTotal.value + (selectedShippingOption.value?.price_huf ?? 0)
-)
+const {
+  customerName,
+  customerEmail,
+  customerPhone,
+  shippingName,
+  shippingZip,
+  shippingCity,
+  shippingAddress,
+  notes,
+  selectedShipping,
+  selectedPayment,
+  loading,
+  error,
+  SHIPPING_OPTIONS,
+  PAYMENT_OPTIONS,
+  selectedShippingOption,
+  grandTotal,
+  submitOrder,
+} = useCheckout()
 </script>
 
 <template>
@@ -64,6 +49,126 @@ const grandTotal = computed(() =>
         <div v-else class="row">
           <!-- Left column: forms -->
           <div class="col-12 col-lg-7 mb-4">
+
+            <ErrorAlert v-if="error" :message="error" class="mb-4" />
+
+            <!-- Customer info -->
+            <div class="card shadow-sm mb-4 pt-0">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="bi bi-person-fill me-2"></i>Vásárlói adatok
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="customerName" class="form-label">Név <span class="text-danger">*</span></label>
+                  <input
+                    type="text"
+                    id="customerName"
+                    v-model="customerName"
+                    class="form-control"
+                    required
+                    placeholder="Teljes név"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="customerEmail" class="form-label">Email <span class="text-danger">*</span></label>
+                  <input
+                    type="email"
+                    id="customerEmail"
+                    v-model="customerEmail"
+                    class="form-control"
+                    required
+                    placeholder="pelda@email.hu"
+                  />
+                </div>
+                <div>
+                  <label for="customerPhone" class="form-label">Telefonszám</label>
+                  <input
+                    type="tel"
+                    id="customerPhone"
+                    v-model="customerPhone"
+                    class="form-control"
+                    placeholder="+36 30 123 4567"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Shipping address -->
+            <div class="card shadow-sm mb-4 pt-0">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="bi bi-geo-alt-fill me-2"></i>Szállítási cím
+                </h5>
+              </div>
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="shippingName" class="form-label">Átvevő neve <span class="text-danger">*</span></label>
+                  <input
+                    type="text"
+                    id="shippingName"
+                    v-model="shippingName"
+                    class="form-control"
+                    required
+                    placeholder="Átvevő teljes neve"
+                  />
+                </div>
+                <div class="row mb-3">
+                  <div class="col-4">
+                    <label for="shippingZip" class="form-label">Irányítószám <span class="text-danger">*</span></label>
+                    <input
+                      type="text"
+                      id="shippingZip"
+                      v-model="shippingZip"
+                      class="form-control"
+                      required
+                      maxlength="4"
+                      placeholder="1234"
+                    />
+                  </div>
+                  <div class="col-8">
+                    <label for="shippingCity" class="form-label">Város <span class="text-danger">*</span></label>
+                    <input
+                      type="text"
+                      id="shippingCity"
+                      v-model="shippingCity"
+                      class="form-control"
+                      required
+                      placeholder="Budapest"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label for="shippingAddress" class="form-label">Utca, házszám <span class="text-danger">*</span></label>
+                  <input
+                    type="text"
+                    id="shippingAddress"
+                    v-model="shippingAddress"
+                    class="form-control"
+                    required
+                    placeholder="Példa utca 12."
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="card shadow-sm mb-4 pt-0">
+              <div class="card-header">
+                <h5 class="mb-0">
+                  <i class="bi bi-chat-left-text me-2"></i>Megjegyzés
+                </h5>
+              </div>
+              <div class="card-body">
+                <textarea
+                  v-model="notes"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Egyéb megjegyzés a rendeléshez (opcionális)"
+                ></textarea>
+              </div>
+            </div>
 
             <!-- Shipping method -->
             <div class="card shadow-sm mb-4 pt-0">
@@ -139,7 +244,7 @@ const grandTotal = computed(() =>
                 </div>
                 <small class="text-muted d-block mt-2">
                   <i class="bi bi-shield-lock me-1"></i>
-                  A megrendelés után az OTP SimplePay biztonságos fizetési oldalára lesz átirányítva.
+                  A megrendelés után a Barion biztonságos fizetési oldalára lesz átirányítva.
                 </small>
               </div>
             </div>
@@ -152,7 +257,7 @@ const grandTotal = computed(() =>
 
           <!-- Right column: order summary -->
           <div class="col-12 col-lg-5">
-            <div class="card shadow-sm pt-0">
+            <div class="card shadow-sm pt-0 sticky-top" style="top: 100px;">
               <div class="card-header">
                 <h5 class="mb-0">
                   <i class="bi bi-receipt me-2"></i>Rendelés összesítő
@@ -189,12 +294,23 @@ const grandTotal = computed(() =>
                   <strong class="fs-5 text-primary">{{ formatPrice(grandTotal) }}</strong>
                 </div>
 
-                <button class="btn btn-primary w-100 mt-4" disabled>
-                  <i class="bi bi-credit-card me-1"></i>
-                  Tovább a fizetéshez
+                <button
+                  class="btn btn-primary w-100 mt-4"
+                  :disabled="loading"
+                  @click="submitOrder"
+                >
+                  <span v-if="loading">
+                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                    Feldolgozás...
+                  </span>
+                  <span v-else>
+                    <i class="bi bi-credit-card me-1"></i>
+                    Tovább a fizetéshez
+                  </span>
                 </button>
                 <small class="text-muted d-block text-center mt-2">
-                  A fizetési funkció hamarosan elérhető lesz.
+                  <i class="bi bi-lock-fill me-1"></i>
+                  Biztonságos fizetés a Barion rendszerén keresztül
                 </small>
               </div>
             </div>

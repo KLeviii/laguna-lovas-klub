@@ -13,7 +13,9 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 - Kosár rendszer készletkezeléssel (localStorage alapú)
 - Kosár ikon hover tooltippel a headerben
 - Kosár oldal ajánlott termékekkel
-- Pénztár oldal (szállítás/fizetés hamarosan)
+- Pénztár oldal vásárlói adatokkal, szállítási cím megadásával
+- Online fizetés Barion bankkártyás fizetéssel (teszt mód)
+- Sikeres/sikertelen fizetés visszajelzés oldalak
 - Kapcsolat oldal űrlappal (GDPR hozzájárulás checkbox-szal)
 - Admin felület lovak, termékek, kategóriák és üzenetek CRUD kezeléséhez (képfeltöltéssel, 4-fülös felület, készletkezelés)
 - Supabase Auth alapú adminisztrátori bejelentkezés
@@ -35,7 +37,9 @@ Single-page alkalmazás a Laguna Lovasklub weboldalához, Vue 3 + Supabase alapo
 | `/webshop` | Termékkatalógus kategóriaszűréssel |
 | `/webshop/:id` | Termék részletei – leírás, kapcsolódó termékek |
 | `/kosar` | Kosár – tételek kezelése, ajánlott termékek |
-| `/penztar` | Pénztár – rendelés összesítő, szállítás/fizetés (hamarosan) |
+| `/penztar` | Pénztár – vásárlói adatok, szállítás, Barion fizetés |
+| `/penztar/sikeres` | Sikeres fizetés visszajelzés |
+| `/penztar/sikertelen` | Sikertelen fizetés visszajelzés |
 | `/eredmenyeink` | Versenystatisztikák és eredmények |
 | `/kapcsolat` | Kapcsolat űrlap |
 | `/adatvedelem` | Adatvédelmi nyilatkozat |
