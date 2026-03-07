@@ -6,58 +6,30 @@ import {
   deleteHorse as deleteHorseService,
 } from "../services/horseService.js";
 
-/**
- * @module useHorses
- * Composable a lovak listázásához, szűréséhez és kezeléséhez.
- */
+const PAGE_SIZE = 12;
 
-/**
- * Composable a lovak adatainak betöltéséhez, szűréséhez és törléséhez.
- * @returns {{
- *   horses: import('vue').ComputedRef<Array<Object>>,
- *   selectedHorse: import('vue').Ref<Object|null>,
- *   relatedHorses: import('vue').Ref<Array<Object>>,
- *   loading: import('vue').Ref<boolean>,
- *   error: import('vue').Ref<string|null>,
- *   filterStatus: import('vue').Ref<string>,
- *   isEmpty: import('vue').ComputedRef<boolean>,
- *   loadHorses: (initialFilter?: boolean|null) => Promise<void>,
- *   setFilterStatus: (status: string) => Promise<void>,
- *   loadHorseById: (id: string) => Promise<void>,
- *   deleteHorse: (id: string) => Promise<boolean>
- * }}
- */
 export function useHorses() {
-  /** @type {import('vue').Ref<Array<Object>>} Az összes betöltött ló nyers listája. */
   const horses = ref([]);
-  /** @type {import('vue').Ref<Object|null>} Az egyedileg kiválasztott ló adatai. */
   const selectedHorse = ref(null);
-  /** @type {import('vue').Ref<Array<Object>>} A kiválasztott lóhoz kapcsolódó lovak (azonos nem). */
   const relatedHorses = ref([]);
-  /** @type {import('vue').Ref<boolean>} Töltési állapot jelző. */
   const loading = ref(false);
-  /** @type {import('vue').Ref<string|null>} Az utolsó hiba üzenete. */
   const error = ref(null);
-  /** @type {import('vue').Ref<string>} Szűrő állapot: 'all', 'available' vagy 'unavailable'. */
-  const filterStatus = ref("all"); // 'all', 'available', 'unavailable'
 
-  /**
-   * Az összes ló betöltése az adatbázisból, opcionális szűréssel.
-   * @param {boolean|null} [initialFilter=null] - Ha nem null, felülírja a filterStatus-t
-   *   (pl. vendégek számára csak az eladó lovakat mutatja).
-   * @returns {Promise<void>}
-   */
-  async function loadHorses(initialFilter = null, options = {}) {
+  /** @type {import('vue').Ref<string[]>} Kiválasztott kategóriák: 'available', 'racehorse'. Üres = összes. */
+  const selectedCategories = ref([]);
+  const ageMin = ref(null);
+  const ageMax = ref(null);
+  const sortBy = ref("name");
+  const currentPage = ref(1);
+
+  async function loadHorses(options = {}) {
     loading.value = true;
     error.value = null;
-
     try {
-      // If initialFilter is provided (for guests showing only available), use it
-      const filters = {
-        available_only: initialFilter !== null ? initialFilter : filterStatus.value === "available",
+      horses.value = await fetchAllHorses({
+        available_only: false,
         include_pedigree_only: options.include_pedigree_only || false,
-      };
-      horses.value = await fetchAllHorses(filters);
+      });
     } catch (err) {
       error.value = err.message;
       horses.value = [];
@@ -66,29 +38,38 @@ export function useHorses() {
     }
   }
 
-  /**
-   * Szűrő állapot beállítása és a lovak újratöltése.
-   * @param {string} status - Az új szűrő érték: 'all', 'available' vagy 'unavailable'.
-   * @returns {Promise<void>}
-   */
-  async function setFilterStatus(status) {
-    filterStatus.value = status;
-    await loadHorses();
+  function setCategories(cats) {
+    selectedCategories.value = cats;
+    currentPage.value = 1;
   }
 
-  /**
-   * Egyetlen ló betöltése ID alapján, és a kapcsolódó lovak lekérése (azonos nem).
-   * @param {string} id - A betöltendő ló azonosítója.
-   * @returns {Promise<void>}
-   */
+  function setAgeRange(min, max) {
+    ageMin.value = min;
+    ageMax.value = max;
+    currentPage.value = 1;
+  }
+
+  function setSortBy(sort) {
+    sortBy.value = sort;
+    currentPage.value = 1;
+  }
+
+  function setPage(page) {
+    currentPage.value = page;
+  }
+
+  function getAge(birth_date) {
+    if (!birth_date) return 0;
+    return new Date().getFullYear() - new Date(birth_date).getFullYear();
+  }
+
   async function loadHorseById(id) {
     loading.value = true;
     error.value = null;
-
     try {
       selectedHorse.value = await fetchHorseById(id);
       if (selectedHorse.value?.gender) {
-        relatedHorses.value = await fetchRelatedHorses(selectedHorse.value.gender, id)
+        relatedHorses.value = await fetchRelatedHorses(selectedHorse.value.gender, id);
       }
     } catch (err) {
       error.value = err.message;
@@ -99,34 +80,51 @@ export function useHorses() {
     }
   }
 
-  /**
-   * Szűrt lovak listája az aktuális filterStatus alapján.
-   * Lokális szűrés – optimalizált kis adathalmazra (<1000 ló).
-   * @type {import('vue').ComputedRef<Array<Object>>}
-   */
   const filteredHorses = computed(() => {
-    if (filterStatus.value === "all") return horses.value;
-    if (filterStatus.value === "available") {
-      return horses.value.filter((h) => h.is_for_sale);
+    let result = horses.value;
+
+    // Kategória szűrés (OR logika: bármelyik kiválasztott kategóriába esik)
+    if (selectedCategories.value.length > 0) {
+      result = result.filter((h) =>
+        selectedCategories.value.some((cat) => {
+          if (cat === "available") return h.is_for_sale;
+          if (cat === "racehorse") return h.is_racehorse;
+          return false;
+        })
+      );
     }
-    if (filterStatus.value === "unavailable") {
-      return horses.value.filter((h) => !h.is_for_sale);
+
+    // Életkor szűrés
+    if (ageMin.value !== null && ageMin.value !== "") {
+      result = result.filter((h) => getAge(h.birth_date) >= Number(ageMin.value));
     }
-    return horses.value;
+    if (ageMax.value !== null && ageMax.value !== "") {
+      result = result.filter((h) => getAge(h.birth_date) <= Number(ageMax.value));
+    }
+
+    // Rendezés
+    if (sortBy.value === "name") {
+      result = [...result].sort((a, b) => a.name.localeCompare(b.name, "hu"));
+    } else if (sortBy.value === "age_asc") {
+      result = [...result].sort((a, b) => getAge(a.birth_date) - getAge(b.birth_date));
+    } else if (sortBy.value === "age_desc") {
+      result = [...result].sort((a, b) => getAge(b.birth_date) - getAge(a.birth_date));
+    }
+
+    return result;
   });
 
-  /**
-   * Igaz, ha a szűrt lovak listája üres.
-   * @type {import('vue').ComputedRef<boolean>}
-   */
+  const totalPages = computed(() =>
+    Math.max(1, Math.ceil(filteredHorses.value.length / PAGE_SIZE))
+  );
+
+  const paginatedHorses = computed(() => {
+    const start = (currentPage.value - 1) * PAGE_SIZE;
+    return filteredHorses.value.slice(start, start + PAGE_SIZE);
+  });
+
   const isEmpty = computed(() => filteredHorses.value.length === 0);
 
-  /**
-   * Ló törlése az adatbázisból, majd a lista újratöltése.
-   * Foreign key constraint hiba esetén felhasználóbarát hibaüzenetet állít be.
-   * @param {string} id - A törlendő ló azonosítója.
-   * @returns {Promise<boolean>} Igaz, ha a törlés sikeres volt.
-   */
   async function deleteHorse(id) {
     loading.value = true;
     error.value = null;
@@ -135,7 +133,6 @@ export function useHorses() {
       await loadHorses();
       return true;
     } catch (err) {
-      // Check if it's a foreign key constraint error
       if (err.message && err.message.includes("foreign key constraint")) {
         error.value = "Nem lehet törölni ezt a lovat, mert más lovak szülőjeként van beállítva. Először módosítsd azokat a lovakat.";
       } else {
@@ -148,15 +145,24 @@ export function useHorses() {
   }
 
   return {
-    horses: filteredHorses,
+    horses: paginatedHorses,
+    allHorses: filteredHorses,
     selectedHorse,
     relatedHorses,
     loading,
     error,
-    filterStatus,
+    selectedCategories,
+    ageMin,
+    ageMax,
+    sortBy,
+    currentPage,
+    totalPages,
     isEmpty,
     loadHorses,
-    setFilterStatus,
+    setCategories,
+    setAgeRange,
+    setSortBy,
+    setPage,
     loadHorseById,
     deleteHorse,
   };

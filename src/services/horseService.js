@@ -8,7 +8,7 @@ import { supabase } from "./supabase";
 export async function fetchAllHorses(filters = {}) {
   let query = supabase
     .from("horses")
-    .select("id, name, gender, birth_date, is_for_sale, main_img_url, is_pedigree_only");
+    .select("id, name, gender, birth_date, is_for_sale, is_racehorse, main_img_url, is_pedigree_only");
 
   if (!filters.include_pedigree_only) {
     query = query.eq("is_pedigree_only", false);
