@@ -32,6 +32,27 @@ export async function startBarionPayment(orderData) {
 }
 
 /**
+ * Fizetés állapotának aktív ellenőrzése a Barion API-n keresztül.
+ * @param {string} orderId - Rendelés UUID
+ * @returns {Promise<Object|null>} - { payment_status } vagy null hiba esetén
+ */
+export async function verifyPaymentStatus(orderId) {
+  const { data, error } = await supabase.functions.invoke('barion-verify', {
+    body: { orderId },
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+    },
+  })
+
+  if (error) {
+    console.error('barion-verify hiba:', error)
+    return null
+  }
+
+  return data
+}
+
+/**
  * Rendelés lekérése ID alapján (success/fail oldalakhoz).
  * @param {string} orderId
  * @returns {Promise<Object|null>}

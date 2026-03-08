@@ -7,11 +7,30 @@ const BARION_BASE = Deno.env.get('BARION_ENV') === 'prod'
 
 serve(async (req) => {
   try {
+    // Barion POST-tal küldi a PaymentId-t – lehet query param, JSON body vagy form-urlencoded
     const url = new URL(req.url)
-    const PaymentId = url.searchParams.get('PaymentId')
+    let PaymentId = url.searchParams.get('PaymentId')
 
     if (!PaymentId) {
-      return new Response('Missing PaymentId', { status: 400 })
+      const contentType = req.headers.get('content-type') || ''
+      const bodyText = await req.text()
+
+      if (contentType.includes('application/json')) {
+        try {
+          const json = JSON.parse(bodyText)
+          PaymentId = json.PaymentId
+        } catch (_) {}
+      }
+
+      if (!PaymentId && bodyText) {
+        const params = new URLSearchParams(bodyText)
+        PaymentId = params.get('PaymentId')
+      }
+    }
+
+    if (!PaymentId) {
+      console.error('Callback: Missing PaymentId')
+      return new Response('OK', { status: 200 })
     }
 
     const posKey = Deno.env.get('BARION_POSKEY') ?? ''

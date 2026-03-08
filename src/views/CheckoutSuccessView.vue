@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useCart } from '@/composables/useCart'
-import { fetchOrderById } from '@/services/orderService'
+import { fetchOrderById, verifyPaymentStatus } from '@/services/orderService'
 import { formatPrice } from '@/utils/formatting'
 import { useHead } from '@/composables/useHead'
 
@@ -18,17 +18,26 @@ onMounted(async () => {
   clearCart()
 
   const orderId = route.query.orderId
-  if (orderId) {
-    order.value = await fetchOrderById(orderId)
+  if (!orderId) {
+    loading.value = false
+    return
+  }
 
-    // Ha a payment_status még pending, várunk pár másodpercet és újra próbáljuk
-    if (order.value?.payment_status === 'pending') {
-      for (let i = 0; i < 3; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 2000))
-        order.value = await fetchOrderById(orderId)
-        if (order.value?.payment_status !== 'pending') break
-      }
+  // 1. Rendelés lekérése DB-ből
+  order.value = await fetchOrderById(orderId)
+
+  // 2. Ha pending, aktívan ellenőrizzük a Barion API-n keresztül
+  if (order.value?.payment_status === 'pending') {
+    const result = await verifyPaymentStatus(orderId)
+    if (result?.payment_status) {
+      order.value = await fetchOrderById(orderId)
     }
+  }
+
+  // 3. Fallback: ha még mindig pending, egy utolsó próba 3s várakozás után
+  if (order.value?.payment_status === 'pending') {
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    order.value = await fetchOrderById(orderId)
   }
 
   loading.value = false
