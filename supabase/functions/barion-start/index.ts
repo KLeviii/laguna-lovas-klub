@@ -111,7 +111,7 @@ serve(async (req) => {
       Locale: 'hu-HU',
       // CallbackUrl a rendelés ID-val - így a callback megtalálja a rendelést
       RedirectUrl: `${appUrl}/penztar/sikeres?orderId=${orderId}`,
-      CallbackUrl: `${supabaseUrl}/functions/v1/barion-callback?PaymentRequestId=${orderId}`,
+      CallbackUrl: `${supabaseUrl}/functions/v1/barion-callback`,
       Transactions: [{
         POSTransactionId: orderId,
         Payee: Deno.env.get('BARION_PAYEE_EMAIL') ?? '',
