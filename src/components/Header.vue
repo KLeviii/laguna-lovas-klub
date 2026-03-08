@@ -5,6 +5,7 @@ import { useAuth } from "@/composables/useAuth";
 import { useTheme } from "@/composables/useTheme";
 import CartIcon from "@/components/webshop/CartIcon.vue";
 
+
 const { isAuthenticated, signOut, loading } = useAuth();
 const { isDarkMode, toggleTheme } = useTheme();
 const route = useRoute();
@@ -14,8 +15,15 @@ const menuOpen = ref(false);
 const isAtTop = ref(window.scrollY === 0);
 let lastScrollY = window.scrollY;
 
-const isTransparent = computed(() => isAtTop.value && route.path === "/");
+const innerWidth = ref(window.innerWidth);
 
+window.addEventListener("resize", () => {
+  innerWidth.value = window.innerWidth;
+});
+
+const isTransparent = computed(() =>
+  isAtTop.value && route.path === "/" && innerWidth.value > 700
+);
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }

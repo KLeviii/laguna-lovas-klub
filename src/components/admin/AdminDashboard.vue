@@ -96,6 +96,26 @@
             </div>
           </div>
         </div>
+
+        <!-- Rendelések kezelése -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-box-seam-fill admin-icon text-info"></i>
+              <h5 class="card-title mt-3">Rendelések</h5>
+              <p class="card-text text-muted">
+                Beérkező megrendelések kezelése
+              </p>
+              <router-link
+                to="/admin/orders"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-pencil-square me-1"></i>
+                Kezelés
+              </router-link>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Gyors linkek -->

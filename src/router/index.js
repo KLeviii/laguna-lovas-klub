@@ -21,6 +21,8 @@ const CheckoutSuccessView = () => import("@/views/CheckoutSuccessView.vue");
 const CheckoutFailView = () => import("@/views/CheckoutFailView.vue");
 const AdminContactListView = () =>
   import("@/views/AdminContactListView.vue");
+const OrderTrackingView = () => import("@/views/OrderTrackingView.vue");
+const AdminOrderListView = () => import("@/views/AdminOrderListView.vue");
 
 const routes = [
   { path: "/", component: RolunkPage },
@@ -38,6 +40,7 @@ const routes = [
   { path: "/penztar/sikeres", component: CheckoutSuccessView },
   { path: "/penztar/sikertelen", component: CheckoutFailView },
   { path: "/penztar", component: CheckoutView },
+  { path: "/rendeles-kovetes", component: OrderTrackingView },
 
   // Admin routes
   {
@@ -110,6 +113,12 @@ const routes = [
   {
     path: "/admin/messages",
     component: AdminContactListView,
+    meta: { requiresAuth: true },
+  },
+  // Order management (Increment 13)
+  {
+    path: "/admin/orders",
+    component: AdminOrderListView,
     meta: { requiresAuth: true },
   },
 ];

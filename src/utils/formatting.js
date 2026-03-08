@@ -29,6 +29,38 @@ export function formatDateTime(dateString) {
   }
 }
 
+const ORDER_STATUS_MAP = {
+  pending: 'Feldolgozás alatt',
+  confirmed: 'Visszaigazolva',
+  shipped: 'Szállítás alatt',
+  delivered: 'Kiszállítva',
+  cancelled: 'Törölve',
+}
+
+const PAYMENT_STATUS_MAP = {
+  pending: 'Függőben',
+  paid: 'Fizetve',
+  failed: 'Sikertelen',
+  refunded: 'Visszatérítve',
+}
+
+const SHIPPING_METHOD_MAP = {
+  magyar_posta: 'Magyar Posta (MPL)',
+  sajat_szallitas: 'Saját szállítás',
+}
+
+export function formatOrderStatus(status) {
+  return ORDER_STATUS_MAP[status] || status
+}
+
+export function formatPaymentStatus(status) {
+  return PAYMENT_STATUS_MAP[status] || status
+}
+
+export function formatShippingMethod(method) {
+  return SHIPPING_METHOD_MAP[method] || method
+}
+
 export function formatDate(dateString) {
   if (!dateString) return "—";
   

@@ -67,10 +67,16 @@ onMounted(async () => {
                   </div>
                 </div>
 
-                <router-link to="/webshop" class="btn btn-primary mt-4">
-                  <i class="bi bi-shop me-1"></i>
-                  Vissza a webshopba
-                </router-link>
+                <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center mt-4">
+                  <router-link to="/webshop" class="btn btn-primary">
+                    <i class="bi bi-shop me-1"></i>
+                    Vissza a webshopba
+                  </router-link>
+                  <router-link :to="'/rendeles-kovetes?orderId=' + order.id" class="btn btn-outline-secondary">
+                    <i class="bi bi-search me-1"></i>
+                    Rendelés nyomon követése
+                  </router-link>
+                </div>
               </div>
 
               <!-- Feldolgozás alatt -->

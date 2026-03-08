@@ -7,7 +7,8 @@ const BARION_BASE = Deno.env.get('BARION_ENV') === 'prod'
 
 serve(async (req) => {
   try {
-    const { PaymentId } = await req.json()
+    const url = new URL(req.url)
+    const PaymentId = url.searchParams.get('PaymentId')
 
     if (!PaymentId) {
       return new Response('Missing PaymentId', { status: 400 })

@@ -1,0 +1,2 @@
+-mivel a felhasználónak nincs fiókja ezért a rendelés számmal tudja nyomon követni
+-a cég pedig egy váltogatható gombal admin módba a rendelések fülön tudja változtatni a aktuális rendelés állapotát (feldolgozás alatt, szállítás alatt)

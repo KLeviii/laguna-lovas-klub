@@ -46,3 +46,93 @@ export async function fetchOrderById(orderId) {
   if (error) return null
   return data
 }
+
+/**
+ * Rendelés lekérése tételekkel együtt (publikus rendeléskövetés).
+ * @param {string} orderId - Rendelés UUID
+ * @returns {Promise<Object|null>}
+ */
+export async function fetchOrderWithItems(orderId) {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('*, order_items(*)')
+    .eq('id', orderId)
+    .single()
+
+  if (error) return null
+  return data
+}
+
+/**
+ * Összes rendelés lekérése az admin panelhez.
+ * @returns {Promise<Array>}
+ * @throws {Error}
+ */
+export async function fetchAllOrders() {
+  const { data, error } = await supabase
+    .from('orders')
+    .select('id, customer_name, customer_email, customer_phone, status, payment_status, total_amount_huf, is_read, shipping_method, shipping_name, shipping_zip, shipping_city, shipping_address, notes, created_at, updated_at')
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    throw new Error('Hiba a rendelések betöltése közben.')
+  }
+
+  return data || []
+}
+
+/**
+ * Rendelés frissítése upsert mintával (CORS workaround).
+ * @param {string} id - Rendelés UUID
+ * @param {Object} updates - Frissítendő mezők
+ * @returns {Promise<void>}
+ * @throws {Error}
+ */
+async function updateOrder(id, updates) {
+  const { data: existing, error: fetchError } = await supabase
+    .from('orders')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (fetchError) {
+    throw new Error('Hiba a rendelés lekérése közben.')
+  }
+
+  const { error } = await supabase
+    .from('orders')
+    .upsert({ ...existing, ...updates })
+
+  if (error) {
+    throw new Error('Hiba a rendelés frissítése közben.')
+  }
+}
+
+/**
+ * Rendelés állapotának frissítése (admin).
+ * @param {string} id - Rendelés UUID
+ * @param {string} newStatus - pending/confirmed/shipped/delivered/cancelled
+ * @returns {Promise<void>}
+ * @throws {Error}
+ */
+export async function updateOrderStatus(id, newStatus) {
+  return updateOrder(id, { status: newStatus })
+}
+
+/**
+ * Rendelés megjelölése olvasottként.
+ * @param {string} id - Rendelés UUID
+ * @returns {Promise<void>}
+ */
+export async function markOrderAsRead(id) {
+  return updateOrder(id, { is_read: true })
+}
+
+/**
+ * Rendelés megjelölése olvasatlanként.
+ * @param {string} id - Rendelés UUID
+ * @returns {Promise<void>}
+ */
+export async function markOrderAsUnread(id) {
+  return updateOrder(id, { is_read: false })
+}

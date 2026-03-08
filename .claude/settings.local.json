@@ -10,7 +10,8 @@
       "Bash(npx vitest run src/services/contactService.spec.js src/services/horseService.spec.js)",
       "Bash(npm install --save-dev docx)",
       "Bash(npm run docs:generate)",
-      "Bash(pip install python-docx)"
+      "Bash(pip install python-docx)",
+      "Bash(xargs grep -l \"order\\\\|Order\")"
     ]
   },
   "enableAllProjectMcpServers": true,
