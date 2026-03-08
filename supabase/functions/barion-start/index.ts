@@ -109,8 +109,9 @@ serve(async (req) => {
       PaymentRequestId: orderId,
       Currency: 'HUF',
       Locale: 'hu-HU',
+      // CallbackUrl a rendelés ID-val - így a callback megtalálja a rendelést
       RedirectUrl: `${appUrl}/penztar/sikeres?orderId=${orderId}`,
-      CallbackUrl: `${supabaseUrl}/functions/v1/barion-callback`,
+      CallbackUrl: `${supabaseUrl}/functions/v1/barion-callback?PaymentRequestId=${orderId}`,
       Transactions: [{
         POSTransactionId: orderId,
         Payee: Deno.env.get('BARION_PAYEE_EMAIL') ?? '',
@@ -135,7 +136,7 @@ serve(async (req) => {
       )
     }
 
-    // barion_payment_id visszaírása
+    // Barion PaymentId visszaírása a rendeléshez
     await supabaseAdmin
       .from('orders')
       .update({ barion_payment_id: barionData.PaymentId })
@@ -154,3 +155,4 @@ serve(async (req) => {
     )
   }
 })
+

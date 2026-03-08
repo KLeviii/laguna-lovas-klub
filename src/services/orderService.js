@@ -54,34 +54,56 @@ export async function verifyPaymentStatus(orderId) {
 
 /**
  * Rendelés lekérése ID alapján (success/fail oldalakhoz).
+ * Edge Function használata az RLS megkerüléséhez.
  * @param {string} orderId
  * @returns {Promise<Object|null>}
  */
 export async function fetchOrderById(orderId) {
-  const { data, error } = await supabase
-    .from('orders')
-    .select('id, status, payment_status, total_amount_huf, created_at')
-    .eq('id', orderId)
-    .single()
+  try {
+    const { data, error } = await supabase.functions.invoke('get-order', {
+      body: { orderId },
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+      },
+    })
 
-  if (error) return null
-  return data
+    if (error) {
+      console.error('fetchOrderById function error:', error)
+      return null
+    }
+
+    return data
+  } catch (err) {
+    console.error('fetchOrderById error:', err)
+    return null
+  }
 }
 
 /**
  * Rendelés lekérése tételekkel együtt (publikus rendeléskövetés).
+ * Edge Function használata az RLS megkerüléséhez.
  * @param {string} orderId - Rendelés UUID
  * @returns {Promise<Object|null>}
  */
 export async function fetchOrderWithItems(orderId) {
-  const { data, error } = await supabase
-    .from('orders')
-    .select('*, order_items(*)')
-    .eq('id', orderId)
-    .single()
+  try {
+    const { data, error } = await supabase.functions.invoke('get-order-with-items', {
+      body: { orderId },
+      headers: {
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+      },
+    })
 
-  if (error) return null
-  return data
+    if (error) {
+      console.error('fetchOrderWithItems function error:', error)
+      return null
+    }
+
+    return data
+  } catch (err) {
+    console.error('fetchOrderWithItems error:', err)
+    return null
+  }
 }
 
 /**

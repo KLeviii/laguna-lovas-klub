@@ -109,6 +109,9 @@ onUnmounted(() => {
         <router-link class="nav-link text-uppercase fw-bold" to="/eredmenyeink">
           Eredményeink
         </router-link>
+        <router-link class="nav-link text-uppercase fw-bold" to="/rendeles-kovetes">
+          Rendelés követése
+        </router-link>
         <router-link class="nav-link text-uppercase fw-bold" to="/kapcsolat">
           Kapcsolat
         </router-link>
@@ -180,6 +183,7 @@ onUnmounted(() => {
         <router-link class="mobile-link" to="/webshop" @click="closeMenu">Webshop</router-link>
         <router-link class="mobile-link" to="/lovaink" @click="closeMenu">Lovaink</router-link>
         <router-link class="mobile-link" to="/eredmenyeink" @click="closeMenu">Eredményeink</router-link>
+        <router-link class="mobile-link" to="/rendeles-kovetes" @click="closeMenu">Rendelés követése</router-link>
         <router-link class="mobile-link" to="/kapcsolat" @click="closeMenu">Kapcsolat</router-link>
         <router-link
           v-if="!isAuthenticated"
