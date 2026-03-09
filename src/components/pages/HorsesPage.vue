@@ -211,7 +211,7 @@ function handlePageChange(page) {
   background-position: 50% 60%;
   background-size: cover;
   min-height: 300px;
-  min-width: 100%;
+  width: 100%;
   height: 220px;
   position: relative;
   margin-top: 58px;

@@ -63,6 +63,7 @@ body.light {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -74,6 +75,7 @@ body {
   padding: 0;
   background-color: var(--bg-dark);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 /* Headingek közvetlen szín – megkerüli a Bootstrap --bs-heading-color közvetítést */
@@ -640,6 +642,7 @@ body.light .btn-secondary {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 .site-content {
   flex: 1;
@@ -682,9 +685,6 @@ footer a:hover {
   text-decoration: underline;
 }
 
-.row {
-  width: 100%;
-}
 
 .image-container {
   position: relative;

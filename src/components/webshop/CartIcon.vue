@@ -82,7 +82,7 @@ function goToCart() {
   border: none;
   cursor: pointer;
   position: relative;
-  color: var(--text) !important;
+  color: var(--bg-light) !important;
 }
 
 .btn-cart:hover {
@@ -102,8 +102,33 @@ function goToCart() {
   top: 100%;
   right: 0;
   width: 260px;
-  background-color: var(--bg-light, #fff);
-  border: 1px solid var(--border, #dee2e6);
+  background-color: var(--bg-light, #ff0000);
+  border: 1px solid var(--border, #ffffff);
   z-index: 1050;
 }
+
+
+#nav.transparent .nav-link {
+  color: #fff !important;
+}
+
+#nav.transparent .nav-link:hover {
+  color: var(--primary) !important;
+}
+
+.nav-link {
+  color: var(--text) !important;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+}
+
+.nav-link:hover {
+  color: var(--primary) !important;
+}
+
+
+
+
+
 </style>

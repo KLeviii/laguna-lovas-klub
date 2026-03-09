@@ -22,7 +22,7 @@ window.addEventListener("resize", () => {
 });
 
 const isTransparent = computed(() =>
-  isAtTop.value && route.path === "/" && innerWidth.value > 700
+  isAtTop.value && route.path === "/" && innerWidth.value > 1200
 );
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
@@ -119,7 +119,7 @@ onUnmounted(() => {
 
       <!-- Jobb: akció ikonok -->
       <div class="nav-actions d-flex align-items-center ms-auto">
-        <CartIcon />
+        <CartIcon/>
 
         <button
           @click="toggleTheme"
@@ -128,9 +128,7 @@ onUnmounted(() => {
           :aria-label="isDarkMode ? 'Világos téma' : 'Sötét téma'"
         >
           <i :class="['bi', isDarkMode ? 'bi-sun-fill' : 'bi-moon-fill']"></i>
-        </button>
-
-        <!-- Kijelentkezett: login ikon -->
+        </button>      <!-- Kijelentkezett: login ikon -->
         <router-link
           v-if="!isAuthenticated"
           to="/admin/login"
@@ -163,6 +161,8 @@ onUnmounted(() => {
         >
           <i class="bi bi-box-arrow-right"></i>
         </button>
+
+        
 
         <!-- Hamburger (csak mobil) -->
         <button
@@ -203,7 +203,7 @@ onUnmounted(() => {
         </router-link>
         <button
           v-if="isAuthenticated"
-          class="mobile-link text-start"
+          class="mobile-link text-center"
           @click="handleLogout"
           :disabled="loading"
         >
@@ -311,6 +311,7 @@ onUnmounted(() => {
 /* Right action icons */
 .nav-actions {
   gap: 0.25rem;
+
 }
 
 .btn-icon {
@@ -380,6 +381,7 @@ onUnmounted(() => {
 }
 
 @media (min-width: 992px) {
+  
   .navbar-logo {
     height: 45px;
   }

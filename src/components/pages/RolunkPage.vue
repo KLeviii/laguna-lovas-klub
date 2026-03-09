@@ -224,7 +224,7 @@ function scrollToRolunk() {
 
     <!-- Büszkeségeink Section -->
     <section class="section-padding">
-      <div class="container-xl">
+      <div class="container-xl ">
         <h2 class="section-title text-center mb-5 reveal">Büszkeségeink</h2>
 
         <div v-if="loading" class="text-center py-5">
@@ -363,6 +363,7 @@ function scrollToRolunk() {
   margin-top: 0;
 }
 
+
 .serif-accent {
   font-family: "Times New Roman", serif;
   font-style: italic;
@@ -381,7 +382,7 @@ function scrollToRolunk() {
 .hero-section {
   position: relative;
   min-height: 100vh;
-  min-width: 100%;
+  max-width: none;
   overflow: hidden;
   padding-top: 58px;
 }
@@ -469,6 +470,7 @@ function scrollToRolunk() {
   width: 100%;
   padding-bottom: 1.5rem;
   padding-right: 1.5rem;
+  overflow: hidden;
 }
 
 .about-corner-tl {
@@ -546,7 +548,6 @@ function scrollToRolunk() {
 /* ---- Webshop parallax ---- */
 .webshop-parallax {
   position: relative;
-  min-width: 100%;
   padding: 3rem 0;
   background-size: cover;
   background-position: center;
@@ -696,7 +697,7 @@ function scrollToRolunk() {
 /* ---- Results ---- */
 .results-section {
   background-color: var(--bg-dark);
-  min-width: 100%;
+  max-width: none;
 }
 
 .results-list {
