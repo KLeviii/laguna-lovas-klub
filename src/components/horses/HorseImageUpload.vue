@@ -111,7 +111,7 @@ async function uploadImages() {
 <style scoped>
 .horse-image-upload {
   border: 1px solid var(--border);
-  border-radius: 0.375rem;
+  border-radius: var(--radius-sm);
   padding: 1rem;
   background-color: var(--bg-light);
 }

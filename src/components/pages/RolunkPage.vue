@@ -96,13 +96,13 @@ function scrollToRolunk() {
         </p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
           <button
-            class="btn btn-primary btn-lg rounded-pill px-5"
+            class="btn btn-primary btn-lg rounded-3 px-5"
             @click="scrollToRolunk"
           >
             Fedezd fel
           </button>
           <button
-            class="btn btn-outline-light btn-lg rounded-pill px-5"
+            class="btn btn-outline-light btn-lg rounded-3 px-5"
             @click="$router.push('/webshop')"
           >
             Vásárolj tőlünk
@@ -502,7 +502,7 @@ function scrollToRolunk() {
   z-index: 3;
   background-color: var(--secondary);
   padding: 1.25rem 1.75rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -530,7 +530,7 @@ function scrollToRolunk() {
   align-items: center;
   gap: 0.4rem;
   padding: 0.35rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--secondary);
   color: var(--secondary);
   font-size: 0.7rem;
@@ -566,7 +566,7 @@ function scrollToRolunk() {
   position: relative;
   z-index: 1;
   background-color: var(--bg-light);
-  border-radius: 1.25rem;
+  border-radius: var(--radius-lg);
   max-width: 1300px;
   margin: 0 auto;
   padding: 3rem 2rem;
@@ -580,7 +580,7 @@ function scrollToRolunk() {
 .cta-box {
   position: relative;
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: var(--radius-xl);
   background-color: var(--bg);
   padding: 4rem 2.5rem;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
@@ -632,7 +632,7 @@ function scrollToRolunk() {
 
 .horse-card {
   position: relative;
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;
 }
@@ -711,7 +711,7 @@ function scrollToRolunk() {
   padding: 1.25rem 1.5rem;
   background: var(--bg-light);
   border: 1px solid var(--border);
-  border-radius: 0.75rem;
+  border-radius: var(--radius-md);
   transition: background 0.2s;
 }
 
@@ -722,7 +722,7 @@ function scrollToRolunk() {
 .result-badge {
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   background: var(--border);
   color: var(--text);
   display: flex;

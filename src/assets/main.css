@@ -17,6 +17,28 @@
   --success: hsl(149 34% 54%);
   --info: hsl(217 59% 67%);
 
+  /* --- Border Radius Tokens ---
+   * Koncentrikus szabály: outer - gap = inner
+   * xl (1.5rem) - 0.75rem gap → md (0.75rem)
+   * lg (1rem)   - 0.5rem  gap → sm (0.5rem)
+   * md (0.75rem)- 0.25rem gap → xs (0.25rem)
+   */
+  --radius-xs:     0.25rem;  /* logo, micro UI, track */
+  --radius-sm:     0.5rem;   /* pagination, action ikonok, thumbnail */
+  --radius-md:     0.75rem;  /* input, gomb, icon-wrap, badge */
+  --radius-lg:     1rem;     /* kártya (horse, product, .card) */
+  --radius-xl:     1.5rem;   /* nagy konténer, CTA box, timeline */
+  --radius-pill:   9999px;   /* pill badge */
+  --radius-circle: 50%;      /* kör: fotó, thumb */
+
+  /* Bootstrap border-radius bridge */
+  --bs-border-radius:      var(--radius-sm);   /* rounded, rounded-2 */
+  --bs-border-radius-sm:   var(--radius-xs);   /* rounded-1 */
+  --bs-border-radius-lg:   var(--radius-md);   /* rounded-3 */
+  --bs-border-radius-xl:   var(--radius-lg);   /* rounded-4 */
+  --bs-border-radius-2xl:  var(--radius-xl);   /* rounded-5 */
+  --bs-border-radius-pill: var(--radius-pill);
+
   /* Bootstrap 5.3 belső változók bridgelése */
   --bs-body-bg: var(--bg-dark);
   --bs-body-color: var(--text);
@@ -671,7 +693,7 @@ section,
 
 
 footer img {
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   height: 150px;
 }
 
@@ -736,7 +758,7 @@ li img {
 
 .card {
   padding: 10px 0px 10px 0px;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
 }
 
 table {

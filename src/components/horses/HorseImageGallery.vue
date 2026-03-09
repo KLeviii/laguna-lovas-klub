@@ -196,7 +196,7 @@ async function updateAltText(imageId, newAltText) {
 .horse-image-gallery {
   padding: 1rem;
   background-color: var(--bg-light);
-  border-radius: 0.375rem;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
 }
 

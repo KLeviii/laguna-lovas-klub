@@ -35,7 +35,6 @@ export function useContactForm() {
         throw new Error("Érvénytelen email cím formátum.");
       }
       if (!message.value.trim()) throw new Error("Az üzenet megadása kötelező.");
-      if (!consent.value) throw new Error("Az adatvédelmi nyilatkozat elfogadása kötelező.");
 
       await submitContactForm({
         name: name.value.trim(),

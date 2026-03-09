@@ -282,7 +282,7 @@ onUnmounted(() => {
 .navbar-logo {
   height: 40px;
   width: auto;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 /* Center nav links */

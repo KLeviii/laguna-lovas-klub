@@ -90,7 +90,7 @@ const rightPercent = computed(() => {
   width: 100%;
   height: 4px;
   background: var(--bs-gray-300);
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 
 .slider-range {
@@ -99,7 +99,7 @@ const rightPercent = computed(() => {
   transform: translateY(-50%);
   height: 4px;
   background: var(--bs-primary);
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
 }
 
 .slider-input {
@@ -122,7 +122,7 @@ const rightPercent = computed(() => {
   height: 18px;
   background: #fff;
   border: 2px solid var(--bs-primary);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   cursor: pointer;
   pointer-events: all;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -133,7 +133,7 @@ const rightPercent = computed(() => {
   height: 18px;
   background: #fff;
   border: 2px solid var(--bs-primary);
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   cursor: pointer;
   pointer-events: all;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);

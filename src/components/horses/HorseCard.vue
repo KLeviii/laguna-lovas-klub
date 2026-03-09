@@ -77,7 +77,7 @@ const onImageError = (event) => {
 
 <style scoped>
 .horse-card {
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -153,7 +153,7 @@ const onImageError = (event) => {
 .btn-view {
   width: 40px;
   height: 40px;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-sm);
   background: rgba(var(--bs-primary-rgb), 0.1);
   color: var(--bs-primary);
   transition: background 0.2s, color 0.2s;

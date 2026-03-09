@@ -119,7 +119,7 @@ const onImageError = (event) => {
 
 <style scoped>
 .product-card {
-  border-radius: 1rem;
+  border-radius: var(--radius-lg);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 

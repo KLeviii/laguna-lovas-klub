@@ -80,7 +80,7 @@ function goToPage(page) {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem !important;
+  border-radius: var(--radius-sm) !important;
   font-weight: 600;
   border: 1px solid var(--bs-gray-300);
   color: var(--bs-body-color);

@@ -283,7 +283,7 @@ function onImageDelete(imageId) {
 .form-control,
 .form-select {
   border: 1px solid var(--border);
-  border-radius: 0.375rem;
+  border-radius: var(--radius-sm);
 }
 
 .form-control:focus,

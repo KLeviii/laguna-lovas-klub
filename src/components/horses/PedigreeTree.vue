@@ -453,7 +453,7 @@ onUnmounted(() => {
   z-index: 9999;
   min-width: 170px;
   padding: 0;
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
   overflow: hidden;
 }
 
