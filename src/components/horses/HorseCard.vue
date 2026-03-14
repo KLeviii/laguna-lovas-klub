@@ -1,4 +1,6 @@
 <script setup>
+import SkeletonImage from '@/components/SkeletonImage.vue'
+
 defineProps({
   horse: {
     type: Object,
@@ -22,13 +24,12 @@ const onImageError = (event) => {
 
       <!-- Image area -->
       <div class="position-relative card-img-wrapper bg-light">
-        <img
+        <SkeletonImage
           v-if="horse.main_img_url"
           :src="horse.main_img_url"
           :alt="horse.name"
-          class="card-img-top w-100 h-100 horse-img"
-          loading="lazy"
-          @error="onImageError"
+          aspect-ratio="4/3"
+          img-class="card-img-top w-100 h-100 horse-img"
         />
         <div v-else class="d-flex align-items-center justify-content-center h-100">
           <i class="bi bi-image text-muted fs-1 opacity-25"></i>

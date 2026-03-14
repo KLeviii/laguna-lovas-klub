@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import SkeletonImage from "@/components/SkeletonImage.vue";
 
 const props = defineProps({
   images: {
@@ -36,12 +37,13 @@ function prevImage() {
       v-if="images.length > 0"
       class="carousel-main bg-light d-flex align-items-center justify-content-center mb-3"
     >
-      <img
+      <SkeletonImage
         v-if="currentImage"
         :src="currentImage.image_url"
         :alt="currentImage.alt_text || 'Horse image'"
-        class="img-fluid w-100 h-100"
-        style="object-fit: cover"
+        aspect-ratio="16/9"
+        img-class="img-fluid w-100 h-100"
+        class="w-100"
       />
     </div>
 

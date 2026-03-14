@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { formatPrice } from '@/utils/formatting'
+import SkeletonImage from '@/components/SkeletonImage.vue'
 import { useCart } from '@/composables/useCart'
 
 const props = defineProps({
@@ -48,13 +49,12 @@ const onImageError = (event) => {
     <div class="card h-100 border product-card overflow-hidden pt-0">
       <!-- Image area with aspect ratio -->
       <div class="position-relative card-img-wrapper bg-light">
-        <img
+        <SkeletonImage
           v-if="product.image_url"
           :src="product.image_url"
           :alt="product.name"
-          class="card-img-top w-100 h-100 product-img"
-          loading="lazy"
-          @error="onImageError"
+          aspect-ratio="1/1"
+          img-class="card-img-top w-100 h-100 product-img"
         />
         <div v-else class="d-flex align-items-center justify-content-center h-100">
           <span class="text-muted small">Nincs kép</span>

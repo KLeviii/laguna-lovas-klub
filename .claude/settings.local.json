@@ -13,7 +13,7 @@
       "Bash(pip install python-docx)",
       "Bash(xargs grep -l \"order\\\\|Order\")",
       "Bash(supabase functions deploy barion-callback --no-verify-jwt)",
-      "Mcp__paper__*"
+      "mcp__paper__*"
     ]
   },
   "enableAllProjectMcpServers": true,

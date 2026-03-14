@@ -16,10 +16,11 @@
       >
         <div class="card h-100 position-relative">
           <!-- Image -->
-          <img
+          <SkeletonImage
             :src="image.image_url"
             :alt="image.alt_text"
-            class="card-img-top"
+            aspect-ratio="4/3"
+            img-class="card-img-top"
           />
 
           <!-- Badge with order -->
@@ -81,6 +82,7 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
+import SkeletonImage from "@/components/SkeletonImage.vue";
 import {
   deleteImage,
   updateImageOrder,
