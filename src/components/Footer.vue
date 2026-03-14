@@ -104,6 +104,13 @@ const currentYear = new Date().getFullYear();
               >
                 <h4><i class="bi bi-instagram m-2"></i></h4>
               </a>
+              <a
+                href="https://www.tiktok.com/@laguna_lovasklub_k"
+                target="_blank"
+              >
+                <h4><i class="bi bi-tiktok m-2"></i></h4>
+              </a>
+              
             </div>
           </div>
           <div class="col-12 col-md-3 col-lg-2 col-xl-2 mx-auto mb-md-0 m-3">

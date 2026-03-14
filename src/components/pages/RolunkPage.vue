@@ -521,7 +521,7 @@ function scrollToRolunk() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(1, 4, 14, 0.7);
+  color: var(--bg-dark);
   white-space: nowrap;
 }
 

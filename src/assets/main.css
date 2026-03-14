@@ -714,8 +714,9 @@ footer a:hover {
   min-height: 300px;
   max-height: 650px;
   background-image: url("img/cordocan.jpg");
+  background-attachment: fixed;
   background-size: cover;
-  background-position: top;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
