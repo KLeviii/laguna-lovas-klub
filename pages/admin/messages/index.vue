@@ -1,0 +1,14 @@
+<script setup>
+definePageMeta({ middleware: 'auth' })
+
+import AdminLayout from "~/components/admin/AdminLayout.vue";
+import AdminContactList from "~/components/contact/AdminContactList.vue";
+</script>
+
+<template>
+  <AdminLayout>
+    <div class="container">
+      <AdminContactList />
+    </div>
+  </AdminLayout>
+</template>

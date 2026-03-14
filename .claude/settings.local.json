@@ -13,12 +13,14 @@
       "Bash(pip install python-docx)",
       "Bash(xargs grep -l \"order\\\\|Order\")",
       "Bash(supabase functions deploy barion-callback --no-verify-jwt)",
-      "mcp__paper__*"
+      "mcp__paper__*",
+      "Bash(find \"d:/WEBProgramozás/laguna-lovas-klub/composables\" \"d:/WEBProgramozás/laguna-lovas-klub/services\" -name \"*.spec.js\" -delete)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__*"
     ]
   },
   "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "context7",
-    "supabase"
-  ]
+  "enabledMcpjsonServers": ["context7", "supabase"]
 }

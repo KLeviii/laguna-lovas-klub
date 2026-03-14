@@ -1,0 +1,258 @@
+<script setup>
+definePageMeta({ middleware: 'auth' })
+
+import AdminLayout from "~/components/admin/AdminLayout.vue";
+import { useAuth } from "~/composables/useAuth";
+
+const { user } = useAuth();
+</script>
+
+<template>
+  <AdminLayout>
+    <div class="container">
+      <div class="admin-header">
+        <h1 class="mb-0">
+          <i class="bi bi-speedometer2 me-2"></i>
+          Admin Dashboard
+        </h1>
+        <span class="admin-user-badge">
+          <i class="bi bi-person-circle me-1"></i>
+          {{ user?.email }}
+        </span>
+      </div>
+      <p class="text-muted mb-4 mb-md-5">
+        Üdvözlünk az admin felületen! Válaszd ki a kezelni kívánt területet.
+      </p>
+
+      <!-- Admin funkciók kártyák -->
+      <div class="row g-3 g-md-4">
+        <!-- Lovak kezelése -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-heart-fill admin-icon text-danger"></i>
+              <h5 class="card-title mt-3">Lovak</h5>
+              <p class="card-text text-muted">
+                Lovak hozzáadása, szerkesztése és törlése
+              </p>
+              <NuxtLink
+                to="/admin/horses"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-pencil-square me-1"></i>
+                Kezelés
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+
+        <!-- Termékek kezelése -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-shop admin-icon text-success"></i>
+              <h5 class="card-title mt-3">Webshop</h5>
+              <p class="card-text text-muted">
+                Webshop kezelése
+              </p>
+              <NuxtLink
+                to="/admin/products"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-pencil-square me-1"></i>
+                Kezelés
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+
+        <!-- Versenyek kezelése -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-trophy-fill admin-icon text-warning"></i>
+              <h5 class="card-title mt-3">Versenyek</h5>
+              <p class="card-text text-muted">
+                Versenyek és eredmények rögzítése
+              </p>
+              <NuxtLink
+                to="/admin/competitions"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-pencil-square me-1"></i>
+                Kezelés
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kapcsolatfelvételi üzenetek -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-envelope-fill admin-icon text-primary"></i>
+              <h5 class="card-title mt-3">Üzenetek</h5>
+              <p class="card-text text-muted">
+                Beérkezett kapcsolatfelvételi űrlapok
+              </p>
+              <NuxtLink
+                to="/admin/messages"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-eye me-1"></i>
+                Megtekintés
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rendelések kezelése -->
+        <div class="col-12 col-lg-3 ">
+          <div class="card admin-card h-100 shadow-sm">
+            <div class="card-body text-center d-flex flex-column align-items-center">
+              <i class="bi bi-box-seam-fill admin-icon text-info"></i>
+              <h5 class="card-title mt-3">Rendelések</h5>
+              <p class="card-text text-muted">
+                Beérkező megrendelések kezelése
+              </p>
+              <NuxtLink
+                to="/admin/orders"
+                class="btn btn-primary btn-sm mt-auto"
+              >
+                <i class="bi bi-pencil-square me-1"></i>
+                Kezelés
+              </NuxtLink>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gyors linkek -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">
+                <i class="bi bi-link-45deg me-2"></i>
+                Gyors linkek
+              </h5>
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <NuxtLink to="/" class="btn btn-outline-secondary btn-sm">
+                  <i class="bi bi-house me-1"></i>
+                  Főoldal
+                </NuxtLink>
+                <NuxtLink
+                  to="/lovaink"
+                  class="btn btn-outline-secondary btn-sm"
+                >
+                  <i class="bi bi-eye me-1"></i>
+                  Lovaink oldal megtekintése
+                </NuxtLink>
+                <NuxtLink
+                  to="/webshop"
+                  class="btn btn-outline-secondary btn-sm"
+                >
+                  <i class="bi bi-eye me-1"></i>
+                  Webshop megtekintése
+                </NuxtLink>
+                <NuxtLink
+                  to="/eredmenyeink"
+                  class="btn btn-outline-secondary btn-sm"
+                >
+                  <i class="bi bi-eye me-1"></i>
+                  Eredmények megtekintése
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </AdminLayout>
+</template>
+
+<style scoped>
+.admin-card {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  border: none;
+}
+
+.admin-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.admin-icon {
+  font-size: 3rem;
+  opacity: 0.8;
+}
+
+h1 {
+  color: var(--text);
+}
+
+p {
+  color: var(--text);
+}
+
+p.text-muted {
+  color: var(--text-muted) !important;
+}
+
+.card-text {
+  color: var(--text-muted);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.admin-user-badge {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .admin-user-badge {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-icon {
+    font-size: 2rem;
+  }
+
+  .admin-card .card-body {
+    padding: 0.75rem;
+  }
+
+  .admin-card .card-title {
+    font-size: 0.95rem;
+  }
+
+  .admin-card .card-text {
+    font-size: 0.75rem;
+    display: none;
+  }
+}
+</style>
