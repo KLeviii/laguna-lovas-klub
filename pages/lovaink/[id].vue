@@ -1,0 +1,192 @@
+<script setup>
+import { onMounted, ref, watch } from "vue";
+import { useHorses } from "~/composables/useHorses.js";
+import { formatDate } from "~/utils/formatting.js";
+import HorseGallery from "~/components/horses/HorseGallery.vue";
+import PedigreeTree from "~/components/horses/PedigreeTree.vue";
+import { usePageHead } from "~/composables/usePageHead";
+
+const route = useRoute();
+const router = useRouter();
+const { selectedHorse, relatedHorses, loading, error, loadHorseById } = useHorses();
+const showPedigree = ref(false);
+
+watch(selectedHorse, (horse) => {
+  if (horse) {
+    usePageHead(horse.name, horse.description || 'Ló részletei — Laguna Lovasklub.')
+  }
+});
+
+onMounted(() => loadHorseById(route.params.id));
+
+watch(() => route.params.id, (id) => { if (id) loadHorseById(id) });
+
+function goBack() {
+  router.push("/lovaink");
+}
+</script>
+
+<template>
+  <div>
+    <main>
+      <section class="p-3 p-md-5" style="padding-top: 100px !important;">
+        <!-- Back Button -->
+        <button class="btn btn-outline-secondary mb-4" @click="goBack">
+          ← Vissza a listára
+        </button>
+
+        <!-- Loading -->
+        <div v-if="loading" class="d-flex justify-content-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Betöltés...</span>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div v-else-if="error" class="alert alert-danger">
+          <strong>Hiba:</strong> {{ error }}
+        </div>
+
+        <!-- Horse Detail -->
+        <div v-else-if="selectedHorse" class="row">
+          <!-- Images -->
+          <div class="col-12 col-md-6 mb-4">
+            <HorseGallery :images="selectedHorse.images || []" />
+          </div>
+
+          <!-- Info -->
+          <div class="col-12 col-md-6">
+            <h1 class="mb-3">{{ selectedHorse.name }}</h1>
+
+            <!-- Gender + birth -->
+            <div class="mb-3">
+              <span class="badge bg-info p-2 me-2">
+                {{ selectedHorse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }}
+              </span>
+              <span v-if="selectedHorse.birth_date" class="text-muted">
+                {{ formatDate(selectedHorse.birth_date) }}
+              </span>
+            </div>
+
+            <!-- Availability + Racehorse -->
+            <div class="mb-4 d-flex flex-wrap gap-2">
+              <span
+                v-if="selectedHorse.is_for_sale"
+                class="badge bg-success p-2"
+              >
+                <i class="bi bi-check-circle me-1"></i>
+                Eladó
+              </span>
+              <span v-else class="badge bg-secondary p-2">
+                <i class="bi bi-x-circle me-1"></i>
+                Nem eladó
+              </span>
+              <span v-if="selectedHorse.is_racehorse" class="badge bg-warning text-dark p-2">
+                <i class="bi bi-lightning-fill me-1"></i>
+                Versenyló
+              </span>
+            </div>
+
+            <!-- Description -->
+            <div v-if="selectedHorse.description" class="mb-4">
+              <h4>Leírás</h4>
+              <p class="text-muted">{{ selectedHorse.description }}</p>
+            </div>
+
+            <!-- Pedigree -->
+            <div class="mb-4">
+              <button
+                class="btn btn-outline-primary btn-sm"
+                @click="showPedigree = true"
+              >
+                <i class="bi bi-diagram-3 me-1"></i>Családfa megtekintése
+              </button>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="alert alert-info">
+              <strong>Érdeklődéshez:</strong>
+              <p class="mb-0 mt-2">
+                Kérjük, vedd fel velünk a kapcsolatot az elérhetőségeink segítségével!
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Not Found -->
+        <div v-else class="alert alert-warning">
+          <strong>Ló nem található.</strong>
+        </div>
+
+        <!-- Related Horses (same gender) -->
+        <div v-if="selectedHorse && relatedHorses.length > 0" class="mt-5 pt-5 border-top">
+          <h3 class="mb-4">
+            <i class="bi bi-heart me-2"></i>
+            Hasonló lovaink
+          </h3>
+          <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div
+              v-for="horse in relatedHorses"
+              :key="horse.id"
+              class="col"
+            >
+              <div class="card h-100 shadow-sm related-horse-card">
+                <!-- Image -->
+                <div class="related-horse-image bg-light overflow-hidden">
+                  <img
+                    v-if="horse.main_img_url"
+                    :src="horse.main_img_url"
+                    :alt="horse.name"
+                    class="card-img-top w-100 h-100"
+                    style="object-fit: cover"
+                  />
+                  <div v-else class="d-flex align-items-center justify-content-center h-100">
+                    <span class="text-muted small">Nincs kép</span>
+                  </div>
+                </div>
+
+                <!-- Body -->
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title flex-grow-1">{{ horse.name }}</h5>
+                  <p class="text-muted small mb-3">
+                    {{ horse.gender === 'female' ? '♀ Kanca' : '♂ Mén' }}
+                    <span v-if="horse.birth_date"> • {{ formatDate(horse.birth_date) }}</span>
+                  </p>
+                  <NuxtLink
+                    :to="`/lovaink/${horse.id}`"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    Részletek
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <PedigreeTree
+        v-if="selectedHorse"
+        :horse-id="selectedHorse.id"
+        :show="showPedigree"
+        @close="showPedigree = false"
+      />
+    </main>
+  </div>
+</template>
+
+<style scoped>
+.related-horse-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.related-horse-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.related-horse-image {
+  width: 100%;
+  height: 200px;
+}
+</style>

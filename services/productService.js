@@ -1,0 +1,345 @@
+import { supabase } from './supabase'
+
+/**
+ * Fetch all products with category information.
+ * Optionally filter by availability.
+ * @param {Object} filters - Filter options
+ * @param {boolean} filters.available_only - Show only available products
+ * @returns {Promise<Array>} Array of product objects with category details
+ */
+export async function fetchAllProducts(filters = {}) {
+  let query = supabase
+    .from('products')
+    .select(`
+      id,
+      name,
+      description,
+      price_huf,
+      image_url,
+      is_available,
+      stock,
+      rating,
+      review_count,
+      created_at,
+      category:category_id(id, name, slug)
+    `)
+
+  if (filters.available_only) {
+    query = query.neq('is_available', false)
+  }
+
+  const { data, error } = await query.order('name', { ascending: true })
+
+  if (error) {
+    throw new Error(`Failed to fetch products: ${error.message}`)
+  }
+
+  return data || []
+}
+
+/**
+ * Fetch products with server-side pagination, filtering, and sorting.
+ * @param {Object} options
+ * @param {Array<string>} options.categoryIds - Filter by category IDs (empty = all)
+ * @param {number|null} options.minPrice - Minimum price filter
+ * @param {number|null} options.maxPrice - Maximum price filter
+ * @param {number} options.page - Page number (1-based)
+ * @param {number} options.perPage - Items per page
+ * @param {string} options.sortBy - Sort option: 'name', 'price_asc', 'price_desc', 'newest'
+ * @returns {Promise<{data: Array, count: number}>}
+ */
+export async function fetchProductsPaginated({
+  categoryIds = [],
+  minPrice = null,
+  maxPrice = null,
+  page = 1,
+  perPage = 12,
+  sortBy = 'name',
+} = {}) {
+  let query = supabase
+    .from('products')
+    .select(`
+      id,
+      name,
+      description,
+      price_huf,
+      image_url,
+      is_available,
+      stock,
+      rating,
+      review_count,
+      created_at,
+      category:category_id(id, name, slug)
+    `, { count: 'exact' })
+
+  if (categoryIds.length > 0) {
+    query = query.in('category_id', categoryIds)
+  }
+  if (minPrice != null) {
+    query = query.gte('price_huf', minPrice)
+  }
+  if (maxPrice != null) {
+    query = query.lte('price_huf', maxPrice)
+  }
+
+  const sortMap = {
+    name: { column: 'name', ascending: true },
+    price_asc: { column: 'price_huf', ascending: true },
+    price_desc: { column: 'price_huf', ascending: false },
+    newest: { column: 'created_at', ascending: false },
+  }
+  const sort = sortMap[sortBy] || sortMap.name
+  query = query.order(sort.column, { ascending: sort.ascending })
+
+  const from = (page - 1) * perPage
+  const to = from + perPage - 1
+  query = query.range(from, to)
+
+  const { data, error, count } = await query
+
+  if (error) {
+    throw new Error(`Failed to fetch products: ${error.message}`)
+  }
+
+  return { data: data || [], count: count || 0 }
+}
+
+/**
+ * Fetch the min and max price_huf from all products.
+ * @returns {Promise<{min: number, max: number}>}
+ */
+export async function fetchPriceRange() {
+  const { data: minData, error: minError } = await supabase
+    .from('products')
+    .select('price_huf')
+    .order('price_huf', { ascending: true })
+    .limit(1)
+    .single()
+
+  const { data: maxData, error: maxError } = await supabase
+    .from('products')
+    .select('price_huf')
+    .order('price_huf', { ascending: false })
+    .limit(1)
+    .single()
+
+  if (minError || maxError) {
+    return { min: 0, max: 500000 }
+  }
+
+  return {
+    min: minData?.price_huf || 0,
+    max: maxData?.price_huf || 500000,
+  }
+}
+
+/**
+ * Fetch a single product by ID with full details.
+ * @param {string} productId - Product UUID
+ * @returns {Promise<Object|null>} Product object with related category, or null if not found
+ */
+export async function fetchProductById(productId) {
+  const { data, error } = await supabase
+    .from('products')
+    .select(`
+      id,
+      name,
+      description,
+      price_huf,
+      image_url,
+      is_available,
+      stock,
+      rating,
+      review_count,
+      category:category_id(id, name, slug),
+      created_at
+    `)
+    .eq('id', productId)
+    .single()
+
+  if (error && error.code !== 'PGRST116') {
+    throw new Error(`Failed to fetch product: ${error.message}`)
+  }
+
+  return data || null
+}
+
+/**
+ * Fetch all product categories ordered by display order.
+ * @returns {Promise<Array>} Array of category objects
+ */
+export async function fetchProductCategories() {
+  const { data, error } = await supabase
+    .from('product_categories')
+    .select('id, name, slug, description, display_order')
+    .order('display_order', { ascending: true })
+
+  if (error) {
+    throw new Error(`Failed to fetch categories: ${error.message}`)
+  }
+
+  return data || []
+}
+
+/**
+ * Fetch related products from the same category.
+ * @param {string} categoryId - Category UUID
+ * @param {string} excludeProductId - Product ID to exclude from results
+ * @param {number} limit - Maximum number of results (default: 4)
+ * @returns {Promise<Array>} Array of related product objects
+ */
+export async function fetchRelatedProducts(categoryId, excludeProductId = null, limit = 4) {
+  let query = supabase
+    .from('products')
+    .select(`
+      id,
+      name,
+      image_url,
+      price_huf,
+      is_available,
+      stock
+    `)
+    .eq('category_id', categoryId)
+    .limit(limit)
+
+  if (excludeProductId) {
+    query = query.neq('id', excludeProductId)
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    throw new Error(`Failed to fetch related products: ${error.message}`)
+  }
+
+  return data || []
+}
+
+/**
+ * Create a new product.
+ * @param {Object} productData - { category_id, name, description, price_huf, image_url, is_available }
+ * @returns {Promise<Object>} Created product object
+ */
+export async function createProduct(productData) {
+  const { data, error } = await supabase
+    .from('products')
+    .insert([productData])
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
+    .single()
+
+  if (error) {
+    throw new Error(`Failed to create product: ${error.message}`)
+  }
+
+  return data
+}
+
+/**
+ * Update a product.
+ * @param {string} productId - Product UUID
+ * @param {Object} productData - Fields to update
+ * @returns {Promise<Object>} Updated product object
+ */
+export async function updateProduct(productId, productData) {
+  const { data: existing, error: fetchError } = await supabase
+    .from('products')
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
+    .eq('id', productId)
+    .single()
+
+  if (fetchError) {
+    throw new Error(`Failed to fetch product: ${fetchError.message}`)
+  }
+
+  const { data, error } = await supabase
+    .from('products')
+    .upsert({ ...existing, ...productData })
+    .select('id, name, description, price_huf, image_url, is_available, stock, category_id, created_at')
+    .single()
+
+  if (error) {
+    throw new Error(`Failed to update product: ${error.message}`)
+  }
+
+  return data
+}
+
+/**
+ * Permanently delete a product from the database.
+ * @param {string} productId - Product UUID
+ */
+export async function deleteProduct(productId) {
+  const { error } = await supabase
+    .rpc('delete_product', { product_id: productId })
+
+  if (error) {
+    throw new Error(`Failed to delete product: ${error.message}`)
+  }
+}
+
+/**
+ * Create a new product category.
+ * @param {Object} categoryData - { name, slug, description, display_order }
+ * @returns {Promise<Object>} Created category object
+ */
+export async function createProductCategory(categoryData) {
+  const { data, error } = await supabase
+    .from('product_categories')
+    .insert([categoryData])
+    .select('id, name, slug, description, display_order')
+    .single()
+
+  if (error) {
+    throw new Error(`Failed to create category: ${error.message}`)
+  }
+
+  return data
+}
+
+/**
+ * Update a product category.
+ * @param {string} categoryId - Category UUID
+ * @param {Object} categoryData - Fields to update
+ * @returns {Promise<Object>} Updated category object
+ */
+export async function updateProductCategory(categoryId, categoryData) {
+  const { data, error } = await supabase
+    .from('product_categories')
+    .upsert({ id: categoryId, ...categoryData })
+    .select('id, name, slug, description, display_order')
+    .single()
+
+  if (error) {
+    throw new Error(`Failed to update category: ${error.message}`)
+  }
+
+  return data
+}
+
+/**
+ * Delete a product category.
+ * @param {string} categoryId - Category UUID
+ * @returns {Promise<void>}
+ */
+export async function deleteProductCategory(categoryId) {
+  const { error } = await supabase
+    .from('product_categories')
+    .delete()
+    .eq('id', categoryId)
+
+  if (error) {
+    throw new Error(`Failed to delete category: ${error.message}`)
+  }
+}
+
+/**
+ * Upload a product image to Supabase Storage.
+ * @param {File} file - Image file to upload
+ * @returns {Promise<string>} Public URL of uploaded image
+ */
+export async function uploadProductImage(file) {
+  const { validateFile, generateSafeFilename, uploadToStorage } = await import('@/utils/fileUpload')
+  validateFile(file, { maxSizeMB: 50 })
+  const filePath = generateSafeFilename(file)
+  return uploadToStorage('product-images', filePath, file)
+}

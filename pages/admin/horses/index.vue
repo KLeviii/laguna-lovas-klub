@@ -1,0 +1,94 @@
+<script setup>
+definePageMeta({ middleware: 'auth' })
+
+import { ref, watch, onMounted } from "vue";
+import AdminLayout from "~/components/admin/AdminLayout.vue";
+import { useHorses } from "~/composables/useHorses.js";
+import AdminHorseList from "~/components/horses/AdminHorseList.vue";
+import HorseForm from "~/components/horses/HorseForm.vue";
+
+const route = useRoute();
+const currentView = ref("list");
+const { loadHorses } = useHorses();
+
+onMounted(async () => {
+  await loadHorses(false);
+});
+
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath === "/admin/horses") {
+      currentView.value = "list";
+    } else if (newPath === "/admin/horses/new") {
+      currentView.value = "create";
+    } else if (newPath.match(/^\/admin\/horses\/[^/]+\/edit$/)) {
+      currentView.value = "edit";
+    }
+  },
+  { immediate: true },
+);
+
+function setView(view) {
+  currentView.value = view;
+}
+</script>
+
+<template>
+  <AdminLayout>
+
+    <!-- List view -->
+    <div v-if="currentView === 'list'">
+      <AdminHorseList />
+    </div>
+
+    <!-- Create view -->
+    <div v-if="currentView === 'create'">
+      <HorseForm />
+    </div>
+
+    <!-- Edit view -->
+    <div v-if="currentView === 'edit'">
+      <HorseForm />
+    </div>
+  </AdminLayout>
+</template>
+
+<style scoped>
+.nav-tabs {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.nav-link {
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-muted);
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.nav-link.active {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+i {
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 576px) {
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+</style>
