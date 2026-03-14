@@ -26,7 +26,7 @@ const currentYear = new Date().getFullYear();
 <template>
   <footer class="text-center text-lg-start">
     <section class="container">
-      <div class="pt-2 text-center text-md-start px-3 px-md-5">
+      <div class="pt-2 text-center text-lg-start px-3 px-lg-5">
         <div class="row mt-3">
           <div
             class="d-flex align-items-center justify-content-center m-3 mx-auto"
@@ -38,7 +38,7 @@ const currentYear = new Date().getFullYear();
               loading="lazy"
             />
           </div>
-          <div class="col-12 col-md-3 col-lg-4 col-xl-3 mx-auto m-3">
+          <div class="col-12 col-lg-4 col-xl-3 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Laguna lovasklub</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
@@ -49,7 +49,7 @@ const currentYear = new Date().getFullYear();
               és a természetközeli életforma találkozik.
             </p>
           </div>
-          <div class="col-12 col-md-2 col-lg-2 col-xl-2 mx-auto m-3">
+          <div class="col-12 col-lg-2 col-xl-2 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Partnereink</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
@@ -85,13 +85,13 @@ const currentYear = new Date().getFullYear();
               >
             </p>
           </div>
-          <div class="col-12 col-md-3 col-lg-2 col-xl-2 mx-auto m-3">
+          <div class="col-12 col-lg-2 col-xl-2 mx-auto m-3">
             <h6 class="text-uppercase fw-bold">Közösségi Média</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
               style="width: 60px; background-color: var(--primary); height: 2px"
             />
-            <div class="d-flex isnstagramAndFacebook">
+            <div class="d-flex justify-content-center justify-content-lg-start w-100">
               <a
                 href="https://www.facebook.com/lagunalovasklubkft?locale=hu_HU"
                 target="_blank"
@@ -113,7 +113,7 @@ const currentYear = new Date().getFullYear();
               
             </div>
           </div>
-          <div class="col-12 col-md-3 col-lg-2 col-xl-2 mx-auto mb-md-0 m-3">
+          <div class="col-12 col-lg-2 col-xl-2 mx-auto mb-lg-0 m-3">
             <h6 class="text-uppercase fw-bold">Elérhetőségeink</h6>
             <hr
               class="mb-4 mt-0 d-inline-block mx-auto"
@@ -177,10 +177,4 @@ footer {
   bottom: 0;
 }
 
-@media (max-width: 768px) {
-  .isnstagramAndFacebook {
-    text-align: center;
-    justify-content: center;
-  }
-}
 </style>

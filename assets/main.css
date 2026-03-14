@@ -808,3 +808,16 @@ table td {
     padding: 1rem !important;
   }
 }
+
+/* ---- Light mode: CTA kártya sötét háttérrel ---- */
+body.light .cta-box {
+  background: linear-gradient(135deg, hsl(226 60% 10%), hsl(230 50% 16%));
+}
+body.light .cta-gradient {
+  opacity: 0.3;
+}
+
+/* ---- Light mode: landing page nem-hero gombok hover border ---- */
+body.light .section-padding .btn-primary:hover {
+  border: 1px solid currentColor;
+}

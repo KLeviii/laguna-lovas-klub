@@ -1,3 +1,8 @@
+# Screenshots (Playwright / E2E)
+*.png
+!assets/img/*.png
+!public/**/*.png
+
 # Logs
 logs
 *.log

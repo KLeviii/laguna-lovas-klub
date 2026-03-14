@@ -598,6 +598,7 @@ function scrollToRolunk() {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
 }
 
+
 .cta-content {
   position: relative;
   z-index: 1;
@@ -627,6 +628,7 @@ function scrollToRolunk() {
   background: rgba(255, 255, 255, 0.16);
   color: #fff;
 }
+
 
 /* ---- Horses ---- */
 .horse-card-link {
